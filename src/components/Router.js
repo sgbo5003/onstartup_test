@@ -7,6 +7,7 @@ import Write from "../routes/Write";
 import Setting from "../routes/Setting";
 import Login from "../routes/Login";
 import Header from "./Header";
+import SaveWrite from "../routes/SaveWrite";
 
 const AppRouter = () => {
   return (
@@ -19,6 +20,7 @@ const AppRouter = () => {
         <Route exact path="/Write" component={Write} />
         <Route exact path="/Setting" component={Setting} />
         <Route exact path="/Login" component={Login} />
+        <Route exact path="/SaveWrite" component={SaveWrite} />
       </Switch>
     </>
   );

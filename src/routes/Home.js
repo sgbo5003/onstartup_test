@@ -1,9 +1,12 @@
 import React from "react";
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Carousel from "../components/Carousel";
 const Home = () => {
   return (
     <>
-      <div style={{ marginTop: "23%", textAlign: "center" }}>About Home</div>
+      <Sidebar />
+      <Carousel />
     </>
   );
 };
