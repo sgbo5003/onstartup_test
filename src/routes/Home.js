@@ -1,12 +1,16 @@
 import React from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import Carousel from "../components/Carousel";
+import CarouselSlider from "../components/CarouselSlider";
+import ContentPage from "../components/ContentPage";
 const Home = () => {
   return (
     <>
       <Sidebar />
-      <Carousel />
+      <div className="content">
+        <CarouselSlider />
+        <ContentPage />
+      </div>
     </>
   );
 };
