@@ -100,8 +100,6 @@
 
 # 7월 7일
 
----
-
 > React-Material-Ui-Carousel
 
 - React Slick 라이브러리 사용 중 화살표가 계속 보이지 않아 라이브러리 변경
