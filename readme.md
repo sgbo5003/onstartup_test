@@ -93,3 +93,37 @@
     ```
 
 - carousel 작업
+  - 코드
+    - Carousel.js
+    - \_slick-theme.css
+    - \_slick.css
+
+# 7월 7일
+
+---
+
+> React-Material-Ui-Carousel
+
+- React Slick 라이브러리 사용 중 화살표가 계속 보이지 않아 라이브러리 변경
+- DOC
+  - [https://github.com/Learus/react-material-ui-carousel](https://github.com/Learus/react-material-ui-carousel)
+- Installation
+  - `npm install react-material-ui-carousel --save`
+  - `npm install @material-ui/core` & `npm install @material-ui/icons` 추가 설치
+- content.js
+  - 코드
+
+> axios 설치
+
+- Installation
+  - `npm install axios`
+
+> ❗오류
+
+- [에러 관련](https://www.notion.so/71849015826b4ba1809f37870a9692c3)
+
+> 상황
+
+- GET [http://localhost:8080/<?= $res[9] . $res[10]; ?>](http://localhost:8080/%3C?=%20$res%5B9%5D%20.%20$res%5B10%5D;%20?%3E) 404 (Not Found) ← 이런 에러가 뜨긴 하지만 json은 제대로 가져오는 것 같다.
+- 콘솔
+  - `{userId: 1, id: 1, title: "delectus aut autem", completed: false}`
