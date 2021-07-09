@@ -162,3 +162,100 @@
     );
   };
   ```
+
+# 7월 9일 금요일
+
+> backend 에서 api 데이터 가져와서 뿌리기
+
+```jsx
+// useState 부분
+const [data, setData] = useState({
+  user_idx: [],
+  user_name: [],
+  user_belong: [],
+  comment_time: [],
+  comment_text: [],
+  comment_like_num: [],
+  comment_reply_num: [],
+  comment_share_num: [],
+  comment_save_num: [],
+});
+
+return (
+  <Content
+    key={data.user_idx[idx]}
+    title={data.user_name[idx]}
+    belong={data.user_belong[idx]}
+    commentTime={data.comment_time[idx]}
+    commentText={data.comment_text[idx]}
+    commentLikeNum={data.comment_like_num[idx]}
+    commentReplyNum={data.comment_reply_num[idx]}
+    commentShareNum={data.comment_share_num[idx]}
+    commentSaveNum={data.comment_save_num[idx]}
+  />
+);
+```
+
+> component를 mapping 하여 rendering 하는 법
+
+```jsx
+const arr = [0, 1, 2, 3];
+
+<h2>
+  이 글 어때요?
+  <img src="src/images/view_icon1.png" alt="icon1.png" />
+</h2>;
+{
+  arr.map((idx) => {
+    return (
+      <Content
+        key={data.user_idx[idx]}
+        title={data.user_name[idx]}
+        belong={data.user_belong[idx]}
+        commentTime={data.comment_time[idx]}
+        commentText={data.comment_text[idx]}
+        commentLikeNum={data.comment_like_num[idx]}
+        commentReplyNum={data.comment_reply_num[idx]}
+        commentShareNum={data.comment_share_num[idx]}
+        commentSaveNum={data.comment_save_num[idx]}
+      />
+    );
+  });
+}
+```
+
+- 참고
+  - [https://velog.io/@mokyoungg/React-map-과-컴포넌트](https://velog.io/@mokyoungg/React-map-%EA%B3%BC-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8)
+
+> api 2개 → axios 를 2번 사용하여 렌더링
+
+```jsx
+function getMainData() {
+  return axios.get("/get_info.php?comment=1");
+}
+
+function getPopularData() {
+  return axios.get("/get_info.php?comment=2");
+}
+
+//axios & api 합치기
+const getAllData = () => {
+  axios.all([getMainData(), getPopularData()]).then(
+    axios.spread((res1, res2) => {
+      console.log(res1);
+      console.log(res2);
+      setMainData(res1.data);
+      setPopularData(res2.data);
+    })
+  );
+};
+
+useEffect(() => {
+  // getData();
+  getAllData();
+}, []);
+```
+
+- 참고
+  - [https://baegofda.tistory.com/215](https://baegofda.tistory.com/215)
+  - [https://이듬.run/axios/guide/usage.html#post-요청](https://xn--xy1bk56a.run/axios/guide/usage.html#post-%EC%9A%94%EC%B2%AD)
