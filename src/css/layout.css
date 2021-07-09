@@ -50,7 +50,8 @@
 .home_view_cove {
   position: relative;
   display: inline-block;
-  width: 100%;
+  /* width: 100%; */
+  width: 25%;
 }
 .home_view_content_cove {
   position: relative;
