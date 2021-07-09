@@ -4,7 +4,7 @@ import axios from "axios";
 import Content from "./Content";
 
 const ContentPage = () => {
-  const [data, setData] = useState({
+  const [mainData, setMainData] = useState({
     user_idx: [],
     user_name: [],
     user_belong: [],
@@ -16,14 +16,45 @@ const ContentPage = () => {
     comment_save_num: [],
   });
 
-  const getData = async () => {
-    const response = await axios.get("");
-    console.log(response.data.user_name);
-    setData(response.data);
+  const [popularData, setPopularData] = useState({
+    user_idx: [],
+    user_name: [],
+    user_belong: [],
+    comment_time: [],
+    comment_text: [],
+    comment_like_num: [],
+    comment_reply_num: [],
+    comment_share_num: [],
+    comment_save_num: [],
+  });
+
+  function getMainData() {
+    return axios.get("/get_info.php?comment=1");
+  }
+
+  function getPopularData() {
+    return axios.get("/get_info.php?comment=2");
+  }
+
+  const getAllData = () => {
+    axios.all([getMainData(), getPopularData()]).then(
+      axios.spread((res1, res2) => {
+        console.log(res1);
+        console.log(res2);
+        setMainData(res1.data);
+        setPopularData(res2.data);
+      })
+    );
   };
+  // const getData = async () => {
+  //   const response = await axios.get("/web/src/php/get_info.php?comment=1");
+  //   console.log(response.data.user_name);
+  //   setData(response.data);
+  // };
 
   useEffect(() => {
-    getData();
+    // getData();
+    getAllData();
   }, []);
 
   const arr = [0, 1, 2, 3];
@@ -36,18 +67,18 @@ const ContentPage = () => {
             이 글 어때요?
             <img src="src/images/view_icon1.png" alt="icon1.png" />
           </h2>
-          {arr.map((idx) => {
+          {arr.map((item, idx) => {
             return (
               <Content
-                key={data.user_idx[idx]}
-                title={data.user_name[idx]}
-                belong={data.user_belong[idx]}
-                commentTime={data.comment_time[idx]}
-                commentText={data.comment_text[idx]}
-                commentLikeNum={data.comment_like_num[idx]}
-                commentReplyNum={data.comment_reply_num[idx]}
-                commentShareNum={data.comment_share_num[idx]}
-                commentSaveNum={data.comment_save_num[idx]}
+                key={mainData.user_idx[idx]}
+                title={mainData.user_name[idx]}
+                belong={mainData.user_belong[idx]}
+                commentTime={mainData.comment_time[idx]}
+                commentText={mainData.comment_text[idx]}
+                commentLikeNum={mainData.comment_like_num[idx]}
+                commentReplyNum={mainData.comment_reply_num[idx]}
+                commentShareNum={mainData.comment_share_num[idx]}
+                commentSaveNum={mainData.comment_save_num[idx]}
               />
             );
           })}
@@ -60,15 +91,15 @@ const ContentPage = () => {
           {arr.map((idx) => {
             return (
               <Content
-                key={data.user_idx[idx]}
-                title={data.user_name[idx]}
-                belong={data.user_belong[idx]}
-                commentTime={data.comment_time[idx]}
-                commentText={data.comment_text[idx]}
-                commentLikeNum={data.comment_like_num[idx]}
-                commentReplyNum={data.comment_reply_num[idx]}
-                commentShareNum={data.comment_share_num[idx]}
-                commentSaveNum={data.comment_save_num[idx]}
+                key={popularData.user_idx[idx]}
+                title={popularData.user_name[idx]}
+                belong={popularData.user_belong[idx]}
+                commentTime={popularData.comment_time[idx]}
+                commentText={popularData.comment_text[idx]}
+                commentLikeNum={popularData.comment_like_num[idx]}
+                commentReplyNum={popularData.comment_reply_num[idx]}
+                commentShareNum={popularData.comment_share_num[idx]}
+                commentSaveNum={popularData.comment_save_num[idx]}
               />
             );
           })}
@@ -78,15 +109,15 @@ const ContentPage = () => {
           {arr.map((idx) => {
             return (
               <Content
-                key={data.user_idx[idx]}
-                title={data.user_name[idx]}
-                belong={data.user_belong[idx]}
-                commentTime={data.comment_time[idx]}
-                commentText={data.comment_text[idx]}
-                commentLikeNum={data.comment_like_num[idx]}
-                commentReplyNum={data.comment_reply_num[idx]}
-                commentShareNum={data.comment_share_num[idx]}
-                commentSaveNum={data.comment_save_num[idx]}
+                key={mainData.user_idx[idx]}
+                title={mainData.user_name[idx]}
+                belong={mainData.user_belong[idx]}
+                commentTime={mainData.comment_time[idx]}
+                commentText={mainData.comment_text[idx]}
+                commentLikeNum={mainData.comment_like_num[idx]}
+                commentReplyNum={mainData.comment_reply_num[idx]}
+                commentShareNum={mainData.comment_share_num[idx]}
+                commentSaveNum={mainData.comment_save_num[idx]}
               />
             );
           })}
