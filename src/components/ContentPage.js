@@ -67,7 +67,7 @@ const ContentPage = () => {
             이 글 어때요?
             <img src="src/images/view_icon1.png" alt="icon1.png" />
           </h2>
-          {arr.map((item, idx) => {
+          {arr.map((idx) => {
             return (
               <Content
                 key={mainData.user_idx[idx]}
