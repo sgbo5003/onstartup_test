@@ -4,7 +4,8 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+// axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+axios.defaults.baseURL = "http://15.164.227.114/web/src/php/get_info.php?";
 
 ReactDOM.render(
   <React.StrictMode>
