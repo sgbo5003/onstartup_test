@@ -31,7 +31,7 @@ const Content = (props) => {
             <div class="home_notice_info_top">
               <p>
                 <a href="#">
-                  <img src="<?= $res[9] . $res[10]; ?>" alt="gallery.png" />
+                  <img src="src/images/default_user.png" alt="gallery.png" />
                 </a>
               </p>
             </div>
