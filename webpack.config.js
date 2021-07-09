@@ -38,4 +38,15 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" })],
+  // // 개발 서버 설정
+  // devServer: {
+  //   contentBase: path.join(__dirname, "public"),
+  //   host: "localhost",
+  //   overlay: true,
+  //   inline: true,
+  //   port: 8080,
+  //   open: true,
+  //   historyApiFallback: true,
+  //   hot: true,
+  // },
 };
