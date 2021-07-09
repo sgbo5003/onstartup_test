@@ -125,3 +125,40 @@
 - GET [http://localhost:8080/<?= $res[9] . $res[10]; ?>](http://localhost:8080/%3C?=%20$res%5B9%5D%20.%20$res%5B10%5D;%20?%3E) 404 (Not Found) ← 이런 에러가 뜨긴 하지만 json은 제대로 가져오는 것 같다.
 - 콘솔
   - `{userId: 1, id: 1, title: "delectus aut autem", completed: false}`
+
+# 7월 8일 목요일
+
+> axios 를 이용한 api 연동
+
+- Backend 에서 php로 api를 만든 뒤에, React 의 axios 를 통해 데이터 값 받아오기, 화면에 띄우기
+- 코드
+
+  ```jsx
+  // index.js
+  axios.defaults.baseURL = "http://15.164.227.114/web/src/php/get_info.php?";
+
+  // ContentPage.js
+  const ContentPage = () => {
+    const [data, setData] = useState({});
+
+    const getData = async () => {
+      const response = await axios.get("");
+      console.log(response.data);
+      setData(response.data);
+    };
+
+    useEffect(() => {
+      getData();
+    }, []);
+
+    return (
+      <div>
+        <ul class="home_ti">
+          <li>
+            <a href="#">{data.user_name}</a>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+  ```
