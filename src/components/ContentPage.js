@@ -3,18 +3,16 @@ import "../css/content.css";
 import axios from "axios";
 
 const ContentPage = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({});
+
   const getData = async () => {
-    const response = await axios.get("/todos/1");
-    // const a = JSON.stringify(response.data.title);
-    // console.log(a);
+    const response = await axios.get("");
     console.log(response.data);
-    return response;
+    setData(response.data);
   };
 
   useEffect(() => {
-    const resData = getData();
-    setData(resData.data);
+    getData();
   }, []);
 
   return (
@@ -41,7 +39,7 @@ const ContentPage = () => {
                   <div>
                     <ul class="home_ti">
                       <li>
-                        <a href="#">title</a>
+                        <a href="#">{data.user_name}</a>
                       </li>
                       <li>
                         <a href="#">belong</a>
