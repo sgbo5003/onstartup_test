@@ -259,3 +259,282 @@ useEffect(() => {
 - 참고
   - [https://baegofda.tistory.com/215](https://baegofda.tistory.com/215)
   - [https://이듬.run/axios/guide/usage.html#post-요청](https://xn--xy1bk56a.run/axios/guide/usage.html#post-%EC%9A%94%EC%B2%AD)
+
+# 7월 12일 월요일
+
+> 메인화면 컨텐츠 띄워주는 것에 react-slick 입히기
+
+- css 수정 필요..
+- 코드
+
+  ```jsx
+  import React, { useEffect, useState } from "react";
+  import "../css/content.css";
+  import axios from "axios";
+  import Content from "./Content";
+  import Slider from "react-slick";
+  // import "../css/_slick.css";
+  import "../css/_slick-theme.css";
+  import "../css/slick.css";
+
+  const ContentPage = () => {
+    const [data, setData] = useState({
+      user_idx: [],
+      user_name: [],
+      user_belong: [],
+      comment_time: [],
+      comment_text: [],
+      comment_like_num: [],
+      comment_reply_num: [],
+      comment_share_num: [],
+      comment_save_num: [],
+      content_view_num: [],
+    });
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: true,
+      prevArrow: (
+        <button type="button" class="slick-prev">
+          Previous
+        </button>
+      ), // 이전 화살표 모양 설정
+      nextArrow: (
+        <button type="button" class="slick-next">
+          Next
+        </button>
+      ), // 다음 화살표 모양 설정
+    };
+
+    const getData = async () => {
+      const response = await axios.get("/get_info.php?comment=4");
+      console.log(response.data.user_name);
+      setData(response.data);
+    };
+
+    useEffect(() => {
+      getData();
+      // getAllData();
+    }, []);
+
+    const arr = [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+      21, 22, 23, 24,
+    ];
+
+    return (
+      <div class="wap home_wap">
+        <div class="home_content">
+          <div class="home_view">
+            <h2>
+              이 글 어때요?
+              <img src="src/images/view_icon1.png" alt="icon1.png" />
+            </h2>
+            <Slider {...settings}>
+              {arr.map((idx) => {
+                return (
+                  <Content
+                    key={data.user_idx[idx]}
+                    title={data.user_name[idx]}
+                    belong={data.user_belong[idx]}
+                    commentTime={data.comment_time[idx]}
+                    commentText={data.comment_text[idx]}
+                    commentLikeNum={data.comment_like_num[idx]}
+                    commentReplyNum={data.comment_reply_num[idx]}
+                    commentShareNum={data.comment_share_num[idx]}
+                    commentSaveNum={data.comment_save_num[idx]}
+                  />
+                );
+              })}
+            </Slider>
+          </div>
+          <div class="home_view">
+            <h2>
+              많은 사람들이 보고 있어요
+              <img src="src/images/view_icon2.png" alt="icon2.png" />
+            </h2>
+            <Slider {...settings}>
+              {arr
+                .slice(0)
+                .reverse()
+                .map((idx) => {
+                  return (
+                    <Content
+                      key={data.user_idx[idx]}
+                      title={data.user_name[idx]}
+                      belong={data.user_belong[idx]}
+                      commentTime={data.comment_time[idx]}
+                      commentText={data.comment_text[idx]}
+                      commentLikeNum={data.comment_like_num[idx]}
+                      commentReplyNum={data.comment_reply_num[idx]}
+                      commentShareNum={data.comment_share_num[idx]}
+                      commentSaveNum={data.comment_save_num[idx]}
+                    />
+                  );
+                })}
+            </Slider>
+          </div>
+          <div class="home_view">
+            <h2>오늘의 NEW TOPIC</h2>
+            <Slider {...settings}>
+              {arr.map((idx) => {
+                return (
+                  <Content
+                    key={data.user_idx[idx]}
+                    title={data.user_name[idx]}
+                    belong={data.user_belong[idx]}
+                    commentTime={data.comment_time[idx]}
+                    commentText={data.comment_text[idx]}
+                    commentLikeNum={data.comment_like_num[idx]}
+                    commentReplyNum={data.comment_reply_num[idx]}
+                    commentShareNum={data.comment_share_num[idx]}
+                    commentSaveNum={data.comment_save_num[idx]}
+                  />
+                );
+              })}
+            </Slider>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  export default ContentPage;
+  ```
+
+> Scroll To Top button 만들기
+
+- 코드
+
+  ```jsx
+  import React, { useState } from "react";
+  import "../css/scrollButton.css";
+
+  const ScrollButton = () => {
+    const [visible, setVisible] = useState(false);
+
+    const toggleVisible = () => {
+      const scrolled = document.documentElement.scrollTop;
+      if (scrolled > 300) {
+        setVisible(true);
+      } else if (scrolled <= 300) {
+        setVisible(false);
+      }
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+        /* you can also use 'auto' behaviour
+  		in place of 'smooth' */
+      });
+    };
+
+    window.addEventListener("scroll", toggleVisible);
+
+    return (
+      <div className="scrollBtn">
+        <div className="scrollBtn_cove">
+          <img
+            className="scrollBtn_img"
+            src="src/images/scroll_top.png"
+            onClick={scrollToTop}
+            style={{ display: visible ? "inline" : "none" }}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  export default ScrollButton;
+  ```
+
+> 개발서버로 빌드하는 과정에서 이미지들이 안나오는 에러..
+
+- 해결
+  - 올바른 방법인지는 모르겠지만 import 시켜주면 뜨긴 뜬다.
+
+> 로그인 페이지
+
+- 참고
+  - [https://dog-developers.tistory.com/109](https://dog-developers.tistory.com/109)
+  - [https://react-hook-form.com/get-started#Quickstart](https://react-hook-form.com/get-started#Quickstart)
+
+> 라이브러리 설치
+
+- react-hook-form
+  - `npm install react-hook-form`
+
+# 7월 13일 화요일
+
+> 복습 & 궁금했던것들
+
+- useEffect()는 재렌더링 할때 유용하게 쓸 수 있다.
+
+> Join.js
+
+- react-hook-form 없이 직접 코드 작성
+
+> 회원가입 기능구현 & api 연동
+
+- 주요 기능
+
+  - 정규식을 사용해 이메일 유효성 검사
+
+    - 코드
+
+      ```jsx
+      const validateEmail = (email) => {
+        const regExp =
+          /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/i;
+        if (regExp.test(email)) {
+          return false;
+        } else {
+          return true;
+        }
+      };
+      ```
+
+  - 실시간으로 유효성 체크
+
+    - 코드
+
+      ```jsx
+      const onChangeEmail = (e) => {
+        setEmail(e.target.value);
+        setEmailError(validateEmail(e.target.value));
+      };
+      const onChangePassword = (e) => {
+        setPassword(e.target.value);
+      };
+      const onChangeConfirmPassword = (e) => {
+        setPasswordError(e.target.value !== password);
+        setConfirmPassword(e.target.value);
+      };
+      ```
+
+  - axios get방식을 이용해 php db로 데이터 보내기
+
+    - Backend에서 데이터를 받는 방식에 맞춰서 Frontend도 데이터를 보내는 방식이 달라진다.
+
+      - 코드
+
+        ```jsx
+        const pushData = () => {
+          axios
+            .get(
+              `/join_member_normal.php?user_name=${name}&user_email=${email}&user_password=${password}`
+            )
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
+        ```
