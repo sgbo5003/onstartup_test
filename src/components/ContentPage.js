@@ -56,7 +56,6 @@ const ContentPage = () => {
 
   const getData = async () => {
     const response = await axios.get("/get_info.php?comment=4");
-    console.log(response.data.user_name);
     setData(response.data);
   };
 
