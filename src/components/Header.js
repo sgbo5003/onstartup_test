@@ -10,7 +10,6 @@ import searchImg from "../images/search_icon1.png";
 // import img from "../images/breath1.jpg";
 
 const Header = () => {
-  console.log(__dirname);
   return (
     <>
       <header>
@@ -105,7 +104,7 @@ const Header = () => {
                 />
               </a>
             </p>
-            <div className="Qmenu_bar2" id="alram_cove">
+            {/* <div className="Qmenu_bar2" id="alram_cove">
               <span className="tail" id="alram_tail">
                 <img
                   className="tail_img"
@@ -114,7 +113,7 @@ const Header = () => {
                 />
               </span>
               <div className="alram_message_cove"></div>
-            </div>
+            </div> */}
             {/* 글쓰기 아이콘 */}
             <p className="Qmenu_list">
               <Link to="/Write" className="Qmenu_item_cove" href="write.php">
