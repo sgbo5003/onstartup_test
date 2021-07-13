@@ -25,12 +25,12 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: "file-loader",
-          },
-        ],
+        test: /\.(png|jpg|gif)$/i,
+        loader: "file-loader",
+        options: {
+          publicPath: "/",
+          name: "[path][name].[ext]?[fullhash]",
+        },
       },
     ],
   },
@@ -48,5 +48,17 @@ module.exports = {
   //   open: true,
   //   historyApiFallback: true,
   //   hot: true,
-  // },
+  // },'
+  devServer: {
+    // dist 디렉토리를 웹 서버의 기본 호스트 위치로 설정
+    contentBase: path.join(__dirname, "public"),
+    // publicPath: "/",
+    host: "localhost",
+    overlay: true,
+    inline: true,
+    port: 8080,
+    open: true,
+    historyApiFallback: true,
+    hot: true,
+  },
 };
