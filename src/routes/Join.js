@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import naverImg from "../images/naver.png";
 import googleImg from "../images/google.png";
 import kakaoImg from "../images/kakao.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 // import { useForm } from "react-hook-form";
+// http://15.164.227.114/web/src/php/join_member_normal.php?user_name:%22%22&user_email:%22%22&user_password:%22%22
 
 const Join = () => {
   const [name, setName] = useState("");
@@ -27,6 +29,7 @@ const Join = () => {
 
     if (password && email && name && confirmPassword) {
       alert("회원가입 완료!");
+      pushData();
     }
   };
 
@@ -62,6 +65,20 @@ const Join = () => {
     setPasswordError(e.target.value !== password);
     setConfirmPassword(e.target.value);
   };
+
+  const pushData = () => {
+    axios
+      .get(
+        `/join_member_normal.php?user_name=${name}&user_email=${email}&user_password=${password}`
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="wap login_join_wap">
       <div className="login_join_content">
