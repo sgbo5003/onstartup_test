@@ -4,6 +4,103 @@
 =============================================*/
 
 /*=============================================
+=          Section home_slide block           =
+=============================================*/
+
+.home_slide .home_slick-list {
+  padding: 0 3% !important;
+}
+.home_slide .home_slide_img {
+  width: 100%;
+  height: 620px;
+}
+.home_slide .slick-dots {
+  position: absolute;
+  display: inline-block;
+  bottom: 5px;
+  margin-bottom: 9px;
+  z-index: 10;
+  width: 100%;
+  height: 3px;
+  line-height: 3px;
+  text-align: center;
+}
+.home_slide .slick-dots > li {
+  display: inline-block;
+  width: 51px;
+  height: 3px;
+  background-color: #e0e0e0;
+  font-size: 0;
+  cursor: pointer;
+}
+.home_slide .slick-dots > li.slick-active {
+  background-color: rgb(190, 163, 107);
+}
+.home_slide .slick-dots > li > button {
+  display: none;
+}
+.home_slide .slick-prev {
+  position: absolute;
+  z-index: 100;
+  left: 0px;
+  top: calc(50% - 75px);
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  cursor: pointer;
+}
+.home_slide .slick-next {
+  position: absolute;
+  z-index: 100;
+  right: 0px;
+  top: calc(50% - 75px);
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  cursor: pointer;
+}
+.home_slide_cove {
+  position: relative;
+  width: 100%;
+  margin-left: 4px;
+  margin-top: 80px;
+}
+/* .home_slide_arrow {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 75px);
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+} */
+.home_slide_left {
+  left: 0px;
+}
+.home_slide_right {
+  right: 0px;
+}
+.home_slide_arrow_img {
+  position: absolute;
+  width: 20.25px;
+  height: 38.48px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.home_slide_img {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/*=============================================
 =          Section home_view block            =
 =============================================*/
 .home_wap {
@@ -50,8 +147,7 @@
 .home_view_cove {
   position: relative;
   display: inline-block;
-  /* width: 100%; */
-  width: 25%;
+  width: 100%;
 }
 .home_view_content_cove {
   position: relative;
@@ -347,25 +443,7 @@
   display: none !important;
   font-size: 0;
 }
-.home_view_cove .slick-next {
-  position: absolute;
-  z-index: 50;
-  right: -28px;
-  top: calc(50% - 25px);
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  font-size: 0px;
-  border-radius: 50px;
-  box-sizing: border-box;
-  border: 1px solid #e9e9e9;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: center right 15px;
-  background-size: 45%;
-  cursor: pointer;
-}
+
 .home_view_next_arrow_hidden .slick-next {
   display: none !important;
   font-size: 0;
@@ -3114,6 +3192,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  background: url(../images/category_select.png) no-repeat 95% 50%;
 }
 select::-ms-expand {
   display: none;
@@ -3203,6 +3282,7 @@ select::-ms-expand {
 =             Section login block             =
 =============================================*/
 .login_wap {
+  padding-top: 6%;
   padding-left: 30%;
   padding-right: 30%;
   padding-bottom: 19.5625em;
@@ -3545,10 +3625,11 @@ select::-ms-expand {
 /*=============================================
 =             Section join block              =
 =============================================*/
-.loing_join_wap {
+.login_join_wap {
   padding-left: 30%;
   padding-right: 30%;
   padding-bottom: 8.5625em;
+  padding-top: 6%;
 }
 .login_join_title {
   position: relative;
