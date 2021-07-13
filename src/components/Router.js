@@ -5,9 +5,10 @@ import Community from "../routes/Community";
 import Reference from "../routes/Reference";
 import Write from "../routes/Write";
 import Setting from "../routes/Setting";
-import Login from "../routes/Login";
+import Join from "../routes/Join";
 import Header from "./Header";
 import SaveWrite from "../routes/SaveWrite";
+import Login from "../routes/Login";
 
 const AppRouter = () => {
   return (
@@ -19,6 +20,7 @@ const AppRouter = () => {
         <Route exact path="/Reference" component={Reference} />
         <Route exact path="/Write" component={Write} />
         <Route exact path="/Setting" component={Setting} />
+        <Route exact path="/Join" component={Join} />
         <Route exact path="/Login" component={Login} />
         <Route exact path="/SaveWrite" component={SaveWrite} />
       </Switch>

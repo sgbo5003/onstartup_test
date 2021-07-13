@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import headerLogoImg from "../images/header_logo.png";
+import QmenuIconImg from "../images/Qmenu_icon1.png";
+import QmenuIcon2Img from "../images/Qmenu_icon2.png";
+import QmenuIcon3Img from "../images/Qmenu_icon3.png";
+import messageActiveImg from "../images/message_active.png";
+import searchImg from "../images/search_icon1.png";
+// import img from "../images/psj.jpg";
+// import img from "../images/breath1.jpg";
 
 const Header = () => {
+  console.log(__dirname);
   return (
     <>
       <header>
@@ -10,7 +19,7 @@ const Header = () => {
             <Link to="/">
               <img
                 className="header_logo"
-                src="src/images/header_logo.png"
+                src={headerLogoImg}
                 alt="header_logo.png"
               />
             </Link>
@@ -27,7 +36,7 @@ const Header = () => {
         <div className="header_area_right">
           <div className="coar_area">
             <p>
-              <Link to="/Login">로그인</Link>
+              <Link to="/Join">로그인</Link>
             </p>
           </div>
           {/* <h1 className="mypage_area">
@@ -45,7 +54,7 @@ const Header = () => {
               <Link to="/Setting" className="Qmenu_item_cove Qmenu1">
                 <img
                   className="Qmenu_item"
-                  src="src/images/Qmenu_icon1.png"
+                  src={QmenuIconImg}
                   alt="Qmenu_icon1.png"
                 />
               </Link>
@@ -84,14 +93,14 @@ const Header = () => {
               <a className="Qmenu_item_cove Qmenu2">
                 <img
                   className="Qmenu_item Qmenu_padding"
-                  src="src/images/Qmenu_icon2.png"
+                  src={QmenuIcon2Img}
                   alt="Qmenu_icon2.png"
                 />
               </a>
               <a className="message_active_cove">
                 <img
                   className="message_active"
-                  src="src/images/message_active.png"
+                  src={messageActiveImg}
                   alt="message_active"
                 />
               </a>
@@ -100,7 +109,7 @@ const Header = () => {
               <span className="tail" id="alram_tail">
                 <img
                   className="tail_img"
-                  src="src/images/tail.png"
+                  src="../../src/images/tail.png"
                   alt="tail.png"
                 />
               </span>
@@ -111,7 +120,7 @@ const Header = () => {
               <Link to="/Write" className="Qmenu_item_cove" href="write.php">
                 <img
                   className="Qmenu_item"
-                  src="src/images/Qmenu_icon3.png"
+                  src={QmenuIcon3Img}
                   alt="Qmenu_icon3.png"
                 />
               </Link>
@@ -131,7 +140,7 @@ const Header = () => {
               <a id="search_img" href="search_list.php">
                 <img
                   className="search"
-                  src="src/images/search_icon1.png"
+                  src={searchImg}
                   alt="search_icon1.png"
                 />
               </a>
