@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+
+  const onChangeInputEmail = (e) => {
+    setInputEmail(e.target.value);
+  };
+
+  const onChangeInputPassword = (e) => {
+    setInputPassword(e.target.value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("click login");
+    console.log("Email : ", inputEmail);
+    console.log("Password : ", inputPassword);
+    alert("로그인");
+  };
+
+  // const getData = async () => {
+  //   const response = await axios.get("/join_member_normal.php");
+  // };
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
   return (
     <div className="wap login_wap">
       <div className="login_pass_content">
@@ -15,7 +43,11 @@ const Login = () => {
               </Link>
             </p>
           </div>
-          <form name="login_account_set_list" className="login_account_group">
+          <form
+            name="login_account_set_list"
+            className="login_account_group"
+            onSubmit={onSubmit}
+          >
             <p>이메일</p>
             <input
               className="login_account_text_box login_account_email"
@@ -23,6 +55,9 @@ const Login = () => {
               placeholder="이메일 입력"
               name="new_email"
               maxlength="20"
+              value={inputEmail}
+              onChange={onChangeInputEmail}
+              required
             />
             <div id="error_mail" className="result-email result-check"></div>
             <p>비밀번호</p>
@@ -32,17 +67,21 @@ const Login = () => {
               placeholder="비밀번호 입력"
               name="new_pass"
               maxlength="20"
+              value={inputPassword}
+              onChange={onChangeInputPassword}
+              required
             />
             <div id="error_tel" className="result-tel result-check"></div>
-          </form>
-          <form className="login_submit_group">
-            <input
+
+            {/* <form className="login_submit_group"> */}
+            {/* <input
               className="login_submit_normal"
               type="submit"
               name="account_submit"
               value="로그인"
-              disabled
-            />
+              on
+              // disabled
+            /> */}
             <input
               className="login_submit_active"
               type="submit"
@@ -50,8 +89,9 @@ const Login = () => {
               value="로그인"
             />
           </form>
+          {/* </form> */}
           <div className="login_help_group">
-            <a className="service_center_btn" href="#">
+            <a className="service_center_login_btn" href="#">
               고객센터
             </a>
             <a className="help_pass_btn" href="#">
