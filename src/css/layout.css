@@ -3363,17 +3363,20 @@ select::-ms-expand {
   width: 100%;
   height: 70px;
   line-height: 70px;
-
   border: 0px;
   border-radius: 6px;
   font-size: 1.625rem;
   font-weight: 700;
   color: #fff;
   background-color: #bbbbbb;
+  cursor: pointer;
 }
 .login_submit_active {
-  display: none;
-  position: absolute;
+  /* display: none; */
+  display: inline-block;
+  /* position: absolute; */
+  position: relative;
+  margin-top: 124px;
   left: 0px;
   top: 0px;
   width: 100%;
@@ -3804,7 +3807,17 @@ select::-ms-expand {
   text-decoration: underline;
   color: #bbb;
 }
-.service_center_btn {
+.service_center_login_btn {
+  display: inline-block;
+  font-size: 1.1875rem;
+  font-weight: 400;
+  text-decoration: underline;
+  color: #999;
+  /* margin-top: 17px; */
+  margin-bottom: 61px;
+}
+
+.service_center_join_btn {
   display: inline-block;
   font-size: 1.1875rem;
   font-weight: 400;
@@ -3843,6 +3856,7 @@ select::-ms-expand {
   color: #fff;
   border: 0px;
   border-radius: 6px;
+  cursor: pointer;
 }
 /*=============================================
 =       Section join_member_popup block       =
