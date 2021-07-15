@@ -16,13 +16,13 @@ const AppRouter = () => {
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/Community" component={Community} />
-        <Route exact path="/Reference" component={Reference} />
-        <Route exact path="/Write" component={Write} />
-        <Route exact path="/Setting" component={Setting} />
-        <Route exact path="/Join" component={Join} />
-        <Route exact path="/Login" component={Login} />
-        <Route exact path="/SaveWrite" component={SaveWrite} />
+        <Route path="/Community" component={Community} />
+        <Route path="/Reference" component={Reference} />
+        <Route path="/Write" component={Write} />
+        <Route path="/Setting" component={Setting} />
+        <Route path="/Join" component={Join} />
+        <Route path="/Login" component={Login} />
+        <Route path="/SaveWrite" component={SaveWrite} />
       </Switch>
     </>
   );
