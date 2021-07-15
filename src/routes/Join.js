@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import naverImg from "../images/naver.png";
 import googleImg from "../images/google.png";
 import kakaoImg from "../images/kakao.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 // import { useForm } from "react-hook-form";
 // http://15.164.227.114/web/src/php/join_member_normal.php?user_name:%22%22&user_email:%22%22&user_password:%22%22
@@ -15,6 +15,7 @@ const Join = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
+  const history = useHistory();
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -30,6 +31,7 @@ const Join = () => {
     if (password && email && name && confirmPassword) {
       alert("회원가입 완료!");
       pushData();
+      history.push("/");
     }
   };
 
@@ -73,6 +75,7 @@ const Join = () => {
       )
       .then((response) => {
         console.log(response);
+        sessionStorage.setItem("user_name", name);
       })
       .catch((error) => {
         console.log(error);
@@ -183,7 +186,7 @@ const Join = () => {
                 value="회원가입"
                 // disabled
               />
-              <a className="service_center_btn" href="#">
+              <a className="service_center_join_btn" href="#">
                 고객센터
               </a>
             </form>
