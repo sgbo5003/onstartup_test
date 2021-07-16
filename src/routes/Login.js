@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -17,14 +17,23 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("click login");
-    console.log("Email : ", inputEmail);
-    console.log("Password : ", inputPassword);
+    getData();
     alert("로그인");
   };
 
-  // const getData = async () => {
-  //   const response = await axios.get("/join_member_normal.php");
-  // };
+  const history = useHistory();
+  const getData = async () => {
+    const response = await axios
+      .get("/join_member_normal.php")
+      .then((response) => {
+        sessionStorage.setItem("user_email", inputEmail);
+        console.log("response: ", response);
+        console.log("inputEmail: ", inputEmail);
+        console.log("inputPassword: ", inputPassword);
+        history.push("/");
+        window.location.replace("/");
+      });
+  };
 
   // useEffect(() => {
   //   getData();
