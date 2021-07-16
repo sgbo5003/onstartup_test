@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script
+      type="text/javascript"
+      src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
+      charset="utf-8"
+    ></script>
     <meta charset="UTF-8" />
     <title>온스타트업 - test</title>
   </head>
   <body>
     <div id="root"></div>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      Kakao.init("939d6088cefbb5aaceb178768be8be0c");
+      console.log("kakao login status : ", Kakao.isInitialized());
+    </script>
   </body>
 </html>
