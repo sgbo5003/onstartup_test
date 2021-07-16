@@ -22,7 +22,7 @@ const Join = () => {
   // 카카오 로그인
   const kakaoLoginHandler = () => {
     axios
-      .get("http://15.164.227.114/web/src/php/join_sns_kakao.php")
+      .get(KAKAO_AUTH_URL)
       .then((response) => {
         console.log(response);
         if (response.data.error === 3) {
@@ -33,7 +33,6 @@ const Join = () => {
           alert("토큰오류");
         } else {
           alert("오류");
-          console.log(response);
         }
       })
       .catch((error) => {
