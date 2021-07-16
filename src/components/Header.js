@@ -7,18 +7,7 @@ import QmenuIcon3Img from "../images/Qmenu_icon3.png";
 import messageActiveImg from "../images/message_active.png";
 import searchImg from "../images/search_icon1.png";
 
-const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("user_name") === null) {
-      console.log("isLogin1 ?? :: ", isLogin);
-    } else {
-      setIsLogin(true);
-      console.log("isLogin2 ?? :: ", isLogin);
-    }
-  }, []);
-
+const Header = (props) => {
   return (
     <header>
       <div className="header_area_left">
@@ -58,23 +47,7 @@ const Header = () => {
             </a>
           </h1> */}
         {/* 설정 아이콘 */}
-        {isLogin ? (
-          <h1 className="mypage_area">
-            <a className="mypage_photo_cove" href="my_page.php">
-              <img
-                className="mypage_photo"
-                src="src/images/default_user.png"
-                alt="default_user.png"
-              />
-            </a>
-          </h1>
-        ) : (
-          <div className="coar_area">
-            <p>
-              <Link to="/Join">로그인</Link>
-            </p>
-          </div>
-        )}
+        {props.isLoginTrue}
         <div className="Qmenu_area">
           <p className="Qmenu_list">
             <Link to="/Setting" className="Qmenu_item_cove Qmenu1">
