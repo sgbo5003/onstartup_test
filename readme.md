@@ -538,3 +538,175 @@ useEffect(() => {
             });
         };
         ```
+
+# 7/14일 수요일
+
+> 로그인 관련
+
+- [https://ddeck.tistory.com/35](https://ddeck.tistory.com/35)
+
+> 카카오 - 소셜로그인 관련
+
+- [https://data-jj.tistory.com/53](https://data-jj.tistory.com/53)
+
+> LocalStorage & sessionStorage
+
+- [localStorage & sessionStorage](https://www.notion.so/localStorage-sessionStorage-aa303b710daa4d188bd25719a284b436)
+
+> 회원가입 - 로그인 백엔드와 연동 관련
+
+- php로 구현되어 있는 토큰 검증방식
+  1. 사이트에 처음 접속시 토큰값을 부여한다.
+  2. 토큰은 1시간동안 유지 되고 그 이후나 나가게 되면 사라지게 된다.
+  3. 헤더는 모든 페이지에 있기 때문에 헤더에 토큰검증 로직을 넣어서 검증을 하고
+     토큰이 없으면 첫 index 페이지로, 있으면 그대로 유지시킨다.
+- 회원가입 ~ 성공 시 로직
+  1. 회원가입
+  2. db로 데이터를 보낸다.
+  3. 성공 시 유저 화면 으로 이동
+- 로그아웃 ~ 다시 로그인 시 로직
+  1. 로그아웃
+  2. 로그인 시도 시
+  3. db에 저장되어 있는 일치하는 이메일 & 비밀번호를 비교 후 로그인
+
+> 로그인 성공 시 다른 페이지로 이동하는 방법
+
+- [https://www.python2.net/questions-812878.htm](https://www.python2.net/questions-812878.htm)
+- [https://www.daleseo.com/react-router-authentication/](https://www.daleseo.com/react-router-authentication/)
+- [https://ddeck.tistory.com/35](https://ddeck.tistory.com/35)
+
+# 7/15일 목요일
+
+> 회원가입 후 DB로 데이터 넘기고 로그인 화면으로 이동
+
+- 코드
+
+  ```jsx
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      return setPasswordError(true);
+    }
+
+    if (emailError) return;
+
+    // validateEmail();
+    console.log({ name, email, password, confirmPassword });
+
+    if (password && email && name && confirmPassword) {
+      alert("회원가입 완료!");
+      pushData();
+      history.push("/Login");
+    }
+  };
+  ```
+
+> 로그인 후 sessionStorage에 정보 저장
+
+- `sessionStorage.setItem("user_email", inputEmail);`
+
+> 카카오 소셜 로그인 관련
+
+- 코드
+
+  ```jsx
+  import { KAKAO_AUTH_URL } from "../OAuth";
+
+  const kakaoLoginHandler = () => {
+    axios
+      .get(KAKAO_AUTH_URL)
+      .then((response) => {
+        console.log(response);
+        if (response.data.error === 3) {
+          history.push("/");
+        } else if (response.data.error === 2) {
+          alert("필수항목을 체크해주세요.");
+        } else {
+          alert("오류");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  ```
+
+> 조건부 렌더링 시도
+
+- 코드
+
+  ```jsx
+  const AppRouter = () => {
+    const [isLogin, setIsLogin] = useState(false);
+
+    function checkIsLogin() {
+      if (sessionStorage.length < 1) {
+        console.log("isLogin1 ?? :: ", isLogin);
+      } else {
+        setIsLogin(true);
+        console.log("isLogin2 ?? :: ", isLogin);
+      }
+    }
+
+    function headerIconTrue() {
+      return (
+        <h1 className="mypage_area">
+          <a className="mypage_photo_cove" href="my_page.php">
+            <img
+              className="mypage_photo"
+              src={defaultUserImg}
+              alt="default_user.png"
+            />
+          </a>
+        </h1>
+      );
+    }
+
+    function headerTextTrue() {
+      return (
+        <div className="coar_area">
+          <p>
+            <Link to="/Join">로그인</Link>
+          </p>
+        </div>
+      );
+    }
+
+    useEffect(() => {
+      checkIsLogin();
+      console.log("로그인 상태 :", isLogin);
+    }, [isLogin]);
+
+    return (
+      <>
+        {isLogin ? (
+          <Header isLoginTrue={headerIconTrue()} />
+        ) : (
+          <Header isLoginTrue={headerTextTrue()} />
+        )}
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/Community" component={Community} />
+          <Route path="/Reference" component={Reference} />
+          <Route path="/Write" component={Write} />
+          <Route path="/Setting" component={Setting} />
+          <Route path="/Join" component={Join} />
+          <Route path="/Login" component={Login} />
+          <Route path="/SaveWrite" component={SaveWrite} />
+        </Switch>
+      </>
+    );
+  };
+
+  export default AppRouter;
+  ```
+
+> 로그인 인증 관련
+
+- [https://www.daleseo.com/react-router-authentication/](https://www.daleseo.com/react-router-authentication/)
+- [https://gaemi606.tistory.com/entry/React-로그인-정보-없을-경우-로그인-페이지로-redirect하기-react-router-PrivateRoute](https://gaemi606.tistory.com/entry/React-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%A0%95%EB%B3%B4-%EC%97%86%EC%9D%84-%EA%B2%BD%EC%9A%B0-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A1%9C-redirect%ED%95%98%EA%B8%B0-react-router-PrivateRoute)
+
+> 네아로 시도
+
+- 실패...
