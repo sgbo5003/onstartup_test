@@ -22,15 +22,18 @@ const Join = () => {
   // 카카오 로그인
   const kakaoLoginHandler = () => {
     axios
-      .get(KAKAO_AUTH_URL)
+      .get("http://15.164.227.114/web/src/php/join_sns_kakao.php")
       .then((response) => {
         console.log(response);
         if (response.data.error === 3) {
           history.push("/");
         } else if (response.data.error === 2) {
           alert("필수항목을 체크해주세요.");
+        } else if (response.data.error === 1) {
+          alert("토큰오류");
         } else {
           alert("오류");
+          console.log(response);
         }
       })
       .catch((error) => {
