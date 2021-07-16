@@ -4,16 +4,63 @@ import googleImg from "../images/google.png";
 import kakaoImg from "../images/kakao.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+
+import { KAKAO_AUTH_URL } from "../OAuth";
+// import { NAVER_AUTH_URL } from "../OAuth";
 // import { useForm } from "react-hook-form";
 // http://15.164.227.114/web/src/php/join_member_normal.php?user_name:%22%22&user_email:%22%22&user_password:%22%22
 
 const Join = () => {
+  const { naver } = window;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+
+  // 카카오 로그인
+  const kakaoLoginHandler = () => {
+    axios
+      .get(KAKAO_AUTH_URL)
+      .then((response) => {
+        console.log(response);
+        if (response.data.error === 3) {
+          history.push("/");
+        } else if (response.data.error === 2) {
+          alert("필수항목을 체크해주세요.");
+        } else {
+          alert("오류");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // 네이버 로그인
+
+  // const NaverLoginHandler = () => {
+  //   axios
+  //     .get(NAVER_AUTH_URL)
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const NaverLoginHandler = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: "jxNOYlz8FOqMBba83QbQ",
+      callbackUrl: "http://15.164.227.114/web/src/php/join_sns_naver.php",
+      loginButton: { color: "green", type: 3, height: 60 },
+      isPopup: false,
+      callbackHandle: true,
+    });
+    naverLogin.init();
+  };
 
   const history = useHistory();
   const onSubmit = (e) => {
@@ -31,7 +78,7 @@ const Join = () => {
     if (password && email && name && confirmPassword) {
       alert("회원가입 완료!");
       pushData();
-      history.push("/");
+      history.push("/Login");
     }
   };
 
@@ -75,7 +122,6 @@ const Join = () => {
       )
       .then((response) => {
         console.log(response);
-        sessionStorage.setItem("user_name", name);
       })
       .catch((error) => {
         console.log(error);
@@ -101,7 +147,7 @@ const Join = () => {
               </p>
             </section>
 
-            <section className="kakao_form">
+            <section className="kakao_form" onClick={kakaoLoginHandler}>
               <p>
                 <img src={kakaoImg} alt="kakao" />
                 카카오 3초만에 가입하기
@@ -194,10 +240,10 @@ const Join = () => {
               <p>또는</p>
               <div></div>
             </section>
-
             <section
               className="naver_form"
-              onclick="location.href='<?= $naver_api_url ?>'"
+              id="naverIdLogin"
+              onClick={NaverLoginHandler}
             >
               <p>
                 <img src={naverImg} alt="naver" />
