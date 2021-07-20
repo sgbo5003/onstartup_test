@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import detailClickImg from "../images/detaile_click.png";
 import selectBackImg from "../images/select_back.png";
@@ -10,11 +10,12 @@ import WriteSubmitModal from "../components/WriteSubmitModal";
 
 const Write = () => {
   const [content, setContent] = useState("");
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState();
   const [url, setUrl] = useState("");
   const [selectModalOn, setSelectModalOn] = useState(false);
   const [confirmModalOn, setConfirmModalOn] = useState(false);
   const [submitModalOn, setSubmitModalOn] = useState(false);
+  const [buttonOn, setButtonOn] = useState(false);
   const [category, setCategory] = useState([]);
 
   const onChangeContent = (e) => {
@@ -28,7 +29,8 @@ const Write = () => {
   };
 
   const onChangeImg = (e) => {
-    setImage(e.target.files);
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
     console.log(image);
   };
 
@@ -43,7 +45,43 @@ const Write = () => {
   const onSubmitModal = () => {
     setConfirmModalOn(false);
     setSubmitModalOn(!submitModalOn);
+    console.log("clicked");
   };
+
+  function btnDeactivate() {
+    return (
+      <input
+        onClick={onConfirmModal}
+        // type="submit"
+        type="button"
+        name="write_submit_off"
+        className="write_submit_off"
+        value="글쓰기"
+        disabled
+      />
+    );
+  }
+
+  function btnActivate() {
+    return (
+      <input
+        // type="submit"
+        type="button"
+        onClick={onConfirmModal}
+        name="write_submit_on"
+        className="write_submit_on"
+        value="글쓰기"
+      />
+    );
+  }
+
+  function checkBtnOn() {
+    if (content == "" || category == "") {
+      setButtonOn(false);
+    } else {
+      setButtonOn(true);
+    }
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -51,22 +89,8 @@ const Write = () => {
     alert("글쓰기 완료");
   };
 
-  // const pushData = () => {
-  //   axios
-  //     .post(
-  //       `/write_text_in_db.php?comment_text=${content}&comment_file=${image}&comment_url=${url}&comment_select=${category}`,
-  //       { headers: { "Content-Type": "multipart/form-data" } }
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   const pushData = () => {
-    const params = new URLSearchParams();
+    const params = new FormData();
     params.append("comment_text", content);
     params.append("comment_file", image);
     params.append("comment_url", url);
@@ -75,6 +99,7 @@ const Write = () => {
       method: "post",
       url: "/write_text_in_db.php",
       data: params,
+      headers: { "Content-Type": "multipart/form-data" },
     })
       .then((response) => {
         console.log(response);
@@ -84,26 +109,11 @@ const Write = () => {
       });
   };
 
-  // const pushData = () => {
+  useEffect(() => {
+    checkBtnOn();
+    console.log("버튼 상태 :", buttonOn);
+  });
 
-  //   axios
-  //     .post("/write_text_in_db.php", {
-  //       comment_text: content,
-  //       comment_file: image,
-  //       comment_url: url,
-  //       comment_select: category,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  //--------------- 모달 부분---------------------
-
-  //---------------------------------------------
   return (
     <div className="wap write_wap">
       <div className="write_content">
@@ -256,18 +266,12 @@ const Write = () => {
               </div>
             </div>
           </section>
-          <input
-            type="submit"
-            // type="button"
-            // onClick={onConfirmModal}
-            name="write_submit_on"
-            className="write_submit_on"
-            value="글쓰기"
-          />
-          {/* {confirmModalOn ? (
+          {buttonOn ? btnActivate() : btnDeactivate()}
+          {confirmModalOn ? (
             <WriteConfirmModal
               class="write_comment_popup_cove_on"
               onConfirmModal={onConfirmModal}
+              onSubmitModal={onSubmitModal}
             />
           ) : (
             <WriteConfirmModal
@@ -285,13 +289,7 @@ const Write = () => {
               class="write_comment_checking_popup_cove_off"
               onSubmitModal={onSubmitModal}
             />
-          )} */}
-          {/* <input
-            type="submit"
-            name="write_submit_on"
-            className="write_submit_on"
-            value="글쓰기"
-          /> */}
+          )}
         </form>
       </div>
     </div>
