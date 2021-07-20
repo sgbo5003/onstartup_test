@@ -6,9 +6,8 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 import { KAKAO_AUTH_URL } from "../OAuth";
-// import { NAVER_AUTH_URL } from "../OAuth";
+import { NAVER_AUTH_URL } from "../OAuth";
 // import { useForm } from "react-hook-form";
-// http://15.164.227.114/web/src/php/join_member_normal.php?user_name:%22%22&user_email:%22%22&user_password:%22%22
 
 const Join = () => {
   const { naver } = window;
@@ -26,13 +25,22 @@ const Join = () => {
       .then((response) => {
         console.log(response);
         if (response.data.error === 3) {
+          sessionStorage.setItem(
+            "kakaoLoginStatus",
+            JSON.stringify(response.data.error)
+          );
           history.push("/");
+          window.location.replace("/");
         } else if (response.data.error === 2) {
           alert("필수항목을 체크해주세요.");
         } else if (response.data.error === 1) {
           alert("토큰오류");
         } else {
-          alert("오류");
+          location.replace(
+            "https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost:8080%26client_id%3D4626efd0ab72ba3533e4947b9b02c37f"
+          );
+          sessionStorage.setItem("kakaoLogin", "true");
+          window.location.replace("/");
         }
       })
       .catch((error) => {
@@ -40,43 +48,58 @@ const Join = () => {
       });
   };
 
-  // 네이버 로그인
-
-  // const NaverLoginHandler = () => {
-  //   axios
-  //     .get(NAVER_AUTH_URL)
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  //네이버 로그인
 
   const NaverLoginHandler = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: "jxNOYlz8FOqMBba83QbQ",
-      callbackUrl: "http://15.164.227.114/web/src/php/join_sns_naver.php",
-      loginButton: { color: "green", type: 3, height: 60 },
-      isPopup: false,
-      callbackHandle: true,
-    });
-    naverLogin.init();
+    axios
+      .get(NAVER_AUTH_URL)
+      .then((response) => {
+        console.log(response);
+        if (response.data.error === 3) {
+          sessionStorage.setItem(
+            "naverLoginStatus",
+            JSON.stringify(response.data.error)
+          );
+          history.push("/");
+          window.location.replace("/");
+          console.log(response.data.error);
+        } else if (response.data.error === 2) {
+          alert("필수항목을 체크해주세요.");
+        } else if (response.data.error === 1) {
+          alert("토큰오류");
+        } else {
+          location.replace(
+            "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=jxNOYlz8FOqMBba83QbQ&redirect_uri=http://localhost:8080"
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  // const NaverLoginHandler = () => {
+  //   const naverLogin = new naver.LoginWithNaverId({
+  //     clientId: "jxNOYlz8FOqMBba83QbQ",
+  //     callbackUrl: "http://15.164.227.114/web/src/php/join_sns_naver.php",
+  //     loginButton: { color: "green", type: 3, height: 60 },
+  //     isPopup: false,
+  //     callbackHandle: true,
+  //   });
+  //   naverLogin.init();
+  // };
 
   const history = useHistory();
   const onSubmit = (e) => {
     e.preventDefault();
-
+    // 비밀번호 & 비밀번호 유효성 검사
     if (password !== confirmPassword) {
       return setPasswordError(true);
     }
-
     if (emailError) return;
-
-    // validateEmail();
     console.log({ name, email, password, confirmPassword });
 
+    //회원가입 조건 다 만족 시 회원가입진행
     if (password && email && name && confirmPassword) {
       alert("회원가입 완료!");
       pushData();
@@ -84,14 +107,7 @@ const Join = () => {
     }
   };
 
-  // const validatePassword = (password, confirmPassword) => {
-  //   if (password !== confirmPassword) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
-
+  // 이메일 유효성 검사
   const validateEmail = (email) => {
     const regExp =
       /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/i;
@@ -244,7 +260,7 @@ const Join = () => {
             </section>
             <section
               className="naver_form"
-              id="naverIdLogin"
+              // id="naverIdLogin"
               onClick={NaverLoginHandler}
             >
               <p>
