@@ -732,6 +732,7 @@
   position: absolute;
   right: 0px;
   top: 0px;
+  cursor: pointer;
   width: 90px;
   height: 70px;
 }
@@ -842,7 +843,7 @@
   margin-top: 40px;
 }
 .write_submit_on {
-  display: none;
+  /* display: none; */
   position: relative;
   width: 100%;
   height: 76px;
@@ -859,7 +860,20 @@
 /*=============================================
 =     Section write_comment_popup block       =
 =============================================*/
-.write_comment_popup_cove {
+.write_comment_popup_cove_on {
+  display: block;
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 32%;
+  padding-right: 32%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.write_comment_popup_cove_off {
   display: none;
   position: fixed;
   z-index: 200;
@@ -920,14 +934,28 @@
   border-radius: 6px;
   color: white;
   background-color: #bdbdbd;
+  cursor: pointer;
 }
 .comment_write_regi {
   background-color: #bda26b;
+  cursor: pointer;
 }
 /*=============================================
 =     Section write_checking_popup block      =
 =============================================*/
-.write_comment_checking_popup_cove {
+.write_comment_checking_popup_cove_on {
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 32%;
+  padding-right: 32%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.write_comment_checking_popup_cove_off {
   display: none;
   position: fixed;
   z-index: 200;
@@ -1035,11 +1063,25 @@
 /*=============================================
 =      Section write_select_popup block       =
 =============================================*/
-.write_select_popup_cove {
+.write_select_popup_cove_on {
+  /* display: none; */
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 32%;
+  padding-right: 32%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.write_select_popup_cove_off {
   display: none;
   position: fixed;
   z-index: 200;
   top: 0px;
+  right: 0;
   width: 100%;
   height: 100%;
   padding-left: 32%;
@@ -1070,6 +1112,7 @@
 }
 .write_select_popup_back {
   position: absolute;
+  cursor: pointer;
   z-index: 50;
   right: 0px;
   top: 0px;
@@ -1104,6 +1147,7 @@
   display: inline-block;
   width: 100%;
   height: 76px;
+  cursor: pointer;
   line-height: 76px;
   padding-left: 25px;
   color: #333333;
@@ -1170,6 +1214,7 @@
 .mypage_wap {
   padding-left: 15%;
   padding-right: 15%;
+  padding-top: 6%;
 }
 .mypage_content {
   position: relative;
