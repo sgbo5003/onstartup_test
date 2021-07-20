@@ -10,6 +10,7 @@ import Header from "./Header";
 import SaveWrite from "../routes/SaveWrite";
 import Login from "../routes/Login";
 import defaultUserImg from "../images/default_user.png";
+import Mypage from "../routes/Mypage";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -34,13 +35,13 @@ const AppRouter = () => {
   function headerIconTrue() {
     return (
       <h1 className="mypage_area">
-        <a className="mypage_photo_cove" href="my_page.php">
+        <Link className="mypage_photo_cove" to="/Mypage">
           <img
             className="mypage_photo"
             src={defaultUserImg}
             alt="default_user.png"
           />
-        </a>
+        </Link>
       </h1>
     );
   }
@@ -76,6 +77,7 @@ const AppRouter = () => {
         <Route path="/Join" component={Join} />
         <Route path="/Login" component={Login} />
         <Route path="/SaveWrite" component={SaveWrite} />
+        <Route path="/Mypage" component={Mypage} />
       </Switch>
     </>
   );
