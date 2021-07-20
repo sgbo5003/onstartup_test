@@ -35,10 +35,6 @@ const Login = () => {
       });
   };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
   return (
     <div className="wap login_wap">
       <div className="login_pass_content">
