@@ -2480,7 +2480,8 @@
 .regit_pass_wap {
   padding-left: 30%;
   padding-right: 30%;
-  padding-top: 3.75em;
+  /* padding-top: 3.75em; */
+  padding-top: 6%;
   padding-bottom: 12.6875em;
 }
 .regit_pass_view_title {
