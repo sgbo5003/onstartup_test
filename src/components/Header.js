@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import headerLogoImg from "../images/header_logo.png";
 import QmenuIconImg from "../images/Qmenu_icon1.png";
@@ -6,8 +6,28 @@ import QmenuIcon2Img from "../images/Qmenu_icon2.png";
 import QmenuIcon3Img from "../images/Qmenu_icon3.png";
 import messageActiveImg from "../images/message_active.png";
 import searchImg from "../images/search_icon1.png";
+import Qmenu from "./Qmenu";
 
 const Header = (props) => {
+  const { isDropClick, setIsDropClick } = props;
+  // const outside = useRef();
+  const onDropClicked = () => {
+    setIsDropClick(!isDropClick);
+  };
+
+  // const handleClickOutside = ({ target }) => {
+  //   if (outside && !outside.current.contain(target)) {
+  //     setIsDropClick(!isDropClick);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     window.removeEventListener("click", handleClickOutside);
+  //   };
+  // });
+
   return (
     <header>
       <div className="header_area_left">
@@ -50,43 +70,20 @@ const Header = (props) => {
         {props.isLoginTrue}
         <div className="Qmenu_area">
           <p className="Qmenu_list">
-            <Link to="/Setting" className="Qmenu_item_cove Qmenu1">
+            <div className="Qmenu_item_cove Qmenu1" onClick={onDropClicked}>
               <img
                 className="Qmenu_item"
                 src={QmenuIconImg}
                 alt="Qmenu_icon1.png"
               />
-            </Link>
+            </div>
           </p>
-          {/* <div className="Qmenu_bar">
-                <span className="tail">
-                  <img
-                    className="tail_img"
-                    src="src/images/tail.png"
-                    alt="tail.png"
-                  />
-                </span>
-                <p className="Qmenu_menu_cove">
-                  <a className="Qmenu_menu" href="regit_account.php">
-                    계정관리
-                  </a>
-                </p>
-                <p className="Qmenu_menu_cove">
-                  <a className="Qmenu_menu" href="regit_pass.php">
-                    비밀번호 변경
-                  </a>
-                </p>
-                <p className="Qmenu_menu_cove">
-                  <a className="Qmenu_menu" href="inquiry.php">
-                    문의하기
-                  </a>
-                </p>
-                <p className="Qmenu_menu_cove">
-                  <a className="Qmenu_menu" href="notice.php">
-                    공지사항
-                  </a>
-                </p>
-              </div> */}
+          {isDropClick ? (
+            <Qmenu class="Qmenu_bar_on" tail="tail_on" />
+          ) : (
+            // <Qmenu class="Qmenu_bar_on" tail="tail_on" ref={outside} />
+            <Qmenu class="Qmenu_bar_off" tail="tail_off" />
+          )}
           {/*알림 아이콘*/}
           <p className="Qmenu_list">
             <a className="Qmenu_item_cove Qmenu2">
