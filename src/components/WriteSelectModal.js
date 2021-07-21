@@ -39,7 +39,7 @@ const WriteSelectModal = (props) => {
                 <img src={BackImg} alt="back.png" />
               </span>
             </div>
-            <ul class="write_select_li">
+            <ul class="write_select_li" onClick={props.onOpenModal}>
               <li>
                 <a class="write_select_first_list">마이페이지 > 포트폴리오</a>
               </li>
