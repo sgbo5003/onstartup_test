@@ -9,20 +9,50 @@ import "../css/slick.css";
 import ScrollButton from "./ScrollButton";
 import viewIcon1 from "../images/view_icon1.png";
 import viewIcon2 from "../images/view_icon2.png";
+import defaultUserImg from "../images/default_user.png";
 
 const ContentPage = () => {
   const [data, setData] = useState({
-    user_idx: [],
-    user_name: [],
-    user_belong: [],
-    comment_time: [],
-    comment_text: [],
-    comment_like_num: [],
-    comment_reply_num: [],
-    comment_share_num: [],
-    comment_save_num: [],
-    content_view_num: [],
+    user_idx: [], // user 순서
+    user_name: [], // user 이름
+    user_belong: [], // user 소속
+    comment_time: [], // user 댓글 시간
+    comment_text: [], // user 댓글 내용
+    comment_like_num: [], // comment 좋아요 수
+    comment_reply_num: [], // comment 댓글 수
+    comment_share_num: [], // comment 공유 수
+    comment_save_num: [], // comment 저장 수
+    comment_view_num: [], // content 조회 수
+    user_img_root: [], // user 프사 경로
+    user_img_name: [], // user 프사 이름
+    comment_img_root: [], // comment 이미지 경로
+    comment_img_name: [], // comment 이미지 이름
   });
+
+  // 이미지 값이 null인지 있는지 확인하는 함수
+  function checkImg(idx, type) {
+    const address = "http://15.164.227.114/web/";
+    // 유저 프로필 사진 값 체크
+    if (type == "user") {
+      if (data.user_img_root[idx] == null || data.user_img_name[idx] == null) {
+        return defaultUserImg;
+      } else {
+        return address + data.user_img_root[idx] + data.user_img_name[idx];
+      }
+    } // 유저가 등록한 사진 값 체크
+    else if (type == "comment") {
+      if (
+        data.comment_img_root[idx] == null ||
+        data.comment_img_name[idx] == null
+      ) {
+        return defaultUserImg;
+      } else {
+        return (
+          address + data.comment_img_root[idx] + data.comment_img_name[idx]
+        );
+      }
+    }
+  }
 
   const settings = {
     dots: true,
@@ -90,6 +120,12 @@ const ContentPage = () => {
                   commentReplyNum={data.comment_reply_num[idx]}
                   commentShareNum={data.comment_share_num[idx]}
                   commentSaveNum={data.comment_save_num[idx]}
+                  userImgRoot={data.user_img_root[idx]}
+                  userImgName={data.user_img_name[idx]}
+                  commentImgRoot={data.comment_img_root[idx]}
+                  commentImgName={data.comment_img_name[idx]}
+                  checkUserImg={checkImg(idx, "user")}
+                  checkCommentImg={checkImg(idx, "comment")}
                 />
               );
             })}
@@ -116,6 +152,8 @@ const ContentPage = () => {
                     commentReplyNum={data.comment_reply_num[idx]}
                     commentShareNum={data.comment_share_num[idx]}
                     commentSaveNum={data.comment_save_num[idx]}
+                    checkUserImg={checkImg(idx, "user")}
+                    checkCommentImg={checkImg(idx, "comment")}
                   />
                 );
               })}
@@ -136,6 +174,8 @@ const ContentPage = () => {
                   commentReplyNum={data.comment_reply_num[idx]}
                   commentShareNum={data.comment_share_num[idx]}
                   commentSaveNum={data.comment_save_num[idx]}
+                  checkUserImg={checkImg(idx, "user")}
+                  checkCommentImg={checkImg(idx, "comment")}
                 />
               );
             })}
