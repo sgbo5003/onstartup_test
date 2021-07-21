@@ -11,6 +11,10 @@ import SaveWrite from "../routes/SaveWrite";
 import Login from "../routes/Login";
 import defaultUserImg from "../images/default_user.png";
 import Mypage from "../routes/Mypage";
+import AccountManagement from "../routes/AccountManagement";
+import ChangePassword from "../routes/ChangePassword";
+import Notice from "../routes/Notice";
+import Question from "../routes/Question";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -78,6 +82,10 @@ const AppRouter = () => {
         <Route path="/Login" component={Login} />
         <Route path="/SaveWrite" component={SaveWrite} />
         <Route path="/Mypage" component={Mypage} />
+        <Route path="/AccountManagement" component={AccountManagement} />
+        <Route path="/ChangePassword" component={ChangePassword} />
+        <Route path="/Notice" component={Notice} />
+        <Route path="/Question" component={Question} />
       </Switch>
     </>
   );
