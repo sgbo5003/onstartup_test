@@ -1005,6 +1005,7 @@
   border-radius: 6px;
   color: white;
   background-color: #bda26b;
+  cursor: pointer;
 }
 /*=============================================
 =   Section write_checking_fail_popup block   =
