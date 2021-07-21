@@ -11,7 +11,7 @@ import WriteSubmitIsFalseModal from "../components/WriteSubmitIsFalseModal";
 
 const Write = () => {
   const [content, setContent] = useState("");
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
   const [category, setCategory] = useState([]);
   const [selectModalOn, setSelectModalOn] = useState(false); // 분야 선택을 띄우기 위해 체크할 수 있는 state
@@ -31,8 +31,8 @@ const Write = () => {
   };
 
   const onChangeImg = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
+    setImage(e.target.files[0].name);
+    console.log(e.target.files[0].name);
     console.log(image);
   };
 
