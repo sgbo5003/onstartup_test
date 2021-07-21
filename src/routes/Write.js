@@ -14,7 +14,7 @@ const Write = () => {
   const [category, setCategory] = useState([]);
   const [selectModalOn, setSelectModalOn] = useState(false);
   const [confirmModalOn, setConfirmModalOn] = useState(false);
-  const [submitModalOn, setSubmitModalOn] = useState(false);
+  const [submitModalOn, setSubmitModalOn] = useState(false); //아직 ㄴㄴ
   const [buttonOn, setButtonOn] = useState(false);
   const [confirmButtonOn, setConfirmButtonOn] = useState(false);
 
@@ -105,10 +105,8 @@ const Write = () => {
       .then((response) => {
         console.log(response.data);
         if (response.data.complete === 0) {
-          setSubmitModalOn(true);
           console.log("성공");
         } else {
-          setSubmitModalOn(false);
           console.log("실패");
         }
       })
