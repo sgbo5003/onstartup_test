@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -16,7 +16,6 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("click login");
     getData();
     alert("로그인");
   };
@@ -24,14 +23,22 @@ const Login = () => {
   const history = useHistory();
   const getData = async () => {
     const response = await axios
-      .get("/join_member_normal.php")
+      .get(`/login.php?user_email=${inputEmail}&user_password=${inputPassword}`)
       .then((response) => {
-        sessionStorage.setItem("user_email", inputEmail);
-        console.log("response: ", response);
-        console.log("inputEmail: ", inputEmail);
-        console.log("inputPassword: ", inputPassword);
-        history.push("/");
-        window.location.replace("/");
+        console.log(response.data.idx);
+        if (response.data.error === 0) {
+          // sessionStorage.setItem("");
+          alert("로그인 성공");
+        } else {
+          alert("로그인 에러");
+          setInputEmail("");
+          setInputPassword("");
+        }
+        console.log(inputEmail);
+        console.log(inputPassword);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
