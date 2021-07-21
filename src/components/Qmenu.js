@@ -1,30 +1,33 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import tailImg from "../images/tail.png";
 
-const Qmenu = () => {
+const Qmenu = (props) => {
   return (
-    <div className="Qmenu_bar">
-      <span className="tail">
-        <img className="tail_img" src="src/images/tail.png" alt="tail.png" />
+    <div className={props.class}>
+      {/* <div className={props.class} ref={props.outside}> */}
+      <span className={props.tail}>
+        <img className="tail_img" src={tailImg} alt="tail.png" />
       </span>
       <p className="Qmenu_menu_cove">
-        <a className="Qmenu_menu" href="regit_account.php">
+        <Link to="/AccountManagement" className="Qmenu_menu">
           계정관리
-        </a>
+        </Link>
       </p>
       <p className="Qmenu_menu_cove">
-        <a className="Qmenu_menu" href="regit_pass.php">
+        <Link to="/ChangePassword" className="Qmenu_menu">
           비밀번호 변경
-        </a>
+        </Link>
       </p>
       <p className="Qmenu_menu_cove">
-        <a className="Qmenu_menu" href="inquiry.php">
+        <Link to="/Question" className="Qmenu_menu">
           문의하기
-        </a>
+        </Link>
       </p>
       <p className="Qmenu_menu_cove">
-        <a className="Qmenu_menu" href="notice.php">
+        <Link to="/Notice" className="Qmenu_menu">
           공지사항
-        </a>
+        </Link>
       </p>
     </div>
   );
