@@ -862,6 +862,7 @@
 =============================================*/
 .write_comment_popup_cove_on {
   display: block;
+  /* display: none; */
   position: fixed;
   z-index: 200;
   top: 0px;
@@ -944,6 +945,7 @@
 =     Section write_checking_popup block      =
 =============================================*/
 .write_comment_checking_popup_cove_on {
+  display: block;
   position: fixed;
   z-index: 200;
   top: 0px;
@@ -1007,8 +1009,21 @@
 /*=============================================
 =   Section write_checking_fail_popup block   =
 =============================================*/
-.write_comment_checking_fail_popup_cove {
+.write_comment_checking_fail_popup_cove_on {
+  /* display: none; */
+  display: block;
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 32%;
+  padding-right: 32%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.write_comment_checking_fail_popup_cove_off {
   display: none;
+  /* display: block; */
   position: fixed;
   z-index: 200;
   top: 0px;
@@ -1019,7 +1034,8 @@
   background-color: rgba(0, 0, 0, 0.25);
 }
 .write_comment_checking_fail_popup {
-  display: none;
+  /* display: none; */
+  display: block;
   position: relative;
   margin: 0 auto;
   top: 50%;
@@ -1031,7 +1047,7 @@
   background-color: #fff;
 }
 .write_comment_checking_fail_title {
-  display: none;
+  display: block;
   position: absolute;
   display: inline-block;
   width: 100%;
@@ -1041,14 +1057,14 @@
   font-weight: 500;
 }
 .write_comment_checking_fail_popup > div {
-  display: none;
+  display: block;
   position: absolute;
   width: 100%;
   bottom: 0px;
   padding: 1.25em;
 }
 .comment_checking_fail_btn {
-  display: none;
+  display: block;
   display: inline-block;
   width: 100%;
   height: 70px;
