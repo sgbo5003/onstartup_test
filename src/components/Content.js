@@ -9,6 +9,7 @@ import saveIcon from "../images/icon_sav.png";
 import saveOnIcon from "../images/icon_sav_on.png";
 
 const Content = (props) => {
+  const address = "15.164.227.114/web/";
   return (
     <div className="home_view_cove">
       <div className="home_view_content_cove">
@@ -17,7 +18,7 @@ const Content = (props) => {
             <h2 className="hidden">view title</h2>
             <p>
               <a href="user_board.php">
-                <img src={defaultUserImg} alt="default_user.png" />
+                <img src={props.checkUserImg} alt="default_user.png" />
               </a>
             </p>
             <div>
@@ -39,7 +40,7 @@ const Content = (props) => {
             <div className="home_notice_info_top">
               <p>
                 <a href="#">
-                  <img src={defaultUserImg} alt="gallery.png" />
+                  <img src={props.checkCommentImg} alt="gallery.png" />
                 </a>
               </p>
             </div>
