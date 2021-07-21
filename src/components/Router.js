@@ -18,6 +18,7 @@ import Question from "../routes/Question";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isDropClick, setIsDropClick] = useState(false);
 
   // function checkIsLogin() {
   //   if (sessionStorage.getItem("user_email") === null) {
@@ -68,9 +69,17 @@ const AppRouter = () => {
   return (
     <>
       {isLogin ? (
-        <Header isLoginTrue={headerIconTrue()} />
+        <Header
+          isDropClick={isDropClick}
+          setIsDropClick={setIsDropClick}
+          isLoginTrue={headerIconTrue()}
+        />
       ) : (
-        <Header isLoginTrue={headerTextTrue()} />
+        <Header
+          isDropClick={isDropClick}
+          setIsDropClick={setIsDropClick}
+          isLoginTrue={headerTextTrue()}
+        />
       )}
       <Switch>
         <Route exact path="/" component={Home} />
