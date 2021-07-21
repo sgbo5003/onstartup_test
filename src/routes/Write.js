@@ -6,17 +6,19 @@ import BackImg from "../images/back.png";
 import axios from "axios";
 import WriteSelectModal from "../components/WriteSelectModal";
 import WriteConfirmModal from "../components/WriteConfirmModal";
+import WriteSubmitIsTrueModal from "../components/WriteSubmitIsTrueModal";
+import WriteSubmitIsFalseModal from "../components/WriteSubmitIsFalseModal";
 
 const Write = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState();
   const [url, setUrl] = useState("");
   const [category, setCategory] = useState([]);
-  const [selectModalOn, setSelectModalOn] = useState(false);
-  const [confirmModalOn, setConfirmModalOn] = useState(false);
-  const [submitModalOn, setSubmitModalOn] = useState(false); //아직 ㄴㄴ
-  const [buttonOn, setButtonOn] = useState(false);
-  const [confirmButtonOn, setConfirmButtonOn] = useState(false);
+  const [selectModalOn, setSelectModalOn] = useState(false); // 분야 선택을 띄우기 위해 체크할 수 있는 state
+  const [confirmModalOn, setConfirmModalOn] = useState(false); // confirmModal을 띄우기 위해 체크할 수 있는 state
+  const [submitIsTrueModal, setSubmitIsTrueModalOn] = useState(false); // 등록하기 => true 체크
+  const [submitIsFalseModal, setSubmitIsFalseModalOn] = useState(false); // 등록하기 => false 체크
+  const [buttonOn, setButtonOn] = useState(false); // 버튼 disable & enable 변경을 위해 필요한 state
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
@@ -40,6 +42,15 @@ const Write = () => {
 
   const onConfirmModal = () => {
     setConfirmModalOn(!confirmModalOn);
+  };
+
+  const onSubmitFalseModal = () => {
+    setSubmitIsFalseModalOn(false);
+    setConfirmModalOn(false);
+    setContent("");
+    setImage("");
+    setUrl("");
+    setCategory("");
   };
 
   //등록하기
@@ -106,8 +117,10 @@ const Write = () => {
         console.log(response.data);
         if (response.data.complete === 0) {
           console.log("성공");
+          setSubmitIsTrueModalOn(true);
         } else {
           console.log("실패");
+          setSubmitIsFalseModalOn(true);
         }
       })
       .catch((error) => {
@@ -184,7 +197,6 @@ const Write = () => {
                   className="comment_group upload-name comment_file_text write_text_box"
                   placeholder="파일선택"
                   value={image}
-                  readonly
                   disabled
                 />
                 <label for="file" href="#">
@@ -259,6 +271,7 @@ const Write = () => {
                     onOpenModal={onOpenModal}
                     category={category}
                     setCategory={setCategory}
+                    selectModalOn={selectModalOn}
                   />
                 ) : (
                   <WriteSelectModal
@@ -280,6 +293,20 @@ const Write = () => {
             />
           ) : (
             <WriteConfirmModal class="write_comment_popup_cove_off" />
+          )}
+          {submitIsTrueModal ? (
+            <WriteSubmitIsTrueModal class="write_comment_popup_cove_on" />
+          ) : (
+            <WriteSubmitIsTrueModal class="write_comment_popup_cove_off" />
+          )}
+          {submitIsFalseModal ? (
+            <WriteSubmitIsFalseModal
+              class="write_comment_popup_cove_on"
+              onSubmitFalseModal={onSubmitFalseModal}
+              setSubmitIsFalseModalOn={setSubmitIsFalseModalOn}
+            />
+          ) : (
+            <WriteSubmitIsFalseModal class="write_comment_popup_cove_off" />
           )}
         </form>
       </div>
