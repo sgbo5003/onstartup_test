@@ -1059,3 +1059,856 @@ useEffect(() => {
 
   export default Write;
   ```
+
+- 주요 기능
+
+  - 정규식을 사용해 이메일 유효성 검사
+
+    - 코드
+
+      ```jsx
+      const validateEmail = (email) => {
+        const regExp =
+          /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/i;
+        if (regExp.test(email)) {
+          return false;
+        } else {
+          return true;
+        }
+      };
+      ```
+
+  - 실시간으로 유효성 체크
+
+    - 코드
+
+      ```jsx
+      const onChangeEmail = (e) => {
+        setEmail(e.target.value);
+        setEmailError(validateEmail(e.target.value));
+      };
+      const onChangePassword = (e) => {
+        setPassword(e.target.value);
+      };
+      const onChangeConfirmPassword = (e) => {
+        setPasswordError(e.target.value !== password);
+        setConfirmPassword(e.target.value);
+      };
+      ```
+
+  - axios get방식을 이용해 php db로 데이터 보내기
+
+    - Backend에서 데이터를 받는 방식에 맞춰서 Frontend도 데이터를 보내는 방식이 달라진다.
+
+      - 코드
+
+        ```jsx
+        const pushData = () => {
+          axios
+            .get(
+              `/join_member_normal.php?user_name=${name}&user_email=${email}&user_password=${password}`
+            )
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
+        ```
+
+  # 7/14일 수요일
+
+  ***
+
+  > 로그인 관련
+
+  - [https://ddeck.tistory.com/35](https://ddeck.tistory.com/35)
+
+  > 카카오 - 소셜로그인 관련
+
+  - [https://data-jj.tistory.com/53](https://data-jj.tistory.com/53)
+  - [https://dev-seolleung2.netlify.app/Final Project/FinalProject-KakaoLogin/](https://dev-seolleung2.netlify.app/Final%20Project/FinalProject-KakaoLogin/)
+  - Kakao Developer 공식문서 참고
+
+  > LocalStorage & sessionStorage
+
+  - [localStorage & sessionStorage](https://www.notion.so/localStorage-sessionStorage-aa303b710daa4d188bd25719a284b436)
+
+  > 회원가입 - 로그인 백엔드와 연동 관련
+
+  - php로 구현되어 있는 토큰 검증방식
+    1. 사이트에 처음 접속시 토큰값을 부여한다.
+    2. 토큰은 1시간동안 유지 되고 그 이후나 나가게 되면 사라지게 된다.
+    3. 헤더는 모든 페이지에 있기 때문에 헤더에 토큰검증 로직을 넣어서 검증을 하고
+       토큰이 없으면 첫 index 페이지로, 있으면 그대로 유지시킨다.
+  - 회원가입 ~ 성공 시 로직
+    1. 회원가입
+    2. db로 데이터를 보낸다.
+    3. 성공 시 유저 화면 으로 이동
+  - 로그아웃 ~ 다시 로그인 시 로직
+    1. 로그아웃
+    2. 로그인 시도 시
+    3. /\db에 저장되어 있는 일치하는 이메일 & 비밀번호를 비교 후 로그인
+
+  > 로그인 성공 시 다른 페이지로 이동하는 방법
+
+  - [https://www.python2.net/questions-812878.htm](https://www.python2.net/questions-812878.htm)
+  - [https://www.daleseo.com/react-router-authentication/](https://www.daleseo.com/react-router-authentication/)
+  - [https://ddeck.tistory.com/35](https://ddeck.tistory.com/35)
+
+  # 7/15일 목요일
+
+  ***
+
+  > 회원가입 후 DB로 데이터 넘기고 로그인 화면으로 이동
+
+  - 코드
+
+    ```jsx
+    const onSubmit = (e) => {
+      e.preventDefault();
+
+      if (password !== confirmPassword) {
+        return setPasswordError(true);
+      }
+
+      if (emailError) return;
+
+      // validateEmail();
+      console.log({ name, email, password, confirmPassword });
+
+      if (password && email && name && confirmPassword) {
+        alert("회원가입 완료!");
+        pushData();
+        history.push("/Login");
+      }
+    };
+    ```
+
+  > 로그인 후 sessionStorage에 정보 저장
+
+  - `sessionStorage.setItem("user_email", inputEmail);`
+
+  > 카카오 소셜 로그인 관련
+
+  - 코드
+
+    ```jsx
+    import { KAKAO_AUTH_URL } from "../OAuth";
+
+    const kakaoLoginHandler = () => {
+      axios
+        .get(KAKAO_AUTH_URL)
+        .then((response) => {
+          console.log(response);
+          if (response.data.error === 3) {
+            history.push("/");
+          } else if (response.data.error === 2) {
+            alert("필수항목을 체크해주세요.");
+          } else {
+            alert("오류");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    ```
+
+  > 조건부 렌더링 시도
+
+  - 코드
+
+    ```jsx
+    const AppRouter = () => {
+      const [isLogin, setIsLogin] = useState(false);
+
+      function checkIsLogin() {
+        if (sessionStorage.length < 1) {
+          console.log("isLogin1 ?? :: ", isLogin);
+        } else {
+          setIsLogin(true);
+          console.log("isLogin2 ?? :: ", isLogin);
+        }
+      }
+
+      function headerIconTrue() {
+        return (
+          <h1 className="mypage_area">
+            <a className="mypage_photo_cove" href="my_page.php">
+              <img
+                className="mypage_photo"
+                src={defaultUserImg}
+                alt="default_user.png"
+              />
+            </a>
+          </h1>
+        );
+      }
+
+      function headerTextTrue() {
+        return (
+          <div className="coar_area">
+            <p>
+              <Link to="/Join">로그인</Link>
+            </p>
+          </div>
+        );
+      }
+
+      useEffect(() => {
+        checkIsLogin();
+        console.log("로그인 상태 :", isLogin);
+      }, [isLogin]);
+
+      return (
+        <>
+          {isLogin ? (
+            <Header isLoginTrue={headerIconTrue()} />
+          ) : (
+            <Header isLoginTrue={headerTextTrue()} />
+          )}
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/Community" component={Community} />
+            <Route path="/Reference" component={Reference} />
+            <Route path="/Write" component={Write} />
+            <Route path="/Setting" component={Setting} />
+            <Route path="/Join" component={Join} />
+            <Route path="/Login" component={Login} />
+            <Route path="/SaveWrite" component={SaveWrite} />
+          </Switch>
+        </>
+      );
+    };
+
+    export default AppRouter;
+    ```
+
+  > 로그인 인증 관련
+
+  - [https://www.daleseo.com/react-router-authentication/](https://www.daleseo.com/react-router-authentication/)
+  - [https://gaemi606.tistory.com/entry/React-로그인-정보-없을-경우-로그인-페이지로-redirect하기-react-router-PrivateRoute](https://gaemi606.tistory.com/entry/React-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%A0%95%EB%B3%B4-%EC%97%86%EC%9D%84-%EA%B2%BD%EC%9A%B0-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A1%9C-redirect%ED%95%98%EA%B8%B0-react-router-PrivateRoute)
+
+  > 네아로 시도
+
+  - 실패...
+
+  # 7/16일 금요일
+
+  ***
+
+  > 네이버 로그인 시도
+
+  - 코드
+
+    ```jsx
+    //네이버 로그인
+
+    const NaverLoginHandler = () => {
+      axios
+        .get(NAVER_AUTH_URL)
+        .then((response) => {
+          console.log(response);
+          if (response.data.error === 3) {
+            sessionStorage.setItem(
+              "naverLoginStatus",
+              JSON.stringify(response.data.error)
+            );
+            history.push("/");
+            window.location.replace("/");
+            console.log(response.data.error);
+          } else if (response.data.error === 2) {
+            alert("필수항목을 체크해주세요.");
+          } else if (response.data.error === 1) {
+            alert("토큰오류");
+          } else {
+            location.replace(
+              "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=jxNOYlz8FOqMBba83QbQ&redirect_uri=http://localhost:8080"
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    ```
+
+  > 카카오 로그인 시도
+
+  - 코드
+
+    ```jsx
+    // 카카오 로그인
+    const kakaoLoginHandler = () => {
+      axios
+        .get(KAKAO_AUTH_URL)
+        .then((response) => {
+          console.log(response);
+          if (response.data.error === 3) {
+            sessionStorage.setItem(
+              "kakaoLoginStatus",
+              JSON.stringify(response.data.error)
+            );
+            history.push("/");
+            window.location.replace("/");
+          } else if (response.data.error === 2) {
+            alert("필수항목을 체크해주세요.");
+          } else if (response.data.error === 1) {
+            alert("토큰오류");
+          } else {
+            location.replace(
+              "https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost:8080%26client_id%3D4626efd0ab72ba3533e4947b9b02c37f"
+            );
+            sessionStorage.setItem("kakaoLogin", "true");
+            window.location.replace("/");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    ```
+
+  # 7/19일 월요일
+
+  ***
+
+  > 카카오 로그인 손보기
+
+  > 글 작성 구현 시도
+
+  - 코드
+
+    ```jsx
+    import React, { useState } from "react";
+    import { Link } from "react-router-dom";
+    import detailClickImg from "../images/detaile_click.png";
+    import selectBackImg from "../images/select_back.png";
+    import BackImg from "../images/back.png";
+    import axios from "axios";
+    import WriteSelectModal from "../components/WriteSelectModal";
+    import WriteConfirmModal from "../components/WriteConfirmModal";
+    import WriteSubmitModal from "../components/WriteSubmitModal";
+
+    const Write = () => {
+      const [content, setContent] = useState("");
+      const [image, setImage] = useState([]);
+      const [url, setUrl] = useState("");
+      const [selectModalOn, setSelectModalOn] = useState(false);
+      const [confirmModalOn, setConfirmModalOn] = useState(false);
+      const [submitModalOn, setSubmitModalOn] = useState(false);
+      const [category, setCategory] = useState([]);
+
+      const onChangeContent = (e) => {
+        setContent(e.target.value);
+        console.log(e.target.value);
+      };
+
+      const onChangeUrl = (e) => {
+        setUrl(e.target.value);
+        console.log(e.target.value);
+      };
+
+      const onChangeImg = (e) => {
+        setImage(e.target.files);
+        console.log(image);
+      };
+
+      const onOpenModal = () => {
+        setSelectModalOn(!selectModalOn);
+      };
+
+      const onConfirmModal = () => {
+        setConfirmModalOn(!confirmModalOn);
+      };
+
+      const onSubmitModal = () => {
+        setConfirmModalOn(false);
+        setSubmitModalOn(!submitModalOn);
+      };
+
+      const onSubmit = (e) => {
+        e.preventDefault();
+        pushData();
+        alert("글쓰기 완료");
+      };
+
+      const pushData = () => {
+        const params = new URLSearchParams();
+        params.append("comment_text", content);
+        params.append("comment_file", image);
+        params.append("comment_url", url);
+        params.append("comment_select", category);
+        axios({
+          method: "post",
+          url: "/write_text_in_db.php",
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+
+      //--------------- 모달 부분---------------------
+
+      //---------------------------------------------
+      return (
+        <div className="wap write_wap">
+          <div className="write_content">
+            <form
+              className="write_view"
+              onSubmit={onSubmit}
+              enctype="multipart/form-data"
+            >
+              <h2 className="write_view_title">글쓰기</h2>
+              <section className="write_comment">
+                <h2>코멘트 / 포트폴리오 입력</h2>
+                <div name="write_text_form">
+                  <textarea
+                    type="text"
+                    name="comment1"
+                    placeholder="내용"
+                    className="coment_write comment_write_text write_text_box"
+                    value={content}
+                    onChange={onChangeContent}
+                    required
+                  ></textarea>
+                </div>
+              </section>
+              <section className="write_comment">
+                <h2>
+                  이미지 추가<span>(선택)</span>
+                  <a className="detail" href="#">
+                    <img
+                      className="detail_img"
+                      src={detailClickImg}
+                      alt="detaile_click.png"
+                    />
+                  </a>
+                </h2>
+                <section className="detail_box">
+                  <h2 className="hidden">툴팁</h2>
+                  <p className="detail_info">
+                    참고 할 URL과
+                    <br />
+                    이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면
+                    썸네일과 함께 표시됩니다.
+                  </p>
+                  <span>
+                    <a className="detail_img_cove" href="#">
+                      <img
+                        className="detail_img_back"
+                        src={selectBackImg}
+                        alt="back.png"
+                      />
+                    </a>
+                  </span>
+                </section>
+                <div className="filebox">
+                  <div name="write_file_form">
+                    <input
+                      type="file"
+                      name="comment_file"
+                      onChange={onChangeImg}
+                      id="file"
+                      accept="image/gif, image/jpeg, image/png"
+                    />
+                    <input
+                      className="comment_group upload-name comment_file_text write_text_box"
+                      placeholder="파일선택"
+                      value={image}
+                      readonly
+                      disabled
+                    />
+                    <label for="file" href="#">
+                      이미지 찾기
+                    </label>
+                  </div>
+                </div>
+              </section>
+              <section className="write_comment">
+                <h2>
+                  URL<span>(선택)</span>
+                  <a className="detail2" href="#">
+                    <img
+                      className="detail_img"
+                      src={detailClickImg}
+                      alt="detaile_click.png"
+                    />
+                  </a>
+                </h2>
+                <section className="detail_box2">
+                  <h2 className="hidden">툴팁</h2>
+                  <p className="detail_info">
+                    참고 할 URL과
+                    <br />
+                    이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면
+                    썸네일과 함께 표시됩니다.
+                  </p>
+                  <span>
+                    <a className="detail_img_cove" href="#">
+                      <img
+                        className="detail_img_back2"
+                        src={selectBackImg}
+                        alt="back.png"
+                      />
+                    </a>
+                  </span>
+                </section>
+                <div name="write_url_form">
+                  <input
+                    type="text"
+                    name="comment2"
+                    placeholder="URL 입력"
+                    className="comment_group comment_url comment_url_text write_text_box"
+                    onChange={onChangeUrl}
+                    value={url}
+                  />
+                </div>
+              </section>
+              <section className="write_comment">
+                <h2>분야</h2>
+                <div className="comment_select_cove">
+                  <div name="write_select_form">
+                    <input
+                      type="text"
+                      name="comment_select"
+                      placeholder="분야 선택"
+                      disabled
+                      className="coment_write comment_group comment_select comment_select_text write_text_box"
+                      value={category}
+                      required
+                    />
+                    <a
+                      className="comment_select_img_cove"
+                      onClick={onOpenModal}
+                    >
+                      <img
+                        className="comment_select_img"
+                        src={selectBackImg}
+                        alt="select_back.png"
+                      />
+                    </a>
+                    {selectModalOn ? (
+                      <WriteSelectModal
+                        class="write_select_popup_cove_on"
+                        onOpenModal={onOpenModal}
+                        category={category}
+                        setCategory={setCategory}
+                      />
+                    ) : (
+                      <WriteSelectModal
+                        class="write_select_popup_cove_off"
+                        onOpenModal={onOpenModal}
+                        category={category}
+                        setCategory={setCategory}
+                      />
+                    )}
+                  </div>
+                </div>
+              </section>
+              <input
+                type="submit"
+                // type="button"
+                // onClick={onConfirmModal}
+                name="write_submit_on"
+                className="write_submit_on"
+                value="글쓰기"
+              />
+              {/* {confirmModalOn ? (
+                <WriteConfirmModal
+                  class="write_comment_popup_cove_on"
+                  onConfirmModal={onConfirmModal}
+                />
+              ) : (
+                <WriteConfirmModal
+                  class="write_comment_popup_cove_off"
+                  onConfirmModal={onConfirmModal}
+                />
+              )}
+              {submitModalOn ? (
+                <WriteSubmitModal
+                  class="write_comment_checking_popup_cove_on"
+                  onSubmitModal={onSubmitModal}
+                />
+              ) : (
+                <WriteSubmitModal
+                  class="write_comment_checking_popup_cove_off"
+                  onSubmitModal={onSubmitModal}
+                />
+              )} */}
+            </form>
+          </div>
+        </div>
+      );
+    };
+
+    export default Write;
+    ```
+
+  # 7/20일 화요일
+
+  > SearchParams()
+
+  - IE에서는 안 되지만, 모던 브라우저에서는 사용할 수 있는 기능
+  - 쿼리스트링을 파싱하는 것과 같은 귀찮은 작업을 간단히 처리할 수 있어 편리
+  - GET 요청 시 데이터를 전달
+  - 사용 예시
+
+    ```jsx
+    const url3 = new URL(
+      "https://www.zerocho.com?hello=zerocho&hi=world&hi=js"
+    );
+    url3.search; // ?hello=zerocho&hi=world&hi=js
+    url3.searchParams; // {}
+
+    // 메서드로 조작
+    url3.searchParams.get("hello"); // zerocho
+    url3.searchParams.getAll("hi"); // ['world', 'js']
+    url3.searchParams.append("bye", "java");
+    url3.search; // ?hello=zerocho&hi=world&hi=js&bye=java
+    url3.searchParams.append("bye", "ruby");
+    url3.search; // ?hello=zerocho&hi=world&hi=js&bye=java&bye=ruby
+    url3.searchParams.set("bye", "python");
+    url3.search; // ?hello=zerocho&hi=world&hi=js&bye=python
+    url3.searchParams.delete("bye");
+    url3.search; // ?hello=zerocho&hi=world&hi=js
+
+    // axios
+    const params = new URLSearchParams();
+    params.append("param1", "value1");
+    params.append("param2", "value2");
+    axios.post("/foo", params);
+    ```
+
+- .append()
+  - Element.append() 메서드 는 의 마지막 자식 뒤에 Node개체 또는 DOMString개체 집합을 삽입
+
+> 글작성 - 파일보내는법
+
+- 처음에는 이미지 파일을 axios로 보내도 data에 null 값이 들어갔다.
+- 하지만 서칭을 통해 `FormData()` , `.append` , `headers: { "Content-Type": "multipart/form-data" }` 을 사용하여 data 전송에 성공했다.
+- 코드
+
+  ```jsx
+  const pushData = () => {
+    const params = new FormData();
+    params.append("comment_text", content);
+    params.append("comment_file", image);
+    params.append("comment_url", url);
+    params.append("comment_select", category);
+    axios({
+      method: "post",
+      url: "/write_text_in_db.php",
+      data: params,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  ```
+
+> 글작성 - 필수항목 작성 시 글쓰기 버튼 활성화 (조건부 렌더링)
+
+- 코드
+
+  ```jsx
+  const [buttonOn, setButtonOn] = useState(false);
+
+  // 버튼 비활성화 시 렌더링
+  function btnDeactivate() {
+    return (
+      <input
+        onClick={onConfirmModal}
+        // type="submit"
+        type="button"
+        name="write_submit_off"
+        className="write_submit_off"
+        value="글쓰기"
+        disabled
+      />
+    );
+  }
+
+  // 버튼 활성화 시 렌더링
+  function btnActivate() {
+    return (
+      <input
+        // type="submit"
+        type="button"
+        onClick={onConfirmModal}
+        name="write_submit_on"
+        className="write_submit_on"
+        value="글쓰기"
+      />
+    );
+  }
+
+  // 값 체크 후 버튼 활성화 & 비활성화 체크
+  function checkBtnOn() {
+    if (content == "" || category == "") {
+      setButtonOn(false);
+    } else {
+      setButtonOn(true);
+    }
+  }
+
+  // 실시간 체크
+  useEffect(() => {
+    checkBtnOn();
+    console.log("버튼 상태 :", buttonOn);
+  });
+
+  // 렌더링
+  {
+    buttonOn ? btnActivate() : btnDeactivate();
+  }
+  ```
+
+> 글작성 - 글쓰기 버튼 클릭 > 모달에서 한번 더 확인 후 백엔드로 데이터 전송 (조건부 렌더링)
+
+> 조건부 렌더링 진행중..
+
+- 중간에 꼬여서 삽질을 했다..
+
+# 7/21일 수요일
+
+> 원래 작업 폴더 이름
+
+- onstartup-react
+
+> 글 등록하기 → 조건부 렌더링으로 모달 띄우기
+
+- 컴포넌트를 나눠서 백엔드의 응답의 값에 따라 컴포넌트를 다르게 띄웠다.
+- 코드
+
+  ```jsx
+  {
+    submitIsTrueModal ? (
+      <WriteSubmitIsTrueModal class="write_comment_popup_cove_on" />
+    ) : (
+      <WriteSubmitIsTrueModal class="write_comment_popup_cove_off" />
+    );
+  }
+  {
+    submitIsFalseModal ? (
+      <WriteSubmitIsFalseModal
+        class="write_comment_popup_cove_on"
+        onSubmitFalseModal={onSubmitFalseModal}
+        setSubmitIsFalseModalOn={setSubmitIsFalseModalOn}
+      />
+    ) : (
+      <WriteSubmitIsFalseModal class="write_comment_popup_cove_off" />
+    );
+  }
+  ```
+
+> Content.js & ContentPage.js
+
+- 홈 화면에 컨텐츠 이미지 렌더링
+
+  - 이미지 가져오기
+  - 이미지 값이 null인지 있는지 확인
+
+    - 코드
+
+      ```jsx
+      // 이미지 값이 null인지 있는지 확인하는 함수
+        function checkImg(idx, type) {
+          const address = "http://15.164.227.114/web/";
+          // 유저 프로필 사진 값 체크
+          if (type == "user") {
+            if (data.user_img_root[idx] == null || data.user_img_name[idx] == null) {
+              return defaultUserImg;
+            } else {
+              return address + data.user_img_root[idx] + data.user_img_name[idx];
+            }
+          } // 유저가 등록한 사진 값 체크
+          else if (type == "comment") {
+            if (
+              data.comment_img_root[idx] == null ||
+              data.comment_img_name[idx] == null
+            ) {
+              return defaultUserImg;
+            } else {
+              return (
+                address + data.comment_img_root[idx] + data.comment_img_name[idx]
+              );
+            }
+          }
+        }
+
+      return (
+      {arr.map((idx) => {
+                    return (
+                      <Content
+                        key={data.user_idx[idx]}
+                        title={data.user_name[idx]}
+                        belong={data.user_belong[idx]}
+                        commentTime={data.comment_time[idx]}
+                        commentText={data.comment_text[idx]}
+                        commentLikeNum={data.comment_like_num[idx]}
+                        commentReplyNum={data.comment_reply_num[idx]}
+                        commentShareNum={data.comment_share_num[idx]}
+                        commentSaveNum={data.comment_save_num[idx]}
+                        userImgRoot={data.user_img_root[idx]}
+                        userImgName={data.user_img_name[idx]}
+                        commentImgRoot={data.comment_img_root[idx]}
+                        commentImgName={data.comment_img_name[idx]}
+                        checkUserImg={checkImg(idx, "user")}
+                        checkCommentImg={checkImg(idx, "comment")}
+                      />
+                    );
+                  })}
+      )
+      ```
+
+> 컴포넌트 외부의 클릭 감지
+
+- 코드
+
+  ```jsx
+  import React, { useRef, useEffect } from "react";
+
+  /**
+   * Hook that alerts clicks outside of the passed ref
+   */
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          alert("You clicked outside of me!");
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  /**
+   * Component that alerts if you click outside of it
+   */
+  export default function OutsideAlerter(props) {
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+
+    return <div ref={wrapperRef}>{props.children}</div>;
+  }
+  ```
