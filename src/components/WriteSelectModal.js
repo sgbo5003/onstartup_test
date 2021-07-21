@@ -19,7 +19,6 @@ const WriteSelectModal = (props) => {
         <a
           class="write_select_list"
           onClick={() => {
-            console.log(props.category);
             props.setCategory(data.contentName);
           }}
         >
