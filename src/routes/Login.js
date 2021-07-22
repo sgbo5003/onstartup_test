@@ -21,9 +21,36 @@ const Login = () => {
   };
 
   const history = useHistory();
-  const getData = async () => {
-    const response = await axios
-      .get(`/login.php?user_email=${inputEmail}&user_password=${inputPassword}`)
+  // const getData = async () => {
+  //   const response = await axios
+  //     .get(`/login.php?user_email=${inputEmail}&user_password=${inputPassword}`)
+  //     .then((response) => {
+  //       console.log(response.data.idx);
+  //       if (response.data.error === 0) {
+  //         // sessionStorage.setItem("");
+  //         alert("로그인 성공");
+  //       } else {
+  //         alert("로그인 에러");
+  //         setInputEmail("");
+  //         setInputPassword("");
+  //       }
+  //       console.log(inputEmail);
+  //       console.log(inputPassword);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const getData = () => {
+    const params = new FormData();
+    params.append("user_email", inputEmail);
+    params.append("user_password", inputPassword);
+    axios({
+      method: "post",
+      url: "/login.php",
+      data: params,
+    })
       .then((response) => {
         console.log(response.data.idx);
         if (response.data.error === 0) {
@@ -31,6 +58,7 @@ const Login = () => {
           alert("로그인 성공");
         } else {
           alert("로그인 에러");
+          console.log(response.data);
           setInputEmail("");
           setInputPassword("");
         }
