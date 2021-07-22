@@ -73,30 +73,35 @@ const ContentPage = () => {
     ), // 다음 화살표 모양 설정
   };
 
-  // const getAllData = () => {
-  //   axios.all([getMainData(), getPopularData()]).then(
-  //     axios.spread((res1, res2) => {
-  //       console.log(res1);
-  //       console.log(res2);
-  //       setMainData(res1.data);
-  //       setPopularData(res2.data);
-  //     })
-  //   );
+  // const getData = async () => {
+  //   const response = await axios.post("/get_info.php?comment=4");
+  //   setData(response.data);
   // };
 
-  const getData = async () => {
-    const response = await axios.get("/get_info.php?comment=4");
-    setData(response.data);
+  const getData = () => {
+    const params = new FormData();
+    params.append("comment", 4);
+    axios({
+      method: "post",
+      url: "/get_info.php",
+      data: params,
+    })
+      .then((data) => {
+        console.log(data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     getData();
-    // getAllData();
   }, []);
 
   const arr = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25,
   ];
 
   return (
