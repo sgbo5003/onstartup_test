@@ -7,9 +7,10 @@ import axios from "axios";
 
 import { KAKAO_AUTH_URL } from "../OAuth";
 import { NAVER_AUTH_URL } from "../OAuth";
+import JoinSubmitModal from "../components/JoinSubmitModal";
 // import { useForm } from "react-hook-form";
 
-const Join = () => {
+const Join = (props) => {
   const { naver } = window;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +18,8 @@ const Join = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [buttonOn, setButtonOn] = useState(false);
+  const [joinSubmitModalOn, setJoinSubmitModalOn] = useState(false);
 
   // 카카오 로그인
   const kakaoLoginHandler = () => {
@@ -49,7 +52,6 @@ const Join = () => {
   };
 
   //네이버 로그인
-
   const NaverLoginHandler = () => {
     axios
       .get(NAVER_AUTH_URL)
@@ -78,16 +80,46 @@ const Join = () => {
       });
   };
 
-  // const NaverLoginHandler = () => {
-  //   const naverLogin = new naver.LoginWithNaverId({
-  //     clientId: "jxNOYlz8FOqMBba83QbQ",
-  //     callbackUrl: "http://15.164.227.114/web/src/php/join_sns_naver.php",
-  //     loginButton: { color: "green", type: 3, height: 60 },
-  //     isPopup: false,
-  //     callbackHandle: true,
-  //   });
-  //   naverLogin.init();
-  // };
+  // 회원가입 버튼 활성화
+  function btnDeactivate() {
+    return (
+      <input
+        className="join_member_submit_off"
+        type="submit"
+        name="join_member_submit"
+        value="회원가입"
+        disabled
+      />
+    );
+  }
+
+  // 회원가입 버튼 비활성화
+  function btnActivate() {
+    return (
+      <input
+        className="join_member_submit_on"
+        // type="submit"
+        type="button"
+        onClick={onJoinSubmitModal}
+        name="join_member_submit"
+        value="회원가입"
+      />
+    );
+  }
+
+  // 버튼 활성화 & 비활성화 체크
+  function checkBtnOn() {
+    if (name == "" || email == "" || password == "" || confirmPassword == "") {
+      setButtonOn(false);
+    } else {
+      setButtonOn(true);
+    }
+  }
+
+  // 회원가입 완료 시 축하한다느 메세지가 나오는 모달 제어
+  const onJoinSubmitModal = () => {
+    setJoinSubmitModalOn(!joinSubmitModalOn);
+  };
 
   const history = useHistory();
   const onSubmit = (e) => {
@@ -101,9 +133,10 @@ const Join = () => {
 
     //회원가입 조건 다 만족 시 회원가입진행
     if (password && email && name && confirmPassword) {
+      sessionStorage.setItem("email", email);
       alert("회원가입 완료!");
       pushData();
-      history.push("/Login");
+      history.push("/");
     }
   };
 
@@ -133,11 +166,17 @@ const Join = () => {
     setConfirmPassword(e.target.value);
   };
 
+  // 데이터 POST 방식으로 보내기
   const pushData = () => {
-    axios
-      .get(
-        `/join_member_normal.php?user_name=${name}&user_email=${email}&user_password=${password}`
-      )
+    const params = new FormData();
+    params.append("user_name", name);
+    params.append("user_email", email);
+    params.append("user_password", password);
+    axios({
+      method: "post",
+      url: "/join_member_normal.php",
+      data: params,
+    })
       .then((response) => {
         console.log(response);
       })
@@ -145,6 +184,11 @@ const Join = () => {
         console.log(error);
       });
   };
+
+  // 실시간으로 state 변경 & 체크
+  useEffect(() => {
+    checkBtnOn();
+  });
 
   return (
     <div className="wap login_join_wap">
@@ -243,13 +287,7 @@ const Join = () => {
                 </a>
                 에 동의합니다.
               </span>
-              <input
-                className="join_member_submit"
-                type="submit"
-                name="join_member_submit"
-                value="회원가입"
-                // disabled
-              />
+              {buttonOn ? btnActivate() : btnDeactivate()}
               <a className="service_center_join_btn" href="#">
                 고객센터
               </a>
@@ -275,6 +313,14 @@ const Join = () => {
               </p>
             </section>
           </div>
+          {joinSubmitModalOn ? (
+            <JoinSubmitModal
+              class="join_member_checked_cove_on"
+              onJoinSubmitModal={onJoinSubmitModal}
+            />
+          ) : (
+            <JoinSubmitModal class="join_member_checked_cove_off" />
+          )}
         </div>
       </div>
     </div>
