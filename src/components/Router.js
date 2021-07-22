@@ -20,20 +20,12 @@ const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isDropClick, setIsDropClick] = useState(false);
 
-  // function checkIsLogin() {
-  //   if (sessionStorage.getItem("user_email") === null) {
-  //     console.log("isLogin1 ?? :: ", isLogin);
-  //   } else {
-  //     setIsLogin(true);
-  //     console.log("isLogin2 ?? :: ", isLogin);
-  //   }
-  // }
   function checkIsLogin() {
     if (sessionStorage.length < 1) {
       console.log("isLogin1 ?? :: ", isLogin);
     } else {
       setIsLogin(true);
-      console.log("isLogin2 ?? :: ", isLogin);
+      // console.log("isLogin2 ?? :: ", isLogin);
     }
   }
 
@@ -63,8 +55,7 @@ const AppRouter = () => {
 
   useEffect(() => {
     checkIsLogin();
-    console.log("로그인 상태 :", isLogin);
-  }, [isLogin]);
+  });
 
   return (
     <>
@@ -87,7 +78,12 @@ const AppRouter = () => {
         <Route path="/Reference" component={Reference} />
         <Route path="/Write" component={Write} />
         <Route path="/Setting" component={Setting} />
-        <Route path="/Join" component={Join} />
+        <Route
+          path="/Join"
+          component={Join}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+        />
         <Route path="/Login" component={Login} />
         <Route path="/SaveWrite" component={SaveWrite} />
         <Route path="/Mypage" component={Mypage} />
