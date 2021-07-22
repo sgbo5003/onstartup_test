@@ -9,7 +9,6 @@ import saveIcon from "../images/icon_sav.png";
 import saveOnIcon from "../images/icon_sav_on.png";
 
 const Content = (props) => {
-  const address = "15.164.227.114/web/";
   return (
     <div className="home_view_cove">
       <div className="home_view_content_cove">
