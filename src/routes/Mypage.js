@@ -1,7 +1,14 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import defaultUserImg from "../images/default_user.png";
 
 const Mypage = () => {
+  const history = useHistory();
+  const logoutHandler = () => {
+    console.log("clicked");
+    sessionStorage.removeItem("email");
+    history.push("/");
+  };
   return (
     <div className="wap mypage_wap">
       <div className="mypage_content">
@@ -48,11 +55,11 @@ const Mypage = () => {
                           메세지 보기
                         </a>
                       </span>
-                      {/* <span className="logout1">
-                        <a className="logout2" href="src/php/logout.php">
+                      <span className="logout1">
+                        <a className="logout2" onClick={logoutHandler}>
                           로그아웃
                         </a>
-                      </span> */}
+                      </span>
                     </div>
                     <div className="mypage_share">
                       <a className="mypage_share_btn" href="#">
