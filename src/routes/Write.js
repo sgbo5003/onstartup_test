@@ -128,6 +128,7 @@ const Write = () => {
       });
   };
 
+  // 버튼 변경 & state 변경 실시간 감지
   useEffect(() => {
     checkBtnOn();
   });
