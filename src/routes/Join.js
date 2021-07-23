@@ -8,6 +8,7 @@ import axios from "axios";
 import { KAKAO_AUTH_URL } from "../OAuth";
 import { NAVER_AUTH_URL } from "../OAuth";
 import JoinSubmitModal from "../components/JoinSubmitModal";
+import JoinSubmitQnaFirstModal from "../components/JoinSubmitQnaFirstModal";
 // import { useForm } from "react-hook-form";
 
 const Join = (props) => {
@@ -20,6 +21,7 @@ const Join = (props) => {
   const [emailError, setEmailError] = useState(false);
   const [buttonOn, setButtonOn] = useState(false);
   const [joinSubmitModalOn, setJoinSubmitModalOn] = useState(false);
+  const [joinSubmitQnaModalOn, setJoinSubmitQnaModalOn] = useState(false);
 
   // 카카오 로그인
   const kakaoLoginHandler = () => {
@@ -80,7 +82,7 @@ const Join = (props) => {
       });
   };
 
-  // 회원가입 버튼 활성화
+  // 회원가입 버튼 비활성화
   function btnDeactivate() {
     return (
       <input
@@ -93,7 +95,7 @@ const Join = (props) => {
     );
   }
 
-  // 회원가입 버튼 비활성화
+  // 회원가입 버튼 활성화
   function btnActivate() {
     return (
       <input
@@ -116,9 +118,14 @@ const Join = (props) => {
     }
   }
 
-  // 회원가입 완료 시 축하한다느 메세지가 나오는 모달 제어
+  // 회원가입 완료 시 축하한다는 메세지가 나오는 모달 제어
   const onJoinSubmitModal = () => {
     setJoinSubmitModalOn(!joinSubmitModalOn);
+  };
+
+  const onJoinSubmitQnaModal = () => {
+    setJoinSubmitModalOn(!joinSubmitModalOn);
+    setJoinSubmitQnaModalOn(true);
   };
 
   const history = useHistory();
@@ -316,10 +323,15 @@ const Join = (props) => {
           {joinSubmitModalOn ? (
             <JoinSubmitModal
               class="join_member_checked_cove_on"
-              onJoinSubmitModal={onJoinSubmitModal}
+              onJoinSubmitQnaModal={onJoinSubmitQnaModal}
             />
           ) : (
             <JoinSubmitModal class="join_member_checked_cove_off" />
+          )}
+          {joinSubmitQnaModalOn ? (
+            <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_on" />
+          ) : (
+            <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
           )}
         </div>
       </div>
