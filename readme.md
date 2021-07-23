@@ -1912,3 +1912,80 @@ useEffect(() => {
     return <div ref={wrapperRef}>{props.children}</div>;
   }
   ```
+
+# 7/22일 목요일
+
+> 회원가입 & 로그인 데이터 전달하는 방식 변경
+
+- GET → POST 방식으로 변경
+
+  - 회원가입
+
+    - 코드
+
+      ```jsx
+      const pushData = () => {
+        const params = new FormData();
+        params.append("user_name", name);
+        params.append("user_email", email);
+        params.append("user_password", password);
+        axios({
+          method: "post",
+          url: "/join_member_normal.php",
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      ```
+
+  - 로그인
+
+    - 코드
+
+      ```jsx
+      const getData = () => {
+        const params = new FormData();
+        params.append("user_email", inputEmail);
+        params.append("user_password", inputPassword);
+        axios({
+          method: "post",
+          url: "/login.php",
+          data: params,
+        })
+          .then((response) => {
+            console.log(response.data.idx);
+            if (response.data.error === 0) {
+              // sessionStorage.setItem("");
+              alert("로그인 성공");
+            } else {
+              alert("로그인 에러");
+              console.log(response.data);
+              setInputEmail("");
+              setInputPassword("");
+            }
+            console.log(inputEmail);
+            console.log(inputPassword);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      ```
+
+  - 메인페이지 컨텐츠 렌더링
+    - 실패..
+    - 이유 : post 방식으로 data를 받아오는데 data가 배열이라 뿌려주는 방법을 모르겠다
+
+> 회원가입 & 로그아웃
+
+- sessionStorage .setItem & .removeItem 적용
+  - sessionStorage가 생기고 없어지기는 하지만 헤더에 로그인 표시, 유저 프로필 표시가 실시간으로 바뀌지 않고 새로고침을 눌러줘야 바뀐다..
+
+> 회원가입
+
+- 회원가입 후 축하메세지가 뜬 뒤에 질문모달 퍼블리싱
