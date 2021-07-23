@@ -15,11 +15,11 @@ const JoinSubmitModal = (props) => {
           <br />
           2개의 Q&A를 부탁드려요!
         </p>
-        <div className="join_member_checked_btn_cove">
+        <div className="join_member_checked_qna_btn_cove">
           <p>
             <a
-              className="join_member_checked_btn"
-              onClick={props.onJoinSubmitModal}
+              className="join_member_checked_qna_btn"
+              onClick={props.onJoinSubmitQnaModal}
             >
               확인
             </a>
