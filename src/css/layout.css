@@ -2721,7 +2721,7 @@
   background-color: #bbbbbb;
 }
 .regit_account_submit_active {
-  display: none;
+  display: block;
   position: absolute;
   cursor: pointer;
   left: 0px;
@@ -3452,6 +3452,28 @@ select::-ms-expand {
   color: #fff;
   background-color: #bea36b;
 }
+.logout1 {
+  position: absolute;
+  right: -55%;
+  top: 50%;
+  transform: translate(-0%, -50%);
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+}
+.logout2 {
+  display: inline-block;
+  padding-left: 0.8125em;
+  padding-right: 0.8125em;
+  padding-top: 0.1875em;
+  padding-bottom: 0.1875em;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-align: center;
+  color: #c3c3c3;
+  border: 2px solid #c3c3c3;
+  border-radius: 6px;
+}
 .pass_submit_normal {
   position: relative;
   display: inline-block;
@@ -3907,7 +3929,7 @@ select::-ms-expand {
   font-weight: 400;
   color: #bbb;
 }
-.join_member_submit {
+.join_member_submit_off {
   position: relative;
   width: 100%;
   height: 70px;
@@ -3919,13 +3941,39 @@ select::-ms-expand {
   color: #fff;
   border: 0px;
   border-radius: 6px;
+}
+.join_member_submit_on {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  font-size: 1.625rem;
+  font-weight: 500;
+  text-align: center;
+  background-color: rgb(189, 162, 107);
+  color: #fff;
+  border: 0px;
+  border-radius: 6px;
   cursor: pointer;
 }
 /*=============================================
 =       Section join_member_popup block       =
 =============================================*/
-.join_member_checked_cove {
+/* 첫번째 모달 오픈 제어 css */
+.join_member_checked_cove_on {
   /* display: none; */
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.join_member_checked_cove_off {
+  display: none;
   position: fixed;
   z-index: 200;
   top: 0px;
@@ -3935,6 +3983,30 @@ select::-ms-expand {
   padding-right: 30%;
   background-color: rgba(0, 0, 0, 0.25);
 }
+.join_member_checked_qna_cove_on {
+  /* display: none; */
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.join_member_checked_qna_cove_off {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+/* 두번째 모달 오픈 제어 css */
 .join_member_checked_popup {
   position: relative;
   margin: 0 auto;
@@ -3946,6 +4018,7 @@ select::-ms-expand {
   border-radius: 6px;
   background-color: #fff;
 }
+
 .join_member_checked_title {
   position: relative;
   display: inline-block;
@@ -3995,7 +4068,25 @@ select::-ms-expand {
   color: #fff;
   background-color: #bea36b;
 }
+.join_member_checked_qna_btn {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  font-size: 1.625rem;
+  font-weight: 700;
+  border-radius: 6px;
+  color: #fff;
+  background-color: #bea36b;
+}
 .join_member_checked_btn_cove {
+  position: relative;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.join_member_checked_qna_btn_cove {
   position: relative;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
@@ -4172,39 +4263,54 @@ select::-ms-expand {
 }
 .login_qna_title {
   position: relative;
-  width: 65%;
+  width: 100%;
   height: auto;
-  margin-top: 52px;
-  margin-bottom: 80px;
+  /* margin-top: 52px;
+  margin-bottom: 80px; */
 }
 .login_qna_title > h2 {
   display: inline-block;
   float: left;
   width: 34px;
   /* height: 84px; */
-  font-size: 1.875rem;
+  font-size: 1.375rem;
   font-weight: 700;
   margin-right: 10px;
 }
 .login_qna_title > p {
-  width: calc(100% - 34px);
+  width: 100%;
+  padding-left: 44px;
   /* height: 84px; */
-  font-size: 1.875rem;
+  font-size: 1.375rem;
   font-weight: 700;
 }
-.qng_tag_select_group {
+.qng_tag_select_group_commerce {
   position: relative;
   width: 100%;
-  height: 247px;
-  margin-top: 32px;
+  height: 140px;
+  margin-top: 26px;
 }
-.qng_tag_select_group > p {
+.qng_tag_select_group_special {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  margin-top: 26px;
+}
+.qng_tag_select_group_commerce > p {
   display: inline-block;
   float: left;
   height: auto;
-  font-size: 1.625rem;
+  font-size: 1.375rem;
   font-weight: 700;
-  margin-right: 54px;
+  padding-left: 5px;
+}
+.qng_tag_select_group_special > p {
+  display: inline-block;
+  float: left;
+  height: auto;
+  font-size: 1.375rem;
+  font-weight: 700;
+  padding-left: 5px;
 }
 .qng_tag {
   display: inline-block;
@@ -4216,6 +4322,12 @@ select::-ms-expand {
   border-radius: 4px;
   margin-left: 13px;
   margin-bottom: 13px;
+}
+.qng_tag_cove {
+  width: 100%;
+  height: 100%;
+  padding-left: 66px;
+  padding-top: 7px;
 }
 .login_form_group {
   position: relative;
@@ -4512,13 +4624,96 @@ select::-ms-expand {
   margin-top: 40px;
   margin-bottom: 60px;
 }
-.join_member_checked_cove {
-  /* display: none; */
-}
 .result-email,
 .result-tel,
 .result-pass,
 .result-re-pass {
   padding-top: 0;
   display: none;
+}
+
+/* 회원가입 후 첫번째 질문 모달 창 css 작업 */
+
+.join_member_qna_checked_popup {
+  position: relative;
+  margin: 0 auto;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 116%;
+  height: 485px;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.join_member_qna_title_container {
+  margin-right: 32px;
+  margin-bottom: 18px;
+}
+.join_member_qna_Qtitle {
+  font-size: 1.275rem;
+  font-weight: 700;
+  float: left;
+  margin-right: 2%;
+}
+.join_member_qna_title {
+  font-size: 1.275rem;
+  font-weight: 700;
+  margin-left: 30px;
+}
+
+.join_member_qna_commers_title {
+  font-size: 1.175rem;
+  font-weight: 700;
+  float: left;
+}
+
+.join_member_qna_special_title {
+  font-size: 1.175rem;
+  font-weight: 700;
+  float: left;
+}
+
+.join_member_qna_commers_select_container {
+  margin-left: 73px;
+}
+
+.join_member_qna_special_select_container {
+  margin-left: 73px;
+}
+
+.join_member_qna_select_btn {
+  display: inline-block;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: #989898;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-left: 13px;
+  margin-bottom: 13px;
+  cursor: pointer;
+}
+
+.join_member_qna_select_confirm_btn_container {
+  position: relative;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-top: 10px;
+}
+.join_member_qna_select_confirm_btn {
+  display: inline-block;
+  height: 37px;
+  line-height: 32px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 8px;
+  color: #ffffff;
+  background-color: #bda26b;
+  border: 2px solid #bda26b;
+  box-sizing: border-box;
+  margin-left: 37px;
+  width: 79%;
+  cursor: pointer;
 }
