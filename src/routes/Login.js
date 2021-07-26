@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
+const Login = (props) => {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+  const { isLogin, setIsLogin } = props;
 
   const onChangeInputEmail = (e) => {
     setInputEmail(e.target.value);
@@ -21,26 +22,6 @@ const Login = () => {
   };
 
   const history = useHistory();
-  // const getData = async () => {
-  //   const response = await axios
-  //     .get(`/login.php?user_email=${inputEmail}&user_password=${inputPassword}`)
-  //     .then((response) => {
-  //       console.log(response.data.idx);
-  //       if (response.data.error === 0) {
-  //         // sessionStorage.setItem("");
-  //         alert("로그인 성공");
-  //       } else {
-  //         alert("로그인 에러");
-  //         setInputEmail("");
-  //         setInputPassword("");
-  //       }
-  //       console.log(inputEmail);
-  //       console.log(inputPassword);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   const getData = () => {
     const params = new FormData();
@@ -54,8 +35,11 @@ const Login = () => {
       .then((response) => {
         console.log(response.data.idx);
         if (response.data.error === 0) {
-          // sessionStorage.setItem("");
+          sessionStorage.setItem("email", inputEmail);
           alert("로그인 성공");
+          history.push("/");
+          return setIsLogin(!isLogin);
+          console.log("로그인 하고 난 이후 로그인 상태 : ", isLogin);
         } else {
           alert("로그인 에러");
           console.log(response.data);
