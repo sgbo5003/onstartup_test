@@ -14,17 +14,42 @@ import JoinSubmitQnaSecondModal from "../components/JoinSubmitQnaSecondModal";
 
 const Join = (props) => {
   const { naver } = window;
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [buttonOn, setButtonOn] = useState(false);
-  const [joinSubmitModalOn, setJoinSubmitModalOn] = useState(false);
-  const [joinSubmitQnaModalOn, setJoinSubmitQnaModalOn] = useState(false);
+  const [name, setName] = useState(""); // 이름
+  const [email, setEmail] = useState(""); // 이메일
+  const [password, setPassword] = useState(""); // 비밀번호
+  const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인
+  const [passwordError, setPasswordError] = useState(false); // 비밀번호 오류체크
+  const [emailError, setEmailError] = useState(false); // 이메일 오류체크
+  const [buttonOn, setButtonOn] = useState(false); // 버튼 활성화 & 비활성화 체크
+  const [joinSubmitModalOn, setJoinSubmitModalOn] = useState(false); // 회원가입 성공 모달 on & off 체크
+  const [joinSubmitQnaModalOn, setJoinSubmitQnaModalOn] = useState(false); // 회원가입 첫번째 질문 모달 on & off 체크
   const [joinSubmitQnaSecondModalOn, setJoinSubmitQnaSecondModalOn] =
-    useState(false);
+    useState(false); // 회원가입 두번째 질문 모달 on & off 체크
+
+  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set()); // 커머스 -> 체크된 버튼들을 담는 state
+  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set()); // 전문분야 -> 체크된 버튼들을 담는 state
+  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set()); // 관심분야 -> 체크된 버튼들을 담는 state
+
+  // 커머스 itme들을 제어하는 함수
+  const onCommersHandler = (e) => {
+    commersCheckedItems.add(e.target.value);
+    setCommersCheckedItems(commersCheckedItems);
+    console.log(commersCheckedItems);
+  };
+
+  // 전문분야 itme들을 제어하는 함수
+  const onSpecialHandler = (e) => {
+    specialCheckedItems.add(e.target.value);
+    setSpecialCheckedItems(specialCheckedItems);
+    console.log(specialCheckedItems);
+  };
+
+  // 관심분야 itme들을 제어하는 함수
+  const onInterestHandler = (e) => {
+    interestCheckedItems.add(e.target.value);
+    setInterestCheckedItems(interestCheckedItems);
+    console.log(interestCheckedItems);
+  };
 
   // 카카오 로그인
   const kakaoLoginHandler = () => {
@@ -106,6 +131,7 @@ const Join = (props) => {
         // type="submit"
         type="button"
         onClick={onJoinSubmitModal}
+        // onSubmit={onSubmit}
         name="join_member_submit"
         value="회원가입"
       />
@@ -121,11 +147,6 @@ const Join = (props) => {
     }
   }
 
-  // 회원가입 완료 시 축하한다는 메세지가 나오는 모달 제어
-  const onJoinSubmitModal = () => {
-    setJoinSubmitModalOn(true);
-  };
-
   const onJoinSubmitQnaModal = () => {
     setJoinSubmitModalOn(false);
     setJoinSubmitQnaModalOn(true);
@@ -139,8 +160,9 @@ const Join = (props) => {
 
   const history = useHistory();
   const { isLogin, setIsLogin } = props;
-  const onSubmit = (e) => {
-    e.preventDefault();
+
+  // submit
+  const onJoinSubmitModal = (e) => {
     // 비밀번호 & 비밀번호 유효성 검사
     if (password !== confirmPassword) {
       return setPasswordError(true);
@@ -150,12 +172,20 @@ const Join = (props) => {
 
     //회원가입 조건 다 만족 시 회원가입진행
     if (password && email && name && confirmPassword) {
-      sessionStorage.setItem("email", email);
-      alert("회원가입 완료!");
-      pushData();
-      history.push("/");
-      setIsLogin(!isLogin);
+      //   sessionStorage.setItem("email", email);
+      //    pushData();
+      //   history.push("/");
+      //   setIsLogin(!isLogin);
+      setJoinSubmitModalOn(true);
     }
+  };
+
+  const onSubmit = (e) => {
+    pushData();
+    console.log("회원가입 완료");
+    sessionStorage.setItem("email", email);
+    history.push("/");
+    location.reload();
   };
 
   // 이메일 유효성 검사
@@ -190,9 +220,12 @@ const Join = (props) => {
     params.append("user_name", name);
     params.append("user_email", email);
     params.append("user_password", password);
+    params.append("commerce", [...commersCheckedItems]);
+    params.append("specialty", [...specialCheckedItems]);
+    params.append("interesting", [...interestCheckedItems]);
     axios({
       method: "post",
-      url: "/join_member_normal.php",
+      url: "/response/join_member_normal.php",
       data: params,
     })
       .then((response) => {
@@ -240,7 +273,7 @@ const Join = (props) => {
           </div>
           <div className="login_text_group">
             <h2 className="login_member_join_title">일반 회원가입하기</h2>
-            <form className="login_member_join_form" onSubmit={onSubmit}>
+            <form className="login_member_join_form">
               <p>이름</p>
               <input
                 className="join_member_text join_member_name"
@@ -343,12 +376,18 @@ const Join = (props) => {
             <JoinSubmitQnaFirstModal
               class="join_member_checked_qna_cove_on "
               onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+              onCommersHandler={onCommersHandler}
+              onSpecialHandler={onSpecialHandler}
             />
           ) : (
             <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
           )}
           {joinSubmitQnaSecondModalOn ? (
-            <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_on" />
+            <JoinSubmitQnaSecondModal
+              class="join_member_checked_qna_cove_on"
+              onInterestHandler={onInterestHandler}
+              onSubmit={onSubmit}
+            />
           ) : (
             <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
           )}
