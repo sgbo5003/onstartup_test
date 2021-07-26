@@ -345,19 +345,12 @@ const Join = (props) => {
               onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
             />
           ) : (
-            // <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
             <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
-            // <JoinSubmitQnaFirstModal
-            //   class="join_member_checked_qna_cove_on"
-            //   onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
-            // />
           )}
           {joinSubmitQnaSecondModalOn ? (
             <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_on" />
           ) : (
-            //<JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
             <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
-            //<JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_on" />
           )}
         </div>
       </div>
