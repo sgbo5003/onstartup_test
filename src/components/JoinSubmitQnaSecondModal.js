@@ -18,25 +18,17 @@ const interestComponentArray = [
 ];
 
 const JoinSubmitQnaSecondModal = (props) => {
-  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set()); // 관심분야 -> 체크된 버튼들을 담는 state
-
-  // 관심분야 itme들을 제어하는 함수
-  const onInterestHandler = (e) => {
-    interestCheckedItems.add(e.target.value);
-    setInterestCheckedItems(interestCheckedItems);
-    console.log(interestCheckedItems.values());
-  };
-
   const interestButtonOnList = interestComponentArray.map((data) => {
     return (
       <input
         type="button"
         className="join_member_qna_select_btn_selected"
-        onClick={onInterestHandler}
+        onClick={props.onInterestHandler}
         value={data}
       />
     );
   });
+
   return (
     <div className={props.class}>
       <div className="join_member_qna_checked_popup_second">
@@ -55,9 +47,7 @@ const JoinSubmitQnaSecondModal = (props) => {
         <div className="join_member_qna_select_confirm_btn_container">
           <a
             className="join_member_qna_select_confirm_btn"
-            onClick={() => {
-              console.log("clicked");
-            }}
+            onClick={props.onSubmit}
           >
             선택완료
           </a>
