@@ -4693,6 +4693,20 @@ select::-ms-expand {
   margin-left: 13px;
   margin-bottom: 13px;
   cursor: pointer;
+  border: none;
+}
+
+.join_member_qna_select_btn_selected {
+  display: inline-block;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: #989898;
+  background-color: #bda26b;
+  border-radius: 4px;
+  margin-left: 13px;
+  margin-bottom: 13px;
+  cursor: pointer;
+  border: none;
 }
 
 .join_member_qna_select_confirm_btn_container {
@@ -4716,4 +4730,19 @@ select::-ms-expand {
   margin-left: 37px;
   width: 79%;
   cursor: pointer;
+}
+
+/* 회원가입 후 두번째 질문 모달 창 작업  */
+
+.join_member_qna_checked_popup_second {
+  position: relative;
+  margin: 0 auto;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 116%;
+  height: 485px;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #fff;
 }
