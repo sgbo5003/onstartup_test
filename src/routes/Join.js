@@ -9,6 +9,7 @@ import { KAKAO_AUTH_URL } from "../OAuth";
 import { NAVER_AUTH_URL } from "../OAuth";
 import JoinSubmitModal from "../components/JoinSubmitModal";
 import JoinSubmitQnaFirstModal from "../components/JoinSubmitQnaFirstModal";
+import JoinSubmitQnaSecondModal from "../components/JoinSubmitQnaSecondModal";
 // import { useForm } from "react-hook-form";
 
 const Join = (props) => {
@@ -22,6 +23,8 @@ const Join = (props) => {
   const [buttonOn, setButtonOn] = useState(false);
   const [joinSubmitModalOn, setJoinSubmitModalOn] = useState(false);
   const [joinSubmitQnaModalOn, setJoinSubmitQnaModalOn] = useState(false);
+  const [joinSubmitQnaSecondModalOn, setJoinSubmitQnaSecondModalOn] =
+    useState(false);
 
   // 카카오 로그인
   const kakaoLoginHandler = () => {
@@ -120,15 +123,22 @@ const Join = (props) => {
 
   // 회원가입 완료 시 축하한다는 메세지가 나오는 모달 제어
   const onJoinSubmitModal = () => {
-    setJoinSubmitModalOn(!joinSubmitModalOn);
+    setJoinSubmitModalOn(true);
   };
 
   const onJoinSubmitQnaModal = () => {
-    setJoinSubmitModalOn(!joinSubmitModalOn);
+    setJoinSubmitModalOn(false);
     setJoinSubmitQnaModalOn(true);
   };
 
+  // 선택창 첫번째 모달 off, 두번째 모달 on
+  const onJoinSubmitQnaSecondModal = () => {
+    setJoinSubmitQnaModalOn(false);
+    setJoinSubmitQnaSecondModalOn(true);
+  };
+
   const history = useHistory();
+  const { isLogin, setIsLogin } = props;
   const onSubmit = (e) => {
     e.preventDefault();
     // 비밀번호 & 비밀번호 유효성 검사
@@ -144,6 +154,7 @@ const Join = (props) => {
       alert("회원가입 완료!");
       pushData();
       history.push("/");
+      setIsLogin(!isLogin);
     }
   };
 
@@ -329,9 +340,24 @@ const Join = (props) => {
             <JoinSubmitModal class="join_member_checked_cove_off" />
           )}
           {joinSubmitQnaModalOn ? (
-            <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_on" />
+            <JoinSubmitQnaFirstModal
+              class="join_member_checked_qna_cove_on "
+              onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+            />
           ) : (
+            // <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
             <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
+            // <JoinSubmitQnaFirstModal
+            //   class="join_member_checked_qna_cove_on"
+            //   onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+            // />
+          )}
+          {joinSubmitQnaSecondModalOn ? (
+            <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_on" />
+          ) : (
+            //<JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
+            <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
+            //<JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_on" />
           )}
         </div>
       </div>
