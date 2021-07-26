@@ -1989,3 +1989,75 @@ useEffect(() => {
 > 회원가입
 
 - 회원가입 후 축하메세지가 뜬 뒤에 질문모달 퍼블리싱
+
+# 7/23일 금요일
+
+> 회원가입 후 축하한다는 모달 & 질문 모달 2개 퍼블리싱
+
+> 막힌 부분
+
+- 질문 모달에서 각각 버튼을 선택 했을 때 따로 색깔이 바뀌게 하는 법
+
+  - 로직
+
+    - 버튼 클릭 → 클릭 이벤트 발생 → set().add을 이용하여 배열에 담기 → 버튼 다시 클릭 → set().delete을 이용하여 배열에서 제거
+    - 코드
+
+      ```jsx
+      const [commersItems, setCommersItems] = useState(new Set());
+
+      const setcommersItemsHandler = (e) => {
+        commersItems.add(e.target.value);
+      };
+
+      const onChangeButtonColor = () => {
+        setButton(!button);
+      };
+
+      const commersButtonOnList = commersComponentArray.map((data) => {
+        return (
+          <button
+            className={`join_member_qna_select_btn` ? `selected` : ""}
+            onClick={onChangeButtonColor}
+          >
+            {data}
+          </button>
+        );
+      });
+      ```
+
+  - 스타일 바꾸는 건 삼항연산자로 클래스를 다르게 주어서 변경한다.
+  - button 말고 input="checkbox" 사용
+  - set() 사용
+    - 배열을 담고 제거하고 하는 문법인데 중복시키지 않는다.
+    - 참고
+      - [https://medium.com/@hongkevin/js-5-es6-map-set-2a9ebf40f96b](https://medium.com/@hongkevin/js-5-es6-map-set-2a9ebf40f96b)
+      - [https://egg-programmer.tistory.com/282](https://egg-programmer.tistory.com/282)
+  - input 상태 관리
+    - [https://hyeok999.github.io/2020/01/04/react-velo-07/](https://hyeok999.github.io/2020/01/04/react-velo-07/)
+
+- 메인화면에서 api 가져오는것을 GET→POST 변경 후 에러
+
+  - 해결
+
+    - 코드
+
+      ```jsx
+      const getData = () => {
+        const params = new FormData();
+        params.append("comment", 4);
+
+        axios({
+          method: "post",
+          url: "/get_info.php",
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+            setData(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      ```
