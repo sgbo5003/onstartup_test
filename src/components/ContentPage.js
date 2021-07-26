@@ -74,21 +74,22 @@ const ContentPage = () => {
   };
 
   // const getData = async () => {
-  //   const response = await axios.post("/get_info.php?comment=4");
+  //   const response = await axios.get("/get_info.php?comment=4");
   //   setData(response.data);
   // };
 
   const getData = () => {
     const params = new FormData();
     params.append("comment", 4);
+
     axios({
       method: "post",
       url: "/get_info.php",
       data: params,
     })
-      .then((data) => {
-        console.log(data);
-        setData(data);
+      .then((response) => {
+        console.log(response);
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -99,11 +100,6 @@ const ContentPage = () => {
     getData();
   }, []);
 
-  const arr = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25,
-  ];
-
   return (
     <div className="wap home_wap">
       <div className="home_content">
@@ -113,7 +109,7 @@ const ContentPage = () => {
             <img src={viewIcon1} alt="icon1.png" />
           </h2>
           <Slider {...settings}>
-            {arr.map((idx) => {
+            {data.user_idx.map((item, idx) => {
               return (
                 <Content
                   key={data.user_idx[idx]}
@@ -142,10 +138,10 @@ const ContentPage = () => {
             <img src={viewIcon2} alt="icon2.png" />
           </h2>
           <Slider {...settings}>
-            {arr
+            {data.user_idx
               .slice(0)
               .reverse()
-              .map((idx) => {
+              .map((item, idx) => {
                 return (
                   <Content
                     key={data.user_idx[idx]}
@@ -167,7 +163,7 @@ const ContentPage = () => {
         <div className="home_view">
           <h2>오늘의 NEW TOPIC</h2>
           <Slider {...settings}>
-            {arr.map((idx) => {
+            {data.user_idx.map((item, idx) => {
               return (
                 <Content
                   key={data.user_idx[idx]}
