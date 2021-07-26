@@ -84,7 +84,12 @@ const AppRouter = () => {
           isLogin={isLogin}
           setIsLogin={setIsLogin}
         />
-        <Route path="/Login" component={Login} />
+        <Route
+          path="/Login"
+          component={Login}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+        />
         <Route path="/SaveWrite" component={SaveWrite} />
         <Route path="/Mypage" component={Mypage} />
         <Route path="/AccountManagement" component={AccountManagement} />
