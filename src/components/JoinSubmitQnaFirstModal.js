@@ -30,80 +30,86 @@ const specialComponentArray = [
 // join_member_qna.php => qna 페이지
 const JoinSubmitQnaFirstModal = (props) => {
   const [buttonChecked, setButtonChecked] = useState(false); // 버튼이 체크 되었는지 확인하는 state
-  const [checkedItems, setCheckedItems] = useState(new Set()); // 체크된 버튼들을 담는 state
+  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set()); // 커머스 -> 체크된 버튼들을 담는 state
+  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set()); // 전문분야 -> 체크된 버튼들을 담는 state
 
   // 체크된 버튼들을 관리하는 function
-  const checkedItemHandler = (id, isChecked) => {
-    if (isChecked) {
-      checkedItems.add(id);
-      setCheckedItems(checkedItems);
-    } else if (!isChecked && checkedItems.has(id)) {
-      checkedItems.delete(id);
-      setCheckedItems(checkedItems);
-    }
+  //   const checkedItemHandler = (id, isChecked) => {
+  //     if (isChecked) {
+  //       checkedItems.add(id);
+  //       setCheckedItems(checkedItems);
+  //     } else if (!isChecked && checkedItems.has(id)) {
+  //       checkedItems.delete(id);
+  //       setCheckedItems(checkedItems);
+  //     }
+  //   };
+
+  //   const checkHandler = (e) => {
+  //       setButtonChecked(!buttonChecked);
+  //       checkedItemHandler(issue.id, e.target.)
+  //   }
+  //   // const setcommersItemsHandler = (e) => {
+  //   //   commersItems.add(e.target.value);
+  //   //   console.log(e.target.value);
+  //   // };
+
+  // 커머스 itme들을 제어하는 함수
+  const onCommersHandler = (e) => {
+    commersCheckedItems.add(e.target.value);
+    setCommersCheckedItems(commersCheckedItems);
+    console.log(commersCheckedItems.values());
   };
 
-  const checkHandler = (e) => {
-      setButtonChecked(!buttonChecked);
-      checkedItemHandler(issue.id, e.target.)
-  }
-  // const setcommersItemsHandler = (e) => {
-  //   commersItems.add(e.target.value);
-  //   console.log(e.target.value);
-  // };
-
-  const onChangeButtonColor = () => {
-    setButton(!buttonChecked);
+  // 전문분야 itme들을 제어하는 함수
+  const onSpecialHandler = (e) => {
+    specialCheckedItems.add(e.target.value);
+    setSpecialCheckedItems(specialCheckedItems);
+    console.log(specialCheckedItems.values());
   };
 
   const commersButtonOnList = commersComponentArray.map((data) => {
     return (
       <input
         type="button"
-        className={
-          commersItems.has()
-            ? "join_member_qna_select_btn_selected"
-            : "join_member_qna_select_btn"
-        }
-        // className="join_member_qna_select_btn_selected"
-        onClick={setcommersItemsHandler}
+        className="join_member_qna_select_btn"
+        onClick={onCommersHandler}
         value={data}
       />
     );
   });
 
-  // const commersButtonOffList = commersComponentArray.map((data) => {
-  //   return (
-  //     <button
-  //       className="join_member_qna_select_btn"
-  //       onClick={onChangeButtonColor}
-  //     >
-  //       {data}
-  //     </button>
-  //   );
-  // });
+  //   const commersButtonOffList = commersComponentArray.map((data) => {
+  //     return (
+  //       <button
+  //         className="join_member_qna_select_btn"
+  //         onClick={onChangeButtonColor}
+  //       >
+  //         {data}
+  //       </button>
+  //     );
+  //   });
 
   const specialButtonOnList = specialComponentArray.map((data) => {
     return (
       <input
         type="button"
         className="join_member_qna_select_btn_selected"
-        onClick={onChangeButtonColor}
+        onClick={onSpecialHandler}
         value={data}
       />
     );
   });
 
-  // const specialButtonOffList = specialComponentArray.map((data) => {
-  //   return (
-  //     <button
-  //       className="join_member_qna_select_btn"
-  //       onClick={onChangeButtonColor}
-  //     >
-  //       {data}
-  //     </button>
-  //   );
-  // });
+  //   const specialButtonOffList = specialComponentArray.map((data) => {
+  //     return (
+  //       <button
+  //         className="join_member_qna_select_btn"
+  //         onClick={onChangeButtonColor}
+  //       >
+  //         {data}
+  //       </button>
+  //     );
+  //   });
 
   return (
     <div className={props.class}>
