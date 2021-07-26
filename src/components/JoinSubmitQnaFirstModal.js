@@ -30,8 +30,6 @@ const specialComponentArray = [
 // join_member_qna.php => qna 페이지
 const JoinSubmitQnaFirstModal = (props) => {
   const [buttonChecked, setButtonChecked] = useState(false); // 버튼이 체크 되었는지 확인하는 state
-  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set()); // 커머스 -> 체크된 버튼들을 담는 state
-  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set()); // 전문분야 -> 체크된 버튼들을 담는 state
 
   // 체크된 버튼들을 관리하는 function
   //   const checkedItemHandler = (id, isChecked) => {
@@ -53,26 +51,12 @@ const JoinSubmitQnaFirstModal = (props) => {
   //   //   console.log(e.target.value);
   //   // };
 
-  // 커머스 itme들을 제어하는 함수
-  const onCommersHandler = (e) => {
-    commersCheckedItems.add(e.target.value);
-    setCommersCheckedItems(commersCheckedItems);
-    console.log(commersCheckedItems.values());
-  };
-
-  // 전문분야 itme들을 제어하는 함수
-  const onSpecialHandler = (e) => {
-    specialCheckedItems.add(e.target.value);
-    setSpecialCheckedItems(specialCheckedItems);
-    console.log(specialCheckedItems.values());
-  };
-
   const commersButtonOnList = commersComponentArray.map((data) => {
     return (
       <input
         type="button"
         className="join_member_qna_select_btn"
-        onClick={onCommersHandler}
+        onClick={props.onCommersHandler}
         value={data}
       />
     );
@@ -94,7 +78,7 @@ const JoinSubmitQnaFirstModal = (props) => {
       <input
         type="button"
         className="join_member_qna_select_btn_selected"
-        onClick={onSpecialHandler}
+        onClick={props.onSpecialHandler}
         value={data}
       />
     );
