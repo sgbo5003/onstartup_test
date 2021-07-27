@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import category1Img from "../images/Category_icon1.png";
 import category2Img from "../images/Category_icon2.png";
@@ -47,18 +47,80 @@ const componentArray = [
 ];
 
 const Sidebar = (data) => {
+  const [open, setOpen] = useState(false);
+  const [checkedItmes, setCheckedItems] = useState(new Set()); //클릭 된 것들 담는 state
+
+  const onCheckedItemsHandler = (e) => {
+    // checkedItmes.add(e.target.innerText);
+    // setCheckedItems(checkedItmes);
+    console.log(checkedItmes.values());
+
+    if (checkedItmes.has(e.target.innerText)) {
+      checkedItmes.delete(e.target.innerText);
+      setOpen(false);
+    } else {
+      checkedItmes.add(e.target.innerText);
+      setCheckedItems(checkedItmes);
+      setOpen(true);
+    }
+
+    // if (checkedItmes.has(e.target.innerText)) {
+    //   checkedItmes.delete(e.target.innerText);
+    //   setOpen(false);
+    // } else {
+    //   checkedItmes.add(e.target.innerText);
+    //   setCheckedItems(checkedItmes);
+    //   setOpen(true);
+    // }
+  };
+
+  function sideBarSubMenuHandlerOff() {
+    return (
+      <ul class="side_subsm_off">
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu1">대분류</a>
+        </li>
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu2">중분류</a>
+        </li>
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu3">소분류</a>
+        </li>
+      </ul>
+    );
+  }
+
+  function sideBarSubMenuHandlerOn() {
+    return (
+      <ul class="side_subsm_on">
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu1">대분류</a>
+        </li>
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu2">중분류</a>
+        </li>
+        <li class="side_subsm_bar">
+          <a class="side_subsm_menu commerce_menu3">소분류</a>
+        </li>
+      </ul>
+    );
+  }
   const componentArrayList = componentArray.map((data, index) => {
     return (
-      <li key={index} className="side_sub_bar">
+      <li key={index} className="side_sub_bar" onClick={onCheckedItemsHandler}>
         <a className="side_sub_menu">
           <span className="side_sub_menu_icon_cove">
             <img src={data.src} className="side_sub_menu_icon" />
           </span>
           <span className="sidemenu_text">{data.title}</span>
         </a>
+        {checkedItmes.has(data.title)
+          ? sideBarSubMenuHandlerOn()
+          : sideBarSubMenuHandlerOff()}
       </li>
     );
   });
+
   return (
     <div className="side_bar_cove">
       <div className="side_bar">
