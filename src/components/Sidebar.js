@@ -63,15 +63,6 @@ const Sidebar = (data) => {
       setCheckedItems(checkedItmes);
       setOpen(true);
     }
-
-    // if (checkedItmes.has(e.target.innerText)) {
-    //   checkedItmes.delete(e.target.innerText);
-    //   setOpen(false);
-    // } else {
-    //   checkedItmes.add(e.target.innerText);
-    //   setCheckedItems(checkedItmes);
-    //   setOpen(true);
-    // }
   };
 
   function sideBarSubMenuHandlerOff() {
