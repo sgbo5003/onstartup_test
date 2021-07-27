@@ -10,6 +10,7 @@ import { NAVER_AUTH_URL } from "../OAuth";
 import JoinSubmitModal from "../components/JoinSubmitModal";
 import JoinSubmitQnaFirstModal from "../components/JoinSubmitQnaFirstModal";
 import JoinSubmitQnaSecondModal from "../components/JoinSubmitQnaSecondModal";
+import Modal from "../Modal";
 // import { useForm } from "react-hook-form";
 
 const Join = (props) => {
@@ -25,31 +26,8 @@ const Join = (props) => {
   const [joinSubmitQnaModalOn, setJoinSubmitQnaModalOn] = useState(false); // 회원가입 첫번째 질문 모달 on & off 체크
   const [joinSubmitQnaSecondModalOn, setJoinSubmitQnaSecondModalOn] =
     useState(false); // 회원가입 두번째 질문 모달 on & off 체크
-
-  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set()); // 커머스 -> 체크된 버튼들을 담는 state
-  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set()); // 전문분야 -> 체크된 버튼들을 담는 state
-  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set()); // 관심분야 -> 체크된 버튼들을 담는 state
-
-  // 커머스 itme들을 제어하는 함수
-  const onCommersHandler = (e) => {
-    commersCheckedItems.add(e.target.value);
-    setCommersCheckedItems(commersCheckedItems);
-    console.log(commersCheckedItems);
-  };
-
-  // 전문분야 itme들을 제어하는 함수
-  const onSpecialHandler = (e) => {
-    specialCheckedItems.add(e.target.value);
-    setSpecialCheckedItems(specialCheckedItems);
-    console.log(specialCheckedItems);
-  };
-
-  // 관심분야 itme들을 제어하는 함수
-  const onInterestHandler = (e) => {
-    interestCheckedItems.add(e.target.value);
-    setInterestCheckedItems(interestCheckedItems);
-    console.log(interestCheckedItems);
-  };
+  const history = useHistory();
+  const { isLogin, setIsLogin } = props;
 
   // 카카오 로그인
   const kakaoLoginHandler = () => {
@@ -147,19 +125,17 @@ const Join = (props) => {
     }
   }
 
+  // 첫번째 모달창 -> 두번째 모달창으로 이동 함수 구현
   const onJoinSubmitQnaModal = () => {
     setJoinSubmitModalOn(false);
     setJoinSubmitQnaModalOn(true);
   };
 
-  // 선택창 첫번째 모달 off, 두번째 모달 on
+  // 선택창 두번째 모달 off, 세번째 모달 on
   const onJoinSubmitQnaSecondModal = () => {
     setJoinSubmitQnaModalOn(false);
     setJoinSubmitQnaSecondModalOn(true);
   };
-
-  const history = useHistory();
-  const { isLogin, setIsLogin } = props;
 
   // submit
   const onJoinSubmitModal = (e) => {
@@ -180,12 +156,12 @@ const Join = (props) => {
     }
   };
 
+  // 마지막 제출 기능 함수로 구현
   const onSubmit = (e) => {
     pushData();
     console.log("회원가입 완료");
-    sessionStorage.setItem("email", email);
-    history.push("/");
-    location.reload();
+    // history.push("/");
+    // location.reload();
   };
 
   // 이메일 유효성 검사
@@ -199,16 +175,20 @@ const Join = (props) => {
     }
   };
 
+  // 이름 변경 감지
   const onChangeName = (e) => {
     setName(e.target.value);
   };
+  // 이메일 변경 감지
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
     setEmailError(validateEmail(e.target.value));
   };
+  // 비밀번호 변경 감지
   const onChangePassword = (e) => {
     setPassword(e.target.value);
   };
+  // 비밀번호 확인 변경 감지
   const onChangeConfirmPassword = (e) => {
     setPasswordError(e.target.value !== password);
     setConfirmPassword(e.target.value);
@@ -230,6 +210,8 @@ const Join = (props) => {
     })
       .then((response) => {
         console.log(response);
+        console.log(response.data.user_idx);
+        sessionStorage.setItem("user_idx", response.data.user_idx);
       })
       .catch((error) => {
         console.log(error);
@@ -242,158 +224,174 @@ const Join = (props) => {
   });
 
   return (
-    <div className="wap login_join_wap">
-      <div className="login_join_content">
-        <div className="login_join_view">
-          <h2 className="login_join_title">
-            커머스 관련 인사이트를
-            <br />
-            온스타트업에서 만나보세요!
-          </h2>
-          <div className="login_form_group">
-            <section className="login_form">
-              <p>
-                앗! 이미 회원이신가요?
-                <Link to="/Login" className="login_btn">
-                  로그인하기
-                </Link>
-              </p>
-            </section>
+    <>
+      <div className="wap login_join_wap">
+        <div className="login_join_content">
+          <div className="login_join_view">
+            <h2 className="login_join_title">
+              커머스 관련 인사이트를
+              <br />
+              온스타트업에서 만나보세요!
+            </h2>
+            <div className="login_form_group">
+              <section className="login_form">
+                <p>
+                  앗! 이미 회원이신가요?
+                  <Link to="/Login" className="login_btn">
+                    로그인하기
+                  </Link>
+                </p>
+              </section>
 
-            <section className="kakao_form" onClick={kakaoLoginHandler}>
-              <p>
-                <img src={kakaoImg} alt="kakao" />
-                카카오 3초만에 가입하기
-              </p>
-            </section>
-            <section className="login_form_line">
-              <p>또는</p>
-              <div></div>
-            </section>
-          </div>
-          <div className="login_text_group">
-            <h2 className="login_member_join_title">일반 회원가입하기</h2>
-            <form className="login_member_join_form">
-              <p>이름</p>
-              <input
-                className="join_member_text join_member_name"
-                type="text"
-                name="join_member_name"
-                placeholder="이름 입력"
-                value={name}
-                required
-                onChange={onChangeName}
-              />
-              <p>이메일</p>
-              <div className="result-email"></div>
-              <input
-                className="join_member_text join_member_email"
-                type="email"
-                name="join_member_email"
-                placeholder="이메일 입력"
-                value={email}
-                required
-                onChange={onChangeEmail}
-              />
-              {emailError && (
-                <div style={{ color: "red" }}>
-                  이메일 형식이 일치하지 않습니다.
-                </div>
-              )}
-              <p>비밀번호</p>
-              <div className="result-pass"></div>
-              <input
-                className="join_member_text join_member_pass"
-                type="password"
-                name="join_member_pass"
-                placeholder="비밀번호 입력"
-                value={password}
-                required
-                onChange={onChangePassword}
-              />
-              <p>비밀번호 확인</p>
-              <div className="result-re-pass"></div>
-              <input
-                className="join_member_text join_member_repass"
-                type="password"
-                name="join_member_repass"
-                placeholder="비밀번호 입력"
-                value={confirmPassword}
-                required
-                onChange={onChangeConfirmPassword}
-              />
-              {passwordError && (
-                <div style={{ color: "red" }}>
-                  비밀번호가 일치하지 않습니다.
-                </div>
-              )}
-              <span>
-                '회원가입'을 누름으로써 온스타트업의
-                <a className="service_tab" href="#">
-                  이용약관
+              <section className="kakao_form" onClick={kakaoLoginHandler}>
+                <p>
+                  <img src={kakaoImg} alt="kakao" />
+                  카카오 3초만에 가입하기
+                </p>
+              </section>
+              <section className="login_form_line">
+                <p>또는</p>
+                <div></div>
+              </section>
+            </div>
+            <div className="login_text_group">
+              <h2 className="login_member_join_title">일반 회원가입하기</h2>
+              <form className="login_member_join_form">
+                <p>이름</p>
+                <input
+                  className="join_member_text join_member_name"
+                  type="text"
+                  name="join_member_name"
+                  placeholder="이름 입력"
+                  value={name}
+                  required
+                  onChange={onChangeName}
+                />
+                <p>이메일</p>
+                <div className="result-email"></div>
+                <input
+                  className="join_member_text join_member_email"
+                  type="email"
+                  name="join_member_email"
+                  placeholder="이메일 입력"
+                  value={email}
+                  required
+                  onChange={onChangeEmail}
+                />
+                {emailError && (
+                  <div style={{ color: "red" }}>
+                    이메일 형식이 일치하지 않습니다.
+                  </div>
+                )}
+                <p>비밀번호</p>
+                <div className="result-pass"></div>
+                <input
+                  className="join_member_text join_member_pass"
+                  type="password"
+                  name="join_member_pass"
+                  placeholder="비밀번호 입력"
+                  value={password}
+                  required
+                  onChange={onChangePassword}
+                />
+                <p>비밀번호 확인</p>
+                <div className="result-re-pass"></div>
+                <input
+                  className="join_member_text join_member_repass"
+                  type="password"
+                  name="join_member_repass"
+                  placeholder="비밀번호 입력"
+                  value={confirmPassword}
+                  required
+                  onChange={onChangeConfirmPassword}
+                />
+                {passwordError && (
+                  <div style={{ color: "red" }}>
+                    비밀번호가 일치하지 않습니다.
+                  </div>
+                )}
+                <span>
+                  '회원가입'을 누름으로써 온스타트업의
+                  <a className="service_tab" href="#">
+                    이용약관
+                  </a>
+                  과
+                  <a className="policy_tab" href="#">
+                    개인정보 처리 방침
+                  </a>
+                  에 동의합니다.
+                </span>
+                {buttonOn ? btnActivate() : btnDeactivate()}
+                <a className="service_center_join_btn" href="#">
+                  고객센터
                 </a>
-                과
-                <a className="policy_tab" href="#">
-                  개인정보 처리 방침
-                </a>
-                에 동의합니다.
-              </span>
-              {buttonOn ? btnActivate() : btnDeactivate()}
-              <a className="service_center_join_btn" href="#">
-                고객센터
-              </a>
-            </form>
-            <section className="login_form_line">
-              <p>또는</p>
-              <div></div>
-            </section>
-            <section
-              className="naver_form"
-              // id="naverIdLogin"
-              onClick={NaverLoginHandler}
-            >
-              <p>
-                <img src={naverImg} alt="naver" />
-                네이버 간편가입
-              </p>
-            </section>
-            <section className="google_form">
-              <p>
-                <img src={googleImg} alt="google" />
-                구글 간편가입
-              </p>
-            </section>
+              </form>
+              <section className="login_form_line">
+                <p>또는</p>
+                <div></div>
+              </section>
+              <section
+                className="naver_form"
+                // id="naverIdLogin"
+                onClick={NaverLoginHandler}
+              >
+                <p>
+                  <img src={naverImg} alt="naver" />
+                  네이버 간편가입
+                </p>
+              </section>
+              <section className="google_form">
+                <p>
+                  <img src={googleImg} alt="google" />
+                  구글 간편가입
+                </p>
+              </section>
+            </div>
+            {joinSubmitModalOn ? (
+              <JoinSubmitModal
+                class="join_member_checked_cove_on"
+                onJoinSubmitQnaModal={onJoinSubmitQnaModal}
+              />
+            ) : (
+              <JoinSubmitModal class="join_member_checked_cove_off" />
+            )}
+            {/* {joinSubmitQnaModalOn ? (
+              <JoinSubmitQnaFirstModal
+                class="join_member_checked_qna_cove_on "
+                onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+                //   onCommersHandler={onCommersHandler}
+                onSpecialHandler={onSpecialHandler}
+                //   commersCheckedItems={commersCheckedItems}
+                setCommersCheckedItems={setCommersCheckedItems}
+                //   buttonChecked={buttonChecked}
+              />
+            ) : (
+              <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
+            )} */}
+            {/* {joinSubmitQnaSecondModalOn ? (
+              <JoinSubmitQnaSecondModal
+                class="join_member_checked_qna_cove_on"
+                onInterestHandler={onInterestHandler}
+                onSubmit={onSubmit}
+              />
+            ) : (
+              <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
+            )} */}
           </div>
-          {joinSubmitModalOn ? (
-            <JoinSubmitModal
-              class="join_member_checked_cove_on"
-              onJoinSubmitQnaModal={onJoinSubmitQnaModal}
-            />
-          ) : (
-            <JoinSubmitModal class="join_member_checked_cove_off" />
-          )}
-          {joinSubmitQnaModalOn ? (
-            <JoinSubmitQnaFirstModal
-              class="join_member_checked_qna_cove_on "
-              onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
-              onCommersHandler={onCommersHandler}
-              onSpecialHandler={onSpecialHandler}
-            />
-          ) : (
-            <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
-          )}
-          {joinSubmitQnaSecondModalOn ? (
-            <JoinSubmitQnaSecondModal
-              class="join_member_checked_qna_cove_on"
-              onInterestHandler={onInterestHandler}
-              onSubmit={onSubmit}
-            />
-          ) : (
-            <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
-          )}
         </div>
       </div>
-    </div>
+      <Modal isOpen={joinSubmitQnaModalOn} setIsOpen={setJoinSubmitModalOn}>
+        <JoinSubmitQnaFirstModal
+          onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+        />
+      </Modal>
+      <Modal
+        isOpen={joinSubmitQnaSecondModalOn}
+        setIsOpen={setJoinSubmitQnaSecondModalOn}
+      >
+        <JoinSubmitQnaSecondModal onSubmit={onSubmit} />
+      </Modal>
+    </>
   );
 };
 
