@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import defaultUserImg from "../images/default_user.png";
+import backpackImg from "../images/backpack.png";
 
 const Mypage = () => {
   const history = useHistory();
@@ -102,7 +103,7 @@ const Mypage = () => {
                     <span className="career_title_img_cove">
                       <img
                         className="career_title_img"
-                        src="src/images/backpack.png"
+                        src={backpackImg}
                         alt="backpack.png"
                       />
                     </span>
@@ -129,7 +130,7 @@ const Mypage = () => {
                     <span className="career_title_img_cove">
                       <img
                         className="career_title_img"
-                        src="src/images/backpack.png"
+                        src={backpackImg}
                         alt="backpack.png"
                       />
                     </span>
