@@ -29,16 +29,16 @@ const Login = (props) => {
     params.append("user_password", inputPassword);
     axios({
       method: "post",
-      url: "/login.php",
+      url: "/response/login.php",
       data: params,
     })
       .then((response) => {
         console.log(response.data.idx);
         if (response.data.error === 0) {
-          sessionStorage.setItem("email", inputEmail);
+          sessionStorage.setItem("user_idx", response.data.user_idx);
           alert("로그인 성공");
           history.push("/");
-          return setIsLogin(!isLogin);
+          //   return setIsLogin(!isLogin);
           console.log("로그인 하고 난 이후 로그인 상태 : ", isLogin);
         } else {
           alert("로그인 에러");
