@@ -4637,11 +4637,11 @@ select::-ms-expand {
 .join_member_qna_checked_popup {
   position: relative;
   margin: 0 auto;
-  top: 46%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 116%;
-  height: 485px;
+  width: 100%;
+  height: 67%;
   padding: 20px;
   border-radius: 6px;
   background-color: #fff;

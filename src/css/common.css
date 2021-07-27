@@ -37,7 +37,15 @@ img {
 /*=============================================
 =            Section header block             =
 =============================================*/
-
+.ly_popover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(51, 51, 51, 0.5);
+}
 header {
   position: fixed;
   z-index: 100;
@@ -530,9 +538,14 @@ header {
   font-size: 1.375rem;
   font-weight: 400;
 }
-.side_subsm {
+.side_subsm_off {
   position: relative;
   display: none;
+  width: auto;
+}
+.side_subsm_on {
+  position: relative;
+  display: block;
   width: auto;
 }
 .side_subsm_bar {
