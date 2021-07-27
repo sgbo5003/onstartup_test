@@ -18,42 +18,49 @@ const interestComponentArray = [
 ];
 
 const JoinSubmitQnaSecondModal = (props) => {
+  // 관심분야 -> 체크된 버튼들을 담는 state
+  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set());
+
+  // 관심분야 item들을 제어하는 함수
+  const onInterestHandler = (e) => {
+    interestCheckedItems.add(e.target.value);
+    setInterestCheckedItems(interestCheckedItems);
+    console.log(interestCheckedItems);
+  };
+
+  // 관심분야 관련 버튼 컴포넌트 Mapping
   const interestButtonOnList = interestComponentArray.map((data) => {
     return (
       <input
         type="button"
-        className="join_member_qna_select_btn_selected"
-        onClick={props.onInterestHandler}
+        className="join_member_qna_select_btn"
+        onClick={onInterestHandler}
         value={data}
       />
     );
   });
 
   return (
-    <div className={props.class}>
-      <div className="join_member_qna_checked_popup_second">
-        <section>
-          <div className="join_member_qna_title_container">
-            <div className="join_member_qna_Qtitle">Q.</div>
-            <div className="join_member_qna_title">관심분야는 무엇인가요?</div>
-          </div>
-          <div className="join_member_qna_special_container">
-            <div className="join_member_qna_special_title">전문분야</div>
-            <div className="join_member_qna_special_select_container">
-              {interestButtonOnList}
-            </div>
-          </div>
-        </section>
-        <div className="join_member_qna_select_confirm_btn_container">
-          <a
-            className="join_member_qna_select_confirm_btn"
-            onClick={props.onSubmit}
-          >
-            선택완료
-          </a>
+    <>
+      <div className="join_member_qna_title_container">
+        <div className="join_member_qna_Qtitle">Q.</div>
+        <div className="join_member_qna_title">관심분야는 무엇인가요?</div>
+      </div>
+      <div className="join_member_qna_special_container">
+        <div className="join_member_qna_special_title">관심분야</div>
+        <div className="join_member_qna_special_select_container">
+          {interestButtonOnList}
         </div>
       </div>
-    </div>
+      <div className="join_member_qna_select_confirm_btn_container">
+        <a
+          className="join_member_qna_select_confirm_btn"
+          onClick={props.onSubmit}
+        >
+          선택완료
+        </a>
+      </div>
+    </>
   );
 };
 
