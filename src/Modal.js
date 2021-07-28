@@ -37,8 +37,8 @@ const Modal = ({ children, fade = false, isOpen, setIsOpen }, ref) => {
 
   return createPortal(
     isOpen ? (
-      <div className="join_member_checked_qna_cove_on">
-        <div className="join_member_qna_checked_popup" onClick={close}>
+      <div className="join_member_checked_qna_cove_on" onClick={close}>
+        <div className="join_member_qna_checked_popup">
           <div>{children}</div>
         </div>
       </div>
