@@ -5,6 +5,25 @@ import backpackImg from "../images/backpack.png";
 
 const Mypage = () => {
   const history = useHistory();
+
+  const profileAddComponentArray = [
+    "프로필 사진 추가하기",
+    "소개글 추가하기",
+    "경력 추가하기",
+    "학력 추가하기",
+    "대표 사이트 추가하기",
+  ];
+
+  const interestComponentArray = ["관심분야1", "관심분야2", "관심분야3"];
+
+  const profileAddComponent = profileAddComponentArray.map((data) => {
+    return <button className="profile_add_section_button">{data}</button>;
+  });
+
+  const interestComponent = interestComponentArray.map((data) => {
+    return <span className="mypage_title_tag">{data}</span>;
+  });
+
   const logoutHandler = () => {
     console.log("clicked");
     sessionStorage.removeItem("email");
@@ -85,76 +104,29 @@ const Mypage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="it">
-                    <span className="mypage_title_tag">관심분야1</span>
-                    <span className="mypage_title_tag">관심분야2</span>
-                    <span className="mypage_title_tag">관심분야3</span>
+                  <div className="it">{interestComponent}</div>
+                  <div className="mypage_profile_range_container">
+                    <div className="profile_range_section">
+                      <div className="progress_bar_container">
+                        <label for="progress_bar">
+                          프로필 작성 단계
+                          <span className="progress_bar_num">1/5</span>
+                        </label>
+                      </div>
+                      <div>
+                        <progress
+                          id="progress_bar"
+                          max="5"
+                          value="1"
+                        ></progress>
+                      </div>
+                    </div>
+                    <div className="profile_add_section">
+                      {profileAddComponent}
+                    </div>
                   </div>
                 </div>
               </section>
-              <div className="mypage_phrase mypage_lower">
-                <p className="mypage_small_title">
-                  소개글 내용 텍스트 Lorem ipsum dolor sit amet, consetetur
-                  sadipscing elitr, sed diam nonumy eirmod
-                </p>
-                <div className="career_area first_career_area">
-                  <div className="career_title">
-                    <p className="career_title_name">경력사항</p>
-                    <span className="career_title_img_cove">
-                      <img
-                        className="career_title_img"
-                        src={backpackImg}
-                        alt="backpack.png"
-                      />
-                    </span>
-                  </div>
-                  <div className="career_list">
-                    <span className="career_item">
-                      Lorem ipsum dolor sit amet
-                    </span>
-                    <span className="career_item">sed diam nonumy eirmod</span>
-                    <span className="career_item">
-                      dolore magna aliquyam erat, sed
-                    </span>
-                    <span className="career_item">
-                      sed diam nonumy eirmod te
-                    </span>
-                    <span className="career_item">
-                      dolore magna aliquyam erat,
-                    </span>
-                  </div>
-                </div>
-                <div className="career_area">
-                  <div className="career_title">
-                    <p className="career_title_name education">학력</p>
-                    <span className="career_title_img_cove">
-                      <img
-                        className="career_title_img"
-                        src={backpackImg}
-                        alt="backpack.png"
-                      />
-                    </span>
-                  </div>
-                  <div className="career_list education">
-                    <span className="career_item">
-                      Lorem ipsum dolor sit amet
-                    </span>
-                    <span className="career_item">sed diam nonumy eirmod</span>
-                    <span className="career_item">
-                      dolore magna aliquyam erat, sed
-                    </span>
-                    <span className="career_item">
-                      sed diam nonumy eirmod te
-                    </span>
-                    <span className="career_item">
-                      dolore magna aliquyam erat,
-                    </span>
-                  </div>
-                </div>
-                <div className="mypage_homeurl">
-                  <p>대표 홈페이지 URL</p>
-                </div>
-              </div>
             </div>
           </div>
           <div className="mypage_profiles_tab_menu_cove">
@@ -162,14 +134,13 @@ const Mypage = () => {
               <li className="mypage_profiles_list my_comment_tab">
                 <a
                   className="mypage_profiles_tab_btn my_comment_tab mypage_profiles_tab_btn_active"
-                  href="#"
-                  className="active"
+                  //   className="active"
                 >
                   작성한 코멘트
                 </a>
               </li>
               <li className="mypage_profiles_list">
-                <a className="mypage_profiles_tab_btn my_port_tab" href="#">
+                <a className="mypage_profiles_tab_btn my_port_tab">
                   포트폴리오
                 </a>
               </li>
