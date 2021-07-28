@@ -18,25 +18,32 @@ const interestComponentArray = [
 ];
 
 const JoinSubmitQnaSecondModal = (props) => {
-  // 관심분야 -> 체크된 버튼들을 담는 state
-  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set());
+  const { interestCheckedItems, setInterestCheckedItems, onSubmit } = props;
 
   // 관심분야 item들을 제어하는 함수
-  const onInterestHandler = (e) => {
-    interestCheckedItems.add(e.target.value);
-    setInterestCheckedItems(interestCheckedItems);
-    console.log(interestCheckedItems);
+  const onInterestHandler = (data) => {
+    let itemSet = new Set(interestCheckedItems);
+    if (interestCheckedItems.has(data)) {
+      itemSet.delete(data);
+      setInterestCheckedItems(itemSet);
+    } else {
+      itemSet.add(data);
+      setInterestCheckedItems(itemSet);
+    }
+    console.log(data, interestCheckedItems.values());
   };
 
   // 관심분야 관련 버튼 컴포넌트 Mapping
   const interestButtonOnList = interestComponentArray.map((data) => {
     return (
-      <input
-        type="button"
-        className="join_member_qna_select_btn"
-        onClick={onInterestHandler}
-        value={data}
-      />
+      <button
+        className={`join_member_qna_select_btn ${
+          interestCheckedItems.has(data) ? "selected" : ""
+        }`}
+        onClick={() => onInterestHandler(data)}
+      >
+        {data}
+      </button>
     );
   });
 
@@ -53,10 +60,7 @@ const JoinSubmitQnaSecondModal = (props) => {
         </div>
       </div>
       <div className="join_member_qna_select_confirm_btn_container">
-        <a
-          className="join_member_qna_select_confirm_btn"
-          onClick={props.onSubmit}
-        >
+        <a className="join_member_qna_select_confirm_btn" onClick={onSubmit}>
           선택완료
         </a>
       </div>

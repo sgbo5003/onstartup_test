@@ -29,85 +29,66 @@ const specialComponentArray = [
 
 // join_member_qna.php => qna 페이지
 const JoinSubmitQnaFirstModal = (props) => {
-  // 버튼이 체크 되었는지 확인하는 state
-  const [buttonChecked, setButtonChecked] = useState(false);
-  // 커머스 -> 체크된 버튼들을 담는 state
-  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set());
-  // 전문분야 -> 체크된 버튼들을 담는 state
-  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set());
-
-  //   // 전문분야 itme들을 제어하는 함수
-  //   const onSpecialHandler = (e) => {
-  //     specialCheckedItems.add(e.target.value);
-  //     setSpecialCheckedItems(specialCheckedItems);
-  //     console.log(specialCheckedItems.values());
-  //   };
-
-  //   const onCommersHandler = (e) => {
-  //     commersCheckedItems.add(e.target.value);
-  //     setCommersCheckedItems(commersCheckedItems);
-  //     console.log(commersCheckedItems.values());
-  //   };
+  const {
+    commersCheckedItems,
+    setCommersCheckedItems,
+    specialCheckedItems,
+    setSpecialCheckedItems,
+    onJoinSubmitQnaSecondModal,
+  } = props;
 
   // 커머스 버튼 색상변경 핸들러
-  const onCommersHandler = (e) => {
-    if (commersCheckedItems.has(e.target.value)) {
-      setButtonChecked(false);
-      commersCheckedItems.delete(e.target.value);
-      setCommersCheckedItems(commersCheckedItems);
-      console.log(commersCheckedItems);
+  const onCommersHandler = (data) => {
+    let itemSet = new Set(commersCheckedItems);
+    console.log(itemSet);
+    if (commersCheckedItems.has(data)) {
+      itemSet.delete(data);
+      setCommersCheckedItems(itemSet);
     } else {
-      setButtonChecked(true);
-      commersCheckedItems.add(e.target.value);
-      setCommersCheckedItems(commersCheckedItems);
-      console.log(commersCheckedItems.values());
+      itemSet.add(data);
+      setCommersCheckedItems(itemSet);
     }
+    console.log(data, commersCheckedItems.values());
   };
 
   // 커머스 관련 버튼 컴포넌트 Mapping
   const commersButtonOnList = commersComponentArray.map((data) => {
     return (
-      <input
-        type="button"
-        className={`${
-          commersCheckedItems.has(data)
-            ? "join_member_qna_select_btn_selected"
-            : "join_member_qna_select_btn"
+      <button
+        className={`join_member_qna_select_btn ${
+          commersCheckedItems.has(data) ? "selected" : ""
         }`}
-        onClick={onCommersHandler}
-        value={data}
-      />
+        onClick={() => onCommersHandler(data)}
+      >
+        {data}
+      </button>
     );
   });
 
   // 전문분야 버튼 색상변경 핸들러
-  const onSpecialHandler = (e) => {
-    if (specialCheckedItems.has(e.target.value)) {
-      setButtonChecked(false);
-      specialCheckedItems.delete(e.target.value);
-      setSpecialCheckedItems(specialCheckedItems);
-      console.log(specialCheckedItems.values());
+  const onSpecialHandler = (data) => {
+    let itemSet = new Set(specialCheckedItems);
+    if (specialCheckedItems.has(data)) {
+      itemSet.delete(data);
+      setSpecialCheckedItems(itemSet);
     } else {
-      setButtonChecked(true);
-      specialCheckedItems.add(e.target.value);
-      setSpecialCheckedItems(specialCheckedItems);
-      console.log(specialCheckedItems.values());
+      itemSet.add(data);
+      setSpecialCheckedItems(itemSet);
     }
+    console.log(data, specialCheckedItems.values());
   };
 
   //전문분야 관련 버튼 컴포넌트 Mapping
   const specialButtonOnList = specialComponentArray.map((data) => {
     return (
-      <input
-        type="button"
-        className={`${
-          specialCheckedItems.has(data)
-            ? "join_member_qna_select_btn_selected"
-            : "join_member_qna_select_btn"
+      <button
+        className={`join_member_qna_select_btn ${
+          specialCheckedItems.has(data) ? "selected" : ""
         }`}
-        onClick={onSpecialHandler}
-        value={data}
-      />
+        onClick={() => onSpecialHandler(data)}
+      >
+        {data}
+      </button>
     );
   });
 
@@ -134,7 +115,7 @@ const JoinSubmitQnaFirstModal = (props) => {
       <div className="join_member_qna_select_confirm_btn_container">
         <a
           className="join_member_qna_select_confirm_btn"
-          onClick={props.onJoinSubmitQnaSecondModal}
+          onClick={onJoinSubmitQnaSecondModal}
         >
           다음으로
         </a>
