@@ -29,6 +29,13 @@ const Join = (props) => {
   const history = useHistory();
   const { isLogin, setIsLogin } = props;
 
+  // 커머스 -> 체크된 버튼들을 담는 state
+  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set());
+  // 전문분야 -> 체크된 버튼들을 담는 state
+  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set());
+  // 관심분야 -> 체크된 버튼들을 담는 state
+  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set());
+
   // 카카오 로그인
   const kakaoLoginHandler = () => {
     axios
@@ -355,41 +362,27 @@ const Join = (props) => {
             ) : (
               <JoinSubmitModal class="join_member_checked_cove_off" />
             )}
-            {/* {joinSubmitQnaModalOn ? (
-              <JoinSubmitQnaFirstModal
-                class="join_member_checked_qna_cove_on "
-                onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
-                //   onCommersHandler={onCommersHandler}
-                onSpecialHandler={onSpecialHandler}
-                //   commersCheckedItems={commersCheckedItems}
-                setCommersCheckedItems={setCommersCheckedItems}
-                //   buttonChecked={buttonChecked}
-              />
-            ) : (
-              <JoinSubmitQnaFirstModal class="join_member_checked_qna_cove_off" />
-            )} */}
-            {/* {joinSubmitQnaSecondModalOn ? (
-              <JoinSubmitQnaSecondModal
-                class="join_member_checked_qna_cove_on"
-                onInterestHandler={onInterestHandler}
-                onSubmit={onSubmit}
-              />
-            ) : (
-              <JoinSubmitQnaSecondModal class="join_member_checked_qna_cove_off" />
-            )} */}
           </div>
         </div>
       </div>
       <Modal isOpen={joinSubmitQnaModalOn} setIsOpen={setJoinSubmitModalOn}>
         <JoinSubmitQnaFirstModal
           onJoinSubmitQnaSecondModal={onJoinSubmitQnaSecondModal}
+          commersCheckedItems={commersCheckedItems}
+          setCommersCheckedItems={setCommersCheckedItems}
+          specialCheckedItems={specialCheckedItems}
+          setSpecialCheckedItems={setSpecialCheckedItems}
         />
       </Modal>
       <Modal
         isOpen={joinSubmitQnaSecondModalOn}
-        setIsOpen={setJoinSubmitQnaSecondModalOn}
+        setIsOpen={setJoinSubmitQnaModalOn}
       >
-        <JoinSubmitQnaSecondModal onSubmit={onSubmit} />
+        <JoinSubmitQnaSecondModal
+          onSubmit={onSubmit}
+          interestCheckedItems={interestCheckedItems}
+          setInterestCheckedItems={setInterestCheckedItems}
+        />
       </Modal>
     </>
   );
