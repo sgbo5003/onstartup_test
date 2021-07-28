@@ -2061,3 +2061,197 @@ useEffect(() => {
           });
       };
       ```
+
+# 7/26일 월요일
+
+> 회원가입 - 질문부분 데이터 전달
+
+- 회원가입 양식 작성 후 질문 모달 2개 데이터 넘기기
+- 코드
+
+  ```jsx
+  const [commersCheckedItems, setCommersCheckedItems] = useState(new Set()); // 커머스 -> 체크된 버튼들을 담는 state
+  const [specialCheckedItems, setSpecialCheckedItems] = useState(new Set()); // 전문분야 -> 체크된 버튼들을 담는 state
+  const [interestCheckedItems, setInterestCheckedItems] = useState(new Set()); // 관심분야 -> 체크된 버튼들을 담는 state
+
+  // 커머스 itme들을 제어하는 함수
+  const onCommersHandler = (e) => {
+    commersCheckedItems.add(e.target.value);
+    setCommersCheckedItems(commersCheckedItems);
+    console.log(commersCheckedItems);
+  };
+
+  // 전문분야 itme들을 제어하는 함수
+  const onSpecialHandler = (e) => {
+    specialCheckedItems.add(e.target.value);
+    setSpecialCheckedItems(specialCheckedItems);
+    console.log(specialCheckedItems);
+  };
+
+  // 관심분야 itme들을 제어하는 함수
+  const onInterestHandler = (e) => {
+    interestCheckedItems.add(e.target.value);
+    setInterestCheckedItems(interestCheckedItems);
+    console.log(interestCheckedItems);
+  };
+
+  // 데이터 POST 방식으로 보내기
+  const pushData = () => {
+    const params = new FormData();
+    params.append("user_name", name);
+    params.append("user_email", email);
+    params.append("user_password", password);
+    params.append("commerce", [...commersCheckedItems]);
+    params.append("specialty", [...specialCheckedItems]);
+    params.append("interesting", [...interestCheckedItems]);
+    axios({
+      method: "post",
+      url: "/response/join_member_normal.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  ```
+
+> 사이드바 드롭다운 관련
+
+- 참고
+  - [https://codesandbox.io/s/stack-63755719-ul-show-hide-6sk2x?file=/src/App.js](https://codesandbox.io/s/stack-63755719-ul-show-hide-6sk2x?file=/src/App.js)
+
+> axios 주소 url 수정, 모달창에서 선택분야 데이터 넘기기
+
+- 코드
+
+  ```jsx
+  // 데이터 POST 방식으로 보내기
+  const pushData = () => {
+    const params = new FormData();
+    params.append("user_name", name);
+    params.append("user_email", email);
+    params.append("user_password", password);
+    params.append("commerce", [...commersCheckedItems]);
+    params.append("specialty", [...specialCheckedItems]);
+    params.append("interesting", [...interestCheckedItems]);
+    axios({
+      method: "post",
+      url: "/response/join_member_normal.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log(response);
+        console.log(response.data.user_idx);
+        sessionStorage.setItem("user_idx", response.data.user_idx);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  ```
+
+# 7/27일 화요일
+
+> 사이드바 드롭다운 구현
+
+- 코드
+
+  ```jsx
+
+  	// state 관리
+  	const [open, setOpen] = useState(false);
+    const [checkedItmes, setCheckedItems] = useState(new Set()); //클릭 된 것들 담는 state
+
+  	// 클릭한 아이템을 담는 함수
+    const onCheckedItemsHandler = (e) => {
+      console.log(checkedItmes.values());
+      if (checkedItmes.has(e.target.innerText)) {
+        checkedItmes.delete(e.target.innerText);
+        setOpen(false);
+      } else {
+        checkedItmes.add(e.target.innerText);
+        setCheckedItems(checkedItmes);
+        setOpen(true);
+      }
+
+  	//렌더링 부분
+  	const componentArrayList = componentArray.map((data, index) => {
+  	    return (
+  	      <li key={index} className="side_sub_bar" onClick={onCheckedItemsHandler}>
+  	        <a className="side_sub_menu">
+  	          <span className="side_sub_menu_icon_cove">
+  	            <img src={data.src} className="side_sub_menu_icon" />
+  	          </span>
+  	          <span className="sidemenu_text">{data.title}</span>
+  	        </a>
+  	        {checkedItmes.has(data.title)
+  	          ? sideBarSubMenuHandlerOn()
+  	          : sideBarSubMenuHandlerOff()}
+  	      </li>
+  	    );
+  	  });
+
+  ```
+
+> 버튼 색깔 변경
+
+- 코드
+
+  ```jsx
+  // 커머스 버튼 색상변경 핸들러
+  const onCommersHandler = (data) => {
+    let itemSet = new Set(commersCheckedItems);
+    console.log(itemSet);
+    if (commersCheckedItems.has(data)) {
+      itemSet.delete(data);
+      setCommersCheckedItems(itemSet);
+    } else {
+      itemSet.add(data);
+      setCommersCheckedItems(itemSet);
+    }
+    console.log(data, commersCheckedItems.values());
+  };
+
+  // 커머스 관련 버튼 컴포넌트 Mapping
+  const commersButtonOnList = commersComponentArray.map((data) => {
+    return (
+      <button
+        className={`join_member_qna_select_btn ${
+          commersCheckedItems.has(data) ? "selected" : ""
+        }`}
+        onClick={() => onCommersHandler(data)}
+      >
+        {data}
+      </button>
+    );
+  });
+  ```
+
+> 모달 변경
+
+- css 변경 필요
+
+> 프로필 - 게이지바
+
+- css를 통해 제어
+- 코드
+
+  ```jsx
+  <div className="progress_bar_container">
+                          <label for="progress_bar">
+                            프로필 작성 단계
+                            <span className="progress_bar_num">1/5</span>
+                          </label>
+                        </div>
+                        <div>
+                          <progress
+                            id="progress_bar"
+                            max="5"
+                            value="1"
+                          ></progress>
+                        </div>
+                      </div>
+  ```
