@@ -550,6 +550,7 @@
 .write_wap {
   padding-left: 20.625em;
   padding-right: 20.625em;
+  padding-top: 6%;
   margin-bottom: 162px;
 }
 .write_content {
@@ -4783,4 +4784,185 @@ progress::-webkit-progress-value {
 .progress_bar_num {
   color: #bda26b;
   margin-left: 14px;
+}
+
+/* 마이페이지 - 수정페이지 css 작업 */
+
+.mypage_edit_wap {
+  padding-left: 15.625em;
+  padding-right: 16.625em;
+  margin-bottom: 162px;
+  padding-top: 9%;
+  display: flex;
+}
+
+.mypage_profile_component {
+  margin-right: 30px;
+}
+
+.mypage_edit_content {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.mypage_edit_view {
+  position: relative;
+  width: 100%;
+}
+
+.mypage_input_title {
+  margin-bottom: 12px;
+}
+
+.mypage_input {
+  display: inline-block;
+  width: 100%;
+  height: 56px;
+  line-height: 70px;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  margin-bottom: 40px;
+  border-radius: 6px;
+  border: 0px;
+  overflow: hidden;
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #aaa;
+  background-color: #f2f2f2;
+  position: relative;
+}
+
+.mypage_belongTitle_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.mypage_belong_container {
+  padding-right: 30px;
+}
+
+.mypage_interest_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.mypage_interest_view {
+  display: flex;
+  flex: 4.5;
+  flex-direction: column;
+}
+
+.mypage_interest_select {
+  flex: 5.5;
+}
+
+.mypage_input_interest {
+  display: inline-block;
+  width: 60%;
+  height: 56px;
+  line-height: 70px;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  margin-bottom: 40px;
+  border-radius: 6px;
+  border: 0px;
+  overflow: hidden;
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #aaa;
+  background-color: #f2f2f2;
+  position: relative;
+}
+
+.mypage_input_add_btn {
+  padding-left: 1.375em;
+  padding-right: 1.375em;
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.mypage_input_add {
+  display: inline-block;
+  width: 100%;
+  height: 56px;
+  line-height: 70px;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 0px;
+  overflow: hidden;
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #aaa;
+  background-color: #f2f2f2;
+  position: relative;
+}
+
+.mypage_input_add::placeholder {
+  color: #bdbdbd;
+}
+
+.mypage_button_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.mypage_submit_button_off {
+  position: relative;
+  width: 100%;
+  height: 49px;
+  line-height: 42px;
+  background-color: #cbcbcb;
+  color: #fff;
+  font-size: 1.875rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 0px;
+  margin-top: 40px;
+  margin-right: 28px;
+  cursor: pointer;
+}
+.mypage_submit_button_on {
+  position: relative;
+  width: 100%;
+  height: 49px;
+  line-height: 42px;
+  background-color: #bea36b;
+  color: #fff;
+  font-size: 1.875rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 0px;
+  margin-top: 40px;
+  cursor: pointer;
+  cursor: pointer;
+}
+
+.mypage_career_container {
+  position: relative;
+}
+
+.mypage_education_container {
+  position: relative;
+}
+
+.mypage_edit_tag_cancel_img_container {
+  position: absolute;
+  right: 8px;
+  top: 57px;
+}
+
+.mypage_edit_tag_cancel_img_box {
+  display: inline-block;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+}
+
+.mypage_input_add_btn_a {
+  cursor: pointer;
 }
