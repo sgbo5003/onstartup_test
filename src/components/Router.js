@@ -15,6 +15,7 @@ import AccountManagement from "../routes/AccountManagement";
 import ChangePassword from "../routes/ChangePassword";
 import Notice from "../routes/Notice";
 import Question from "../routes/Question";
+import MypageEdit from "../routes/MypageEdit";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -91,7 +92,8 @@ const AppRouter = () => {
           setIsLogin={setIsLogin}
         />
         <Route path="/SaveWrite" component={SaveWrite} />
-        <Route path="/Mypage" component={Mypage} />
+        <Route exact path="/Mypage" component={Mypage} />
+        <Route path="/Mypage/edit" component={MypageEdit} />
         <Route path="/AccountManagement" component={AccountManagement} />
         <Route path="/ChangePassword" component={ChangePassword} />
         <Route path="/Notice" component={Notice} />
