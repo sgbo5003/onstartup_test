@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import defaultUserImg from "../images/default_user.png";
 import backpackImg from "../images/backpack.png";
 
@@ -16,10 +16,12 @@ const Mypage = () => {
 
   const interestComponentArray = ["관심분야1", "관심분야2", "관심분야3"];
 
+  // 프로필 사진 추가하기 , 소개글 추가하기 등 추가하기 관련 컴포넌트 Mapping
   const profileAddComponent = profileAddComponentArray.map((data) => {
     return <button className="profile_add_section_button">{data}</button>;
   });
 
+  // 관심분야 컴포넌트 Mapping
   const interestComponent = interestComponentArray.map((data) => {
     return <span className="mypage_title_tag">{data}</span>;
   });
@@ -48,30 +50,23 @@ const Mypage = () => {
                   <div className="ti">
                     <ul className="nick_dept">
                       <li className="nick_item">
-                        <a className="nick" href="#">
-                          닉네임
-                        </a>
+                        <a className="nick">닉네임</a>
                       </li>
                       <li className="dept_item">
-                        <a className="dept" href="#">
-                          소속
-                        </a>
+                        <a className="dept">소속</a>
                       </li>
                     </ul>
                     <div className="edit_message">
                       <span className="mypage_title_edit">
-                        <a
+                        <Link
+                          to="/Mypage/edit"
                           className="mypage_title_edit_btn title_edit_message_btn"
-                          href="#"
                         >
                           EDIT
-                        </a>
+                        </Link>
                       </span>
                       <span className="mypage_title_message">
-                        <a
-                          className="mypage_title_message_btn title_edit_message_btn"
-                          href="#"
-                        >
+                        <a className="mypage_title_message_btn title_edit_message_btn">
                           메세지 보기
                         </a>
                       </span>
@@ -82,7 +77,7 @@ const Mypage = () => {
                       </span>
                     </div>
                     <div className="mypage_share">
-                      <a className="mypage_share_btn" href="#">
+                      <a className="mypage_share_btn">
                         <img
                           src="src/images/icon_share.png"
                           alt="icon_share.png"
@@ -110,14 +105,14 @@ const Mypage = () => {
                       <div className="progress_bar_container">
                         <label for="progress_bar">
                           프로필 작성 단계
-                          <span className="progress_bar_num">1/5</span>
+                          <span className="progress_bar_num">0/5</span>
                         </label>
                       </div>
                       <div>
                         <progress
                           id="progress_bar"
                           max="5"
-                          value="1"
+                          value="0"
                         ></progress>
                       </div>
                     </div>
