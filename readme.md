@@ -2255,3 +2255,77 @@ useEffect(() => {
                         </div>
                       </div>
   ```
+
+# 7/29일 목요일
+
+---
+
+> redux toolkit
+
+- 리덕스를 사용할 수 있는 라이브러리로 엄청 편하고 쉽다고 한다.
+
+> 마이페이지 수정 페이지 - (리스트 추가 & 제거 기능 구현 & 수정)
+
+- 코드
+
+  ```jsx
+  // 1. 기존 input 에 값을 넣을 수 있는 state & 추가 한 값이 들어갈 수 있는 state 생성
+
+  //경력사항
+  const [careerItem, setCareerItem] = useState("");
+  //경력사항을 담는 배열
+  const [careerItemList, setCareerItemList] = useState([]);
+
+  // 2. input에 변경되는 값을 감지하고 저장하는 함수를 작성
+
+  // 경력추가 input 값 감지 함수
+  const careerOnChangeHandler = (e) => {
+    console.log(e.target.value);
+    setCareerItem(e.target.value);
+  };
+
+  // 3. 추가 버튼을 누르면 값이 비었는지 체크 & careerItemList에 담는다 (추가)
+
+  // 경력추가 버튼 기능
+  const onCareerSubmit = () => {
+    if (careerItem === "") {
+      return;
+    } else {
+      setCareerItemList(careerItemList.concat(careerItem));
+    }
+    setCareerItem("");
+  };
+
+  // 4. x버튼을 누르면 누른 div 를 제거 (제거)
+
+  // 추가한 항목 삭제버튼 기능
+  const onCareerCancelClick = (item) => {
+    const checkNewArray = careerItemList.filter((el) => el !== item);
+    setCareerItemList(checkNewArray);
+  };
+
+  // 5. input & mapping
+
+  <input
+    type="text"
+    className="mypage_input_add"
+    placeholder="회사"
+    value={careerItem}
+    onChange={careerOnChangeHandler}
+  />;
+  {
+    careerItemList.map((item) => {
+      return (
+        <div className="mypage_input_interest">
+          {item}
+          <a
+            className="mypage_edit_tag_cancel_img_box"
+            onClick={() => onCareerCancelClick(item)}
+          >
+            <img src={editTagImg} alt="edit_tag_cancel" />
+          </a>
+        </div>
+      );
+    });
+  }
+  ```
