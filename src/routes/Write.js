@@ -193,7 +193,7 @@ const Write = () => {
                   name="comment_file"
                   onChange={onChangeImg}
                   id="file"
-                  accept="image/gif, image/jpeg, image/png"
+                  accept="image/gif, image/jpeg, image/png, image/bmp,"
                 />
                 <input
                   className="comment_group upload-name comment_file_text write_text_box"
