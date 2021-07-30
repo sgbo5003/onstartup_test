@@ -2,9 +2,26 @@ import React, { useState } from "react";
 import defaultUserImg from "../images/default_user.png";
 import editTagImg from "../images/edit_tag_cancel.png";
 const MypageEdit = () => {
-  const oncareerInputClick = () => {
-    console.log("clicked");
-  };
+  const selectsInterestListArray = [
+    { id: 1, interestName: "커머스 진단" },
+    { id: 2, interestName: "상품기획MD" },
+    { id: 3, interestName: "콘텐츠" },
+    { id: 4, interestName: "브랜딩" },
+    { id: 5, interestName: "디자인 (상세페이지, 홍보컨텐츠 등)" },
+    { id: 6, interestName: "촬영·편집" },
+    { id: 7, interestName: "커머스 UIUX·개발" },
+    { id: 8, interestName: "커머스 운영·관리" },
+    { id: 9, interestName: "마케팅" },
+    { id: 10, interestName: "고객관리" },
+    { id: 11, interestName: "물류관리" },
+    { id: 12, interestName: "제조" },
+    { id: 13, interestName: "글로벌 셀링" },
+    { id: 14, interestName: "기타" },
+  ];
+
+  const selectsInterestList = selectsInterestListArray.map((data) => {
+    return <input className="mypage_input_interest" value="브랜딩" />;
+  });
 
   //경력사항
   const [careerItem, setCareerItem] = useState("");
@@ -14,46 +31,46 @@ const MypageEdit = () => {
   const [educationItem, setEducationItem] = useState("");
   //학력사항을 담는 배열
   const [educationItemList, setEducationItemList] = useState([]);
-  // 버튼 감지
-  const [button, setButtonClicked] = useState(false);
-  // 경력사항 input 변경 값 감지 함수
-  const onChangeCareerTextHandler = (e) => {
+
+  // 경력추가 input 값 감지 함수
+  const careerOnChangeHandler = (e) => {
+    console.log(e.target.value);
     setCareerItem(e.target.value);
   };
-  // 학력사항 input 변경 값 감지 함수
-  const onChangeEducationTextHandler = (e) => {
-    setEducationItem(e.target.value);
-  };
+
   // 경력추가 버튼 기능
-  const onCareerSubmit = (e) => {
+  const onCareerSubmit = () => {
     if (careerItem === "") {
       return;
     } else {
-      careerItemList.push(careerItem);
-      setCareerItemList(careerItemList);
-      console.log(careerItemList);
-      setButtonClicked(true);
-      setCareerItem("");
+      setCareerItemList(careerItemList.concat(careerItem));
     }
+    setCareerItem("");
   };
+
+  // 학력사항 input 변경 값 감지 함수
+  const educationOnChangeHandler = (e) => {
+    console.log(e.target.value);
+    setEducationItem(e.target.value);
+  };
+
   // 학력추가 버튼 기능
   const onEducationSubmit = () => {
     if (educationItem === "") {
       return;
     } else {
-      educationItemList.push(educationItem);
-      setEducationItemList(educationItemList);
-      console.log(educationItemList);
-      setButtonClicked(true);
-      setEducationItem("");
+      setEducationItemList(educationItemList.concat(educationItem));
     }
+    setEducationItem("");
   };
 
   // 추가한 항목 삭제버튼 기능
-  const onCareerCancelClick = () => {
-    educationItemList.pop(educationItem);
-    console.log("clicked");
+  const onCareerCancelClick = (item) => {
+    const checkNewArray = careerItemList.filter((el) => el !== item);
+    setCareerItemList(checkNewArray);
   };
+
+  console.log(careerItemList);
 
   return (
     <div className="mypage_edit_wap">
@@ -114,26 +131,34 @@ const MypageEdit = () => {
           </div>
           <div className="mypage_career_container">
             <h2 className="mypage_input_title">경력사항</h2>
-            {button
-              ? careerItemList.map((data) => {
-                  return <input className="mypage_input_add" value={data} />;
-                })
-              : ""}
             <input
+              type="text"
               className="mypage_input_add"
               placeholder="회사"
               value={careerItem}
-              onChange={onChangeCareerTextHandler}
+              onChange={careerOnChangeHandler}
             />
-
-            <div className="mypage_edit_tag_cancel_img_container">
+            {careerItemList.map((item) => {
+              return (
+                <div className="mypage_input_add_button_component">
+                  {item}
+                  <a
+                    className="mypage_edit_tag_cancel_img_box"
+                    onClick={() => onCareerCancelClick(item)}
+                  >
+                    <img src={editTagImg} alt="edit_tag_cancel" />
+                  </a>
+                </div>
+              );
+            })}
+            {/* <div className="mypage_edit_tag_cancel_img_container">
               <a
                 className="mypage_edit_tag_cancel_img_box"
                 onClick={onCareerCancelClick}
               >
                 <img src={editTagImg} alt="edit_tag_cancel" />
               </a>
-            </div>
+            </div> */}
             <p className="mypage_input_add_btn">
               <a className="mypage_input_add_btn_a" onClick={onCareerSubmit}>
                 경력추가 +
@@ -142,11 +167,7 @@ const MypageEdit = () => {
           </div>
           <div className="mypage_education_container">
             <h2 className="mypage_input_title">학력</h2>
-            {button
-              ? educationItemList.map((data) => {
-                  return <input className="mypage_input_add" value={data} />;
-                })
-              : ""}
+
             <input
               className="mypage_input_add"
               placeholder="OO학교 OO전공"
