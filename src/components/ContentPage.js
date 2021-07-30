@@ -84,7 +84,7 @@ const ContentPage = () => {
 
     axios({
       method: "post",
-      url: "/get_info.php",
+      url: "/response/get_info.php",
       data: params,
     })
       .then((response) => {
