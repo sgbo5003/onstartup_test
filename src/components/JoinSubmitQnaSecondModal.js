@@ -1,24 +1,14 @@
-import React, { useState } from "react";
-
-const interestComponentArray = [
-  "커머스 진단",
-  "상품기획MD",
-  "콘텐츠",
-  "브랜딩",
-  "디자인 (상세페이지, 홍보컨텐츠 등)",
-  "촬영·편집",
-  "커머스 UIUX·개발",
-  "커머스 운영·관리",
-  "마케팅",
-  "고객관리",
-  "물류관리",
-  "제조",
-  "글로벌 셀링",
-  "기타",
-];
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const JoinSubmitQnaSecondModal = (props) => {
   const { interestCheckedItems, setInterestCheckedItems, onSubmit } = props;
+
+  const [interestingData, setInterestingData] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
 
   // 관심분야 item들을 제어하는 함수
   const onInterestHandler = (data) => {
@@ -34,7 +24,7 @@ const JoinSubmitQnaSecondModal = (props) => {
   };
 
   // 관심분야 관련 버튼 컴포넌트 Mapping
-  const interestButtonOnList = interestComponentArray.map((data) => {
+  const interestButtonOnList = interestingData.category_text.map((data) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
@@ -46,6 +36,28 @@ const JoinSubmitQnaSecondModal = (props) => {
       </button>
     );
   });
+
+  const getInterestingData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "interesting");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("interesting response :", response.data);
+        setInterestingData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getInterestingData();
+  }, []);
 
   return (
     <>
