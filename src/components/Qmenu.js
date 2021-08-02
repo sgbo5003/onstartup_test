@@ -20,7 +20,7 @@ const Qmenu = (props) => {
         </Link>
       </p>
       <p className="Qmenu_menu_cove">
-        <Link to="/Question" className="Qmenu_menu">
+        <Link to="/Inquiry" className="Qmenu_menu">
           문의하기
         </Link>
       </p>
