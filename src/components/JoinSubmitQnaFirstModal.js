@@ -1,33 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const commersComponentArray = [
-  "플랫폼운영",
-  "스마트스토어",
-  "쿠팡",
-  "글로벌판매",
-  "자사몰 (카페24, 메이크샵 등)",
-  "창업 준비",
-  "오픈마켓 (11번가, 지마켓 등)",
-  "도매",
-  "기타",
-];
-
-const specialComponentArray = [
-  "상품기획MD",
-  "브랜딩",
-  "촬영·편집",
-  "콘텐츠 디자인 (상세페이지, 홍보콘텐츠 등)",
-  "커머스 UIUX·개발",
-  "커머스 운영·관리",
-  "마케팅",
-  "고객관리",
-  "물류관리",
-  "제조",
-  "글로벌 셀링",
-  "기타",
-];
-
-// join_member_qna.php => qna 페이지
 const JoinSubmitQnaFirstModal = (props) => {
   const {
     commersCheckedItems,
@@ -36,6 +9,18 @@ const JoinSubmitQnaFirstModal = (props) => {
     setSpecialCheckedItems,
     onJoinSubmitQnaSecondModal,
   } = props;
+
+  const [commerceData, setCommerceData] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+
+  const [specialtyData, setSpecialtyData] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
 
   // 커머스 버튼 색상변경 핸들러
   const onCommersHandler = (data) => {
@@ -52,7 +37,7 @@ const JoinSubmitQnaFirstModal = (props) => {
   };
 
   // 커머스 관련 버튼 컴포넌트 Mapping
-  const commersButtonOnList = commersComponentArray.map((data) => {
+  const commersButtonOnList = commerceData.category_text.map((data) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
@@ -79,7 +64,7 @@ const JoinSubmitQnaFirstModal = (props) => {
   };
 
   //전문분야 관련 버튼 컴포넌트 Mapping
-  const specialButtonOnList = specialComponentArray.map((data) => {
+  const specialButtonOnList = specialtyData.category_text.map((data) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
@@ -91,6 +76,47 @@ const JoinSubmitQnaFirstModal = (props) => {
       </button>
     );
   });
+
+  const getCommerceData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "commerce");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("commerce response :", response.data);
+        setCommerceData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSpecialtyData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "specialty");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("specialty response :", response.data);
+        setSpecialtyData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getCommerceData();
+    getSpecialtyData();
+  }, []);
 
   return (
     <>
