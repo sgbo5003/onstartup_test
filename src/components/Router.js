@@ -14,7 +14,7 @@ import Mypage from "../routes/Mypage";
 import AccountManagement from "../routes/AccountManagement";
 import ChangePassword from "../routes/ChangePassword";
 import Notice from "../routes/Notice";
-import Question from "../routes/Question";
+import Inquiry from "../routes/Inquiry";
 import MypageEdit from "../routes/MypageEdit";
 
 const AppRouter = () => {
@@ -93,11 +93,11 @@ const AppRouter = () => {
         />
         <Route path="/SaveWrite" component={SaveWrite} />
         <Route exact path="/Mypage" component={Mypage} />
-        <Route path="/Mypage/edit" component={MypageEdit} />
+        <Route exact path="/Mypage/edit" component={MypageEdit} />
         <Route path="/AccountManagement" component={AccountManagement} />
         <Route path="/ChangePassword" component={ChangePassword} />
         <Route path="/Notice" component={Notice} />
-        <Route path="/Question" component={Question} />
+        <Route path="/Inquiry" component={Inquiry} />
       </Switch>
     </>
   );
