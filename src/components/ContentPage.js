@@ -80,7 +80,7 @@ const ContentPage = () => {
 
   const getData = () => {
     const params = new FormData();
-    params.append("comment", 4);
+    params.append("command", 4);
 
     axios({
       method: "post",
@@ -89,6 +89,7 @@ const ContentPage = () => {
     })
       .then((response) => {
         console.log(response);
+        // data 받아온거 담기
         setData(response.data);
       })
       .catch((error) => {
