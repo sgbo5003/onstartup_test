@@ -13,12 +13,18 @@ const Write = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState();
   const [url, setUrl] = useState("");
-  const [category, setCategory] = useState([]);
   const [selectModalOn, setSelectModalOn] = useState(false); // 분야 선택을 띄우기 위해 체크할 수 있는 state
   const [confirmModalOn, setConfirmModalOn] = useState(false); // confirmModal을 띄우기 위해 체크할 수 있는 state
   const [submitIsTrueModal, setSubmitIsTrueModalOn] = useState(false); // 등록하기 => true 체크
   const [submitIsFalseModal, setSubmitIsFalseModalOn] = useState(false); // 등록하기 => false 체크
   const [buttonOn, setButtonOn] = useState(false); // 버튼 disable & enable 변경을 위해 필요한 state
+  const [categoryData, setCategoryData] = useState({
+    category_img_root_name: [],
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+  const [category, setCategory] = useState([]);
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
@@ -94,13 +100,6 @@ const Write = () => {
       setButtonOn(true);
     }
   }
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   pushData();
-  //   console.log("글쓰기 완료");
-  // };
-
   const pushData = () => {
     const params = new FormData();
     params.append("comment_text", content);
@@ -129,10 +128,32 @@ const Write = () => {
       });
   };
 
+  const getCategoryData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "main");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("category response :", response.data);
+        setCategoryData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // 버튼 변경 & state 변경 실시간 감지
   useEffect(() => {
     checkBtnOn();
   });
+
+  useEffect(() => {
+    getCategoryData();
+  }, []);
 
   return (
     <div className="wap write_wap">
@@ -274,6 +295,8 @@ const Write = () => {
                     category={category}
                     setCategory={setCategory}
                     selectModalOn={selectModalOn}
+                    categoryData={categoryData}
+                    setCategoryData={setCategoryData}
                   />
                 ) : (
                   <WriteSelectModal
@@ -281,6 +304,8 @@ const Write = () => {
                     onOpenModal={onOpenModal}
                     category={category}
                     setCategory={setCategory}
+                    categoryData={categoryData}
+                    setCategoryData={setCategoryData}
                   />
                 )}
               </div>
