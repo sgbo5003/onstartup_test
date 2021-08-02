@@ -2,27 +2,16 @@ import React, { useState } from "react";
 import BackImg from "../images/back.png";
 
 const WriteSelectModal = (props) => {
-  const selects = [
-    { id: 1, contentName: "커머스 정보" },
-    { id: 2, contentName: "브랜딩" },
-    { id: 3, contentName: "커머스 UI UX" },
-    { id: 4, contentName: "도매상품소싱" },
-    { id: 5, contentName: "촬영·편집" },
-    { id: 6, contentName: "자사몰 운영 / 관리" },
-    { id: 7, contentName: "오픈마켓 운영 / 관리" },
-    { id: 8, contentName: "콘텐츠 마케팅" },
-  ];
-
-  const selectList = selects.map((data) => {
+  const selectList = props.categoryData.category_text.map((data, idx) => {
     return (
       <li>
         <a
           class="write_select_list"
           onClick={() => {
-            props.setCategory(data.contentName);
+            props.setCategory(props.categoryData.category_text[idx]);
           }}
         >
-          {data.contentName}
+          {props.categoryData.category_text[idx]}
         </a>
       </li>
     );
