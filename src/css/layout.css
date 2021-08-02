@@ -1146,7 +1146,7 @@
   height: 20px;
 }
 .write_select_li {
-  height: 610px;
+  height: 310px;
   overflow-y: scroll;
 }
 .write_select_first_list {
@@ -2809,6 +2809,7 @@
 .inquiry_wap {
   padding-left: 20.625em;
   padding-right: 20.625em;
+  padding-top: 6%;
   margin-bottom: 162px;
 }
 .inquiry_content {
@@ -4861,10 +4862,10 @@ progress::-webkit-progress-value {
   display: inline-block;
   width: 60%;
   height: 56px;
-  line-height: 70px;
-  padding-left: 1.25em;
+  line-height: 57px;
+  padding-left: 0.75em;
   padding-right: 1.25em;
-  margin-bottom: 40px;
+  margin-bottom: 18px;
   border-radius: 6px;
   border: 0px;
   overflow: hidden;
@@ -4873,6 +4874,25 @@ progress::-webkit-progress-value {
   color: #aaa;
   background-color: #f2f2f2;
   position: relative;
+}
+
+.mypage_input_add_button_component {
+  display: inline-block;
+  width: auto;
+  height: 56px;
+  line-height: 55px;
+  padding-left: 0.65em;
+  padding-right: 1.65em;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 0px;
+  overflow: hidden;
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #aaa;
+  background-color: #f2f2f2;
+  position: relative;
+  margin-right: 10px;
 }
 
 .mypage_input_add_btn {
@@ -4942,27 +4962,53 @@ progress::-webkit-progress-value {
   cursor: pointer;
 }
 
-.mypage_career_container {
+/* .mypage_career_container {
   position: relative;
-}
+} */
 
 .mypage_education_container {
   position: relative;
 }
 
-.mypage_edit_tag_cancel_img_container {
+/* .mypage_edit_tag_cancel_img_container {
   position: absolute;
   right: 8px;
   top: 57px;
-}
+} */
 
 .mypage_edit_tag_cancel_img_box {
   display: inline-block;
   cursor: pointer;
   width: 34px;
   height: 34px;
+  top: 10px;
+  right: 3px;
+  position: absolute;
 }
 
 .mypage_input_add_btn_a {
+  cursor: pointer;
+}
+
+.mypage_edit_select_interest_list_container {
+  height: 310px;
+  overflow-y: scroll;
+}
+
+.mypage_edit_select_interest_list {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  line-height: 70px;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  border-radius: 6px;
+  border-width: 0 0 1px 0;
+  overflow: hidden;
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #aaa;
+  background-color: #f2f2f2;
+  position: relative;
   cursor: pointer;
 }
