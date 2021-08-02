@@ -1,40 +1,100 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import defaultUserImg from "../images/default_user.png";
 import editTagImg from "../images/edit_tag_cancel.png";
-const MypageEdit = () => {
-  const selectsInterestListArray = [
-    "커머스 진단",
-    "상품기획MD",
-    "콘텐츠",
-    "브랜딩",
-    "디자인 (상세페이지, 홍보컨텐츠 등)",
-    "촬영·편집",
-    "커머스 UIUX·개발",
-    "커머스 운영·관리",
-    "마케팅",
-    "고객관리",
-    "물류관리",
-    "제조",
-    "글로벌 셀링",
-    "기타",
-  ];
+const MypageEdit = (props) => {
+  const getUserData = () => {
+    const params = new FormData();
+    params.append("command", "uinfo");
+    params.append("idx", sessionStorage.getItem("user_idx"));
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("alldata response :", response.data);
+        setUserData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  // url: "/response/get_info.php"
-  // 모든정보: user=al
-  // 카테고리 : category=on&kind=interesting
-  // 관심분야 형태 : [1 / 2]
+  const getInterestingData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "interesting");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("interesting response :", response.data);
+        setInterestSelectItemList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // axios로 받아온 data들 상태관리
+  const [userData, setUserData] = useState({
+    user_name: "", // 이름
+    user_belong: "", // 소속
+    user_title: "", // 직함
+    user_introduce: "", // 소개글
+    user_representation_url: "", // 대표 홈페이지 URL
+    user_interesting: [],
+  });
+
+  //axios로 받아온 관심분야 선택을 담는 배열
+  const [interestSelectItemList, setInterestSelectItemList] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+
+  // 관심분야 선택하기에서 선택한 것들을 담는 객체
+  const [interestSelectItemRenderList, setInterestSelectItemRenderList] =
+    useState(new Set());
+
+  useEffect(() => {
+    userData.user_interesting.map((data) => {
+      interestSelectItemRenderList.add(data);
+      setInterestSelectItemRenderList(interestSelectItemRenderList);
+    });
+  }, [userData]);
+
+  // 관심분야 -> 추가한 항목 삭제 기능
+  const onInterestCancelClick = (item) => {
+    let interestSubSet = new Set(interestSelectItemRenderList);
+    interestSubSet.delete(item);
+    setInterestSelectItemRenderList(interestSubSet);
+  };
+
+  // 관심분야 선택 클릭 함수 (항목 추가)
+  const onInterestSelectClick = (data) => {
+    let interestAddSet = new Set(interestSelectItemRenderList);
+    interestAddSet.add(data);
+    setInterestSelectItemRenderList(interestAddSet);
+    console.log(interestSelectItemRenderList.values());
+  };
 
   // 관심분야 선택하기 컴포넌트 Mapping
-  const selectsInterestList = selectsInterestListArray.map((data) => {
-    return (
-      <li
-        className="mypage_edit_select_interest_list"
-        onClick={() => onInterestSelectClick(data)}
-      >
-        <a className="wirte_select_list">{data}</a>
-      </li>
-    );
-  });
+  const selectsInterestList = interestSelectItemList.category_text.map(
+    (data) => {
+      return (
+        <li
+          className="mypage_edit_select_interest_list"
+          onClick={() => onInterestSelectClick(data)}
+        >
+          <a className="wirte_select_list">{data}</a>
+        </li>
+      );
+    }
+  );
 
   //경력사항
   const [careerItem, setCareerItem] = useState("");
@@ -44,8 +104,12 @@ const MypageEdit = () => {
   const [educationItem, setEducationItem] = useState("");
   //학력사항을 담는 배열
   const [educationItemList, setEducationItemList] = useState([]);
-  //관심분야 선택을 담는 배열
-  const [interestSelectItemList, setInterestSelectItemList] = useState([]);
+
+  //input 값 감지 함수
+  const OnChangeInputHandler = (e) => {
+    setUserData(e.target.value);
+    console.log(e.target.value);
+  };
 
   // 경력추가 input 값 감지 함수
   const careerOnChangeHandler = (e) => {
@@ -79,12 +143,6 @@ const MypageEdit = () => {
     setEducationItem("");
   };
 
-  // 관심분야 선택 클릭 함수 (항목 추가)
-  const onInterestSelectClick = (data) => {
-    console.log(data);
-    setInterestSelectItemList(interestSelectItemList.concat(data));
-  };
-
   // 경력사항 -> 추가한 항목 삭제버튼 기능
   const onCareerCancelClick = (item) => {
     const checkNewArray = careerItemList.filter((el) => el !== item);
@@ -97,11 +155,10 @@ const MypageEdit = () => {
     setEducationItemList(checkNewArray);
   };
 
-  // 관심분야 -> 추가한 항목 삭제 기능
-  const onInterestCancelClick = (item) => {
-    const checkNewArray = interestSelectItemList.filter((el) => el !== item);
-    setInterestSelectItemList(checkNewArray);
-  };
+  useEffect(() => {
+    getUserData();
+    getInterestingData();
+  }, []);
 
   return (
     <div className="mypage_edit_wap">
@@ -113,33 +170,62 @@ const MypageEdit = () => {
           <div className="mypage_name_container">
             <h2 className="mypage_input_title">이름</h2>
             <div>
-              <input className="mypage_input" />
+              <input
+                className="mypage_input"
+                value={userData.user_name}
+                onChange={OnChangeInputHandler}
+              />
             </div>
           </div>
           <div className="mypage_belongTitle_container">
             <div className="mypage_belong_container">
               <h2 className="mypage_input_title">소속</h2>
               <div>
-                <input className="mypage_input" />
+                <input
+                  className="mypage_input"
+                  value={userData.user_belong}
+                  onChange={OnChangeInputHandler}
+                />
               </div>
             </div>
             <div className="mypage_subTitle_container">
               <h2 className="mypage_input_title">직함</h2>
               <div>
-                <input className="mypage_input" />
+                <input
+                  className="mypage_input"
+                  value={userData.user_title}
+                  onChange={OnChangeInputHandler}
+                />
               </div>
             </div>
           </div>
           <div className="mypage_introduceWrite_container">
             <h2 className="mypage_input_title">소개글</h2>
             <div>
-              <input className="mypage_input" />
+              <input
+                className="mypage_input"
+                value={userData.user_introduce}
+                onChange={OnChangeInputHandler}
+              />
             </div>
           </div>
           <div className="mypage_interest_container">
             <div className="mypage_interest_view">
               <h2 className="mypage_input_title">관심분야</h2>
-              {interestSelectItemList.map((item) => {
+              {/* {userData.user_interesting.map((item) => {
+                return (
+                  <div className="mypage_input_interest">
+                    {item}
+                    <a
+                      className="mypage_edit_tag_cancel_img_box"
+                      onClick={() => onInterestCancelClick(item)}
+                    >
+                      <img src={editTagImg} alt="edit_tag_cancel" />
+                    </a>
+                  </div>
+                );
+              })} */}
+              {[...interestSelectItemRenderList].map((item) => {
                 return (
                   <div className="mypage_input_interest">
                     {item}
@@ -182,14 +268,6 @@ const MypageEdit = () => {
                 </div>
               );
             })}
-            {/* <div className="mypage_edit_tag_cancel_img_container">
-              <a
-                className="mypage_edit_tag_cancel_img_box"
-                onClick={onCareerCancelClick}
-              >
-                <img src={editTagImg} alt="edit_tag_cancel" />
-              </a>
-            </div> */}
             <p className="mypage_input_add_btn">
               <a className="mypage_input_add_btn_a" onClick={onCareerSubmit}>
                 경력추가 +
@@ -226,7 +304,11 @@ const MypageEdit = () => {
           <div className="mypage_hompageUrl_container">
             <h2 className="mypage_input_title">대표 홈페이지 URL</h2>
             <div>
-              <input className="mypage_input" />
+              <input
+                className="mypage_input"
+                value={userData.user_representation_url}
+                onChange={OnChangeInputHandler}
+              />
             </div>
           </div>
           <div className="mypage_button_container">
