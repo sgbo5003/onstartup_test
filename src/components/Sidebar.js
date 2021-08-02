@@ -1,54 +1,18 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import category1Img from "../images/Category_icon1.png";
-import category2Img from "../images/Category_icon2.png";
-import category3Img from "../images/Category_icon3.png";
-import category4Img from "../images/Category_icon4.png";
-import category5Img from "../images/Category_icon5.png";
-import category6Img from "../images/Category_icon6.png";
-import category7Img from "../images/Category_icon7.png";
-import category8Img from "../images/Category_icon8.png";
 import sideIcon1 from "../images/Side_icon1.png";
 import sideIcon2 from "../images/Side_icon2.png";
-
-const componentArray = [
-  {
-    src: category1Img,
-    title: "커머스 정보",
-  },
-  {
-    src: category2Img,
-    title: "브랜딩",
-  },
-  {
-    src: category3Img,
-    title: "커머스 UI UX",
-  },
-  {
-    src: category4Img,
-    title: "도매상품소싱",
-  },
-  {
-    src: category5Img,
-    title: "촬영·편집",
-  },
-  {
-    src: category6Img,
-    title: "자사몰 운영 / 관리",
-  },
-  {
-    src: category7Img,
-    title: "오픈마켓 운영 / 관리",
-  },
-  {
-    src: category8Img,
-    title: "콘텐츠 마케팅",
-  },
-];
 
 const Sidebar = (data) => {
   const [open, setOpen] = useState(false);
   const [checkedItmes, setCheckedItems] = useState(new Set()); //클릭 된 것들 담는 state
+  const [categoryData, setCategoryData] = useState({
+    category_img_root_name: [],
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
 
   const onCheckedItemsHandler = (e) => {
     // checkedItmes.add(e.target.innerText);
@@ -65,17 +29,39 @@ const Sidebar = (data) => {
     }
   };
 
+  const getCategoryData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "main");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("category response :", response.data);
+        setCategoryData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getCategoryData();
+  }, []);
+
   function sideBarSubMenuHandlerOff() {
     return (
-      <ul class="side_subsm_off">
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu1">대분류</a>
+      <ul className="side_subsm_off">
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu1">대분류</a>
         </li>
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu2">중분류</a>
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu2">중분류</a>
         </li>
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu3">소분류</a>
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu3">소분류</a>
         </li>
       </ul>
     );
@@ -83,29 +69,34 @@ const Sidebar = (data) => {
 
   function sideBarSubMenuHandlerOn() {
     return (
-      <ul class="side_subsm_on">
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu1">대분류</a>
+      <ul className="side_subsm_on">
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu1">대분류</a>
         </li>
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu2">중분류</a>
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu2">중분류</a>
         </li>
-        <li class="side_subsm_bar">
-          <a class="side_subsm_menu commerce_menu3">소분류</a>
+        <li className="side_subsm_bar">
+          <a className="side_subsm_menu commerce_menu3">소분류</a>
         </li>
       </ul>
     );
   }
-  const componentArrayList = componentArray.map((data, index) => {
+  const componentArrayList = categoryData.category_text.map((data, idx) => {
     return (
-      <li key={index} className="side_sub_bar" onClick={onCheckedItemsHandler}>
+      <li className="side_sub_bar" onClick={onCheckedItemsHandler}>
         <a className="side_sub_menu">
           <span className="side_sub_menu_icon_cove">
-            <img src={data.src} className="side_sub_menu_icon" />
+            <img
+              src={categoryData.category_img_root_name[idx]}
+              className="side_sub_menu_icon"
+            />
           </span>
-          <span className="sidemenu_text">{data.title}</span>
+          <span className="sidemenu_text">
+            {categoryData.category_text[idx]}
+          </span>
         </a>
-        {checkedItmes.has(data.title)
+        {checkedItmes.has(categoryData.category_text[idx])
           ? sideBarSubMenuHandlerOn()
           : sideBarSubMenuHandlerOff()}
       </li>
