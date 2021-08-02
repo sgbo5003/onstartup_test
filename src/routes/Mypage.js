@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import defaultUserImg from "../images/default_user.png";
 import backpackImg from "../images/backpack.png";
+import axios from "axios";
 
 const Mypage = () => {
   const history = useHistory();
@@ -14,7 +15,35 @@ const Mypage = () => {
     "대표 사이트 추가하기",
   ];
 
-  const interestComponentArray = ["관심분야1", "관심분야2", "관심분야3"];
+  //   const interestComponentArray = ["관심분야1", "관심분야2", "관심분야3"];
+
+  // axios로 받아온 data들 상태관리
+  const [userData, setUserData] = useState({
+    user_name: "", // 이름
+    user_belong: "", // 소속
+    user_title: "", // 직함
+    user_introduce: "", // 소개글
+    user_representation_url: "", // 대표 홈페이지 URL
+    user_interesting: [],
+  });
+
+  const getUserData = () => {
+    const params = new FormData();
+    params.append("command", "uinfo");
+    params.append("idx", sessionStorage.getItem("user_idx"));
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("alldata response :", response.data);
+        setUserData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // 프로필 사진 추가하기 , 소개글 추가하기 등 추가하기 관련 컴포넌트 Mapping
   const profileAddComponent = profileAddComponentArray.map((data) => {
@@ -22,7 +51,7 @@ const Mypage = () => {
   });
 
   // 관심분야 컴포넌트 Mapping
-  const interestComponent = interestComponentArray.map((data) => {
+  const interestComponent = userData.user_interesting.map((data) => {
     return <span className="mypage_title_tag">{data}</span>;
   });
 
@@ -31,6 +60,10 @@ const Mypage = () => {
     sessionStorage.removeItem("email");
     history.push("/");
   };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
   return (
     <div className="wap mypage_wap">
       <div className="mypage_content">
@@ -50,10 +83,18 @@ const Mypage = () => {
                   <div className="ti">
                     <ul className="nick_dept">
                       <li className="nick_item">
-                        <a className="nick">닉네임</a>
+                        <a className="nick">
+                          {userData.user_name === ""
+                            ? "이름없음"
+                            : userData.user_name}
+                        </a>
                       </li>
                       <li className="dept_item">
-                        <a className="dept">소속</a>
+                        <a className="dept">
+                          {userData.user_belong === ""
+                            ? "소속없음"
+                            : userData.user_belong}
+                        </a>
                       </li>
                     </ul>
                     <div className="edit_message">
