@@ -506,6 +506,9 @@ header {
 .sidemenu_text_active {
   color: #bea36b;
 }
+.side_sub_bar {
+  cursor: pointer;
+}
 .side_sub_menu {
   position: relative;
   display: inline-block;
@@ -565,6 +568,7 @@ header {
   border-bottom: 1px solid #f0f0f0;
   box-sizing: border-box;
   padding-left: calc(70px + 2%);
+  cursor: pointer;
 }
 .side_subsm_menu:hover {
   color: #bea36b;
