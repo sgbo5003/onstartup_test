@@ -41,7 +41,7 @@ const JoinSubmitQnaFirstModal = (props) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
-          commersCheckedItems.has(data) ? "selected" : ""
+          commersCheckedItems.has(data) ? "join_btn_selected" : ""
         }`}
         onClick={() => onCommersHandler(data)}
       >
@@ -68,7 +68,7 @@ const JoinSubmitQnaFirstModal = (props) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
-          specialCheckedItems.has(data) ? "selected" : ""
+          specialCheckedItems.has(data) ? "join_btn_selected" : ""
         }`}
         onClick={() => onSpecialHandler(data)}
       >
