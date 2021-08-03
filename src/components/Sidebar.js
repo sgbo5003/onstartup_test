@@ -48,6 +48,7 @@ const Sidebar = (data) => {
     })
       .then((response) => {
         console.log("category response :", response.data);
+        console.log("all api print : ", response.data);
         setCategoryData(response.data);
       })
       .catch((error) => {
@@ -63,13 +64,19 @@ const Sidebar = (data) => {
     return (
       <ul className="side_subsm_off">
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu1">대분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu1">
+            중분류
+          </Link>
         </li>
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu2">중분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu2">
+            중분류
+          </Link>
         </li>
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu3">소분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu3">
+            중분류
+          </Link>
         </li>
       </ul>
     );
@@ -79,13 +86,19 @@ const Sidebar = (data) => {
     return (
       <ul className="side_subsm_on">
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu1">대분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu1">
+            중분류
+          </Link>
         </li>
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu2">중분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu2">
+            중분류
+          </Link>
         </li>
         <li className="side_subsm_bar">
-          <a className="side_subsm_menu commerce_menu3">소분류</a>
+          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu3">
+            중분류
+          </Link>
         </li>
       </ul>
     );
@@ -93,7 +106,7 @@ const Sidebar = (data) => {
   const componentArrayList = categoryData.category_text.map((data, idx) => {
     return (
       <li className="side_sub_bar" onClick={onCheckedItemsHandler}>
-        <a className="side_sub_menu">
+        <span className="side_sub_menu">
           <span className="side_sub_menu_icon_cove">
             <img
               src={categoryData.category_img_root_name[idx]}
@@ -103,7 +116,7 @@ const Sidebar = (data) => {
           <span className="sidemenu_text">
             {categoryData.category_text[idx]}
           </span>
-        </a>
+        </span>
         {checkedItmes.has(categoryData.category_text[idx])
           ? sideBarSubMenuHandlerOn()
           : sideBarSubMenuHandlerOff()}
