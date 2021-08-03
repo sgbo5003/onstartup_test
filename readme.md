@@ -2329,3 +2329,281 @@ useEffect(() => {
     });
   }
   ```
+
+# 7/30일 금요일
+
+> 관심분야 선택 기능 구현
+
+- 코드
+
+  ```jsx
+  // 리스트 구현
+  const selectsInterestListArray = [
+      "커머스 진단",
+      "상품기획MD",
+      "콘텐츠",
+      ...,
+    ];
+
+  // 관심분야 선택하기 컴포넌트 Mapping
+    const selectsInterestList = selectsInterestListArray.map((data) => {
+      return (
+        <li
+          className="mypage_edit_select_interest_list"
+          onClick={() => onInterestSelectClick(data)}
+        >
+          <a className="wirte_select_list">{data}</a>
+        </li>
+      );
+    });
+
+  //관심분야 선택을 담는 배열
+    const [interestSelectItemList, setInterestSelectItemList] = useState([]);
+
+  // 관심분야 선택 클릭 함수 (항목 추가)
+    const onInterestSelectClick = (data) => {
+      console.log(data);
+      setInterestSelectItemList(interestSelectItemList.concat(data));
+    };
+
+  // 관심분야 -> 추가한 항목 삭제 기능
+    const onInterestCancelClick = (item) => {
+      const checkNewArray = interestSelectItemList.filter((el) => el !== item);
+      setInterestSelectItemList(checkNewArray);
+    };
+
+  // rendering
+  {interestSelectItemList.map((item) => {
+                  return (
+                    <div className="mypage_input_interest">
+                      {item}
+                      <a
+                        className="mypage_edit_tag_cancel_img_box"
+                        onClick={() => onInterestCancelClick(item)}
+                      >
+                        <img src={editTagImg} alt="edit_tag_cancel" />
+                      </a>
+                    </div>
+                  );
+                })}
+  ```
+
+# 8/2일 월요일
+
+> api와 연동하여 관심분야 선택 / 제거 기능 구현
+
+- 코드
+
+  ```jsx
+  //api 받아오기
+
+  const getCategoryData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "interesting");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("category response :", response.data);
+        setInterestSelectItemList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //axios로 받아온 관심분야 선택을 담는 배열
+  const [interestSelectItemList, setInterestSelectItemList] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+
+  // 관심분야 선택하기 컴포넌트 Mapping
+  const selectsInterestList = interestSelectItemList.category_text.map(
+    (data) => {
+      return (
+        <li
+          className="mypage_edit_select_interest_list"
+          onClick={() => onInterestSelectClick(data)}
+        >
+          <a className="wirte_select_list">{data}</a>
+        </li>
+      );
+    }
+  );
+
+  //렌더링 부분
+  {
+    [...interestSelectItemRenderList].map((item) => {
+      return (
+        <div className="mypage_input_interest">
+          {item}
+          <a
+            className="mypage_edit_tag_cancel_img_box"
+            onClick={() => onInterestCancelClick(item)}
+          >
+            <img src={editTagImg} alt="edit_tag_cancel" />
+          </a>
+        </div>
+      );
+    });
+  }
+
+  // 관심분야 선택하기에서 선택한 것들을 담는 객체
+  const [interestSelectItemRenderList, setInterestSelectItemRenderList] =
+    useState(new Set());
+
+  // 관심분야 선택 클릭 함수 (항목 추가)
+  const onInterestSelectClick = (data) => {
+    let interestAddSet = new Set(interestSelectItemRenderList);
+    interestAddSet.add(data);
+    setInterestSelectItemRenderList(interestAddSet);
+    console.log(interestSelectItemRenderList.values());
+  };
+
+  // 관심분야 -> 추가한 항목 삭제 기능
+  const onInterestCancelClick = (item) => {
+    let interestSubSet = new Set(interestSelectItemRenderList);
+    interestSubSet.delete(item);
+    setInterestSelectItemRenderList(interestSubSet);
+  };
+  ```
+
+> 사이드바 → api와 연동해서 렌더링
+
+- 코드
+
+  ```jsx
+  const componentArrayList = categoryData.category_text.map((data, idx) => {
+    return (
+      <li className="side_sub_bar" onClick={onCheckedItemsHandler}>
+        <a className="side_sub_menu">
+          <span className="side_sub_menu_icon_cove">
+            <img
+              src={categoryData.category_img_root_name[idx]}
+              className="side_sub_menu_icon"
+            />
+          </span>
+          <span className="sidemenu_text">
+            {categoryData.category_text[idx]}
+          </span>
+        </a>
+        {checkedItmes.has(categoryData.category_text[idx])
+          ? sideBarSubMenuHandlerOn()
+          : sideBarSubMenuHandlerOff()}
+      </li>
+    );
+  });
+
+  const [categoryData, setCategoryData] = useState({
+    category_img_root_name: [],
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+  ```
+
+> Write.js & WriteSelectModal.js → api와 연동해서 렌더링
+
+- 코드
+
+  ```jsx
+  // Write.js
+
+  const [categoryData, setCategoryData] = useState({
+    category_img_root_name: [],
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+  const [category, setCategory] = useState([]);
+
+  const getCategoryData = () => {
+    const params = new FormData();
+    params.append("command", "ca");
+    params.append("kind", "main");
+    axios({
+      method: "post",
+      url: "/response/get_info.php",
+      data: params,
+    })
+      .then((response) => {
+        console.log("category response :", response.data);
+        setCategoryData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getCategoryData();
+  }, []);
+
+  // WriteSelectModal.js
+
+  const selectList = props.categoryData.category_text.map((data, idx) => {
+    return (
+      <li>
+        <a
+          class="write_select_list"
+          onClick={() => {
+            props.setCategory(props.categoryData.category_text[idx]);
+          }}
+        >
+          {props.categoryData.category_text[idx]}
+        </a>
+      </li>
+    );
+  });
+  ```
+
+> 회원가입 → 질문모달 2개 → api와 연동해서 렌더링
+
+- 코드
+
+  ```jsx
+  const [commerceData, setCommerceData] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+
+  const [specialtyData, setSpecialtyData] = useState({
+    category_order_num: [],
+    category_parent_idx: [],
+    category_text: [],
+  });
+
+  // 커머스 버튼 색상변경 핸들러
+  const onCommersHandler = (data) => {
+    let itemSet = new Set(commersCheckedItems);
+    console.log(itemSet);
+    if (commersCheckedItems.has(data)) {
+      itemSet.delete(data);
+      setCommersCheckedItems(itemSet);
+    } else {
+      itemSet.add(data);
+      setCommersCheckedItems(itemSet);
+    }
+    console.log(data, commersCheckedItems.values());
+  };
+
+  // 커머스 관련 버튼 컴포넌트 Mapping
+  const commersButtonOnList = commerceData.category_text.map((data) => {
+    return (
+      <button
+        className={`join_member_qna_select_btn ${
+          commersCheckedItems.has(data) ? "selected" : ""
+        }`}
+        onClick={() => onCommersHandler(data)}
+      >
+        {data}
+      </button>
+    );
+  });
+  ```
