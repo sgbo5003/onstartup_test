@@ -1,10 +1,17 @@
 import React from "react";
+import CarouselSlider from "../components/CarouselSlider";
+import ReferenceContentPage from "../components/ReferenceContent/ReferenceContentPage";
+import ReferenceSidebar from "../components/ReferenceSidebar";
 
 const Reference = () => {
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      About Reference
-    </div>
+    <>
+      <ReferenceSidebar />
+      <div className="content">
+        <CarouselSlider />
+        <ReferenceContentPage />
+      </div>
+    </>
   );
 };
 
