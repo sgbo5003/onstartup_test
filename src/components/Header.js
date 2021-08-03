@@ -5,8 +5,9 @@ import QmenuIconImg from "../images/Qmenu_icon1.png";
 import QmenuIcon2Img from "../images/Qmenu_icon2.png";
 import QmenuIcon3Img from "../images/Qmenu_icon3.png";
 import messageActiveImg from "../images/message_active.png";
-import searchImg from "../images/search_icon1.png";
+
 import Qmenu from "./Qmenu";
+import Search from "./Search";
 
 const Header = (props) => {
   const { isDropClick, setIsDropClick } = props;
@@ -14,19 +15,6 @@ const Header = (props) => {
   const onDropClicked = () => {
     setIsDropClick(!isDropClick);
   };
-
-  // const handleClickOutside = ({ target }) => {
-  //   if (outside && !outside.current.contain(target)) {
-  //     setIsDropClick(!isDropClick);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     window.removeEventListener("click", handleClickOutside);
-  //   };
-  // });
 
   return (
     <header>
@@ -50,22 +38,6 @@ const Header = (props) => {
         </div>
       </div>
       <div className="header_area_right">
-        {/*로그인 안했을 때*/}
-        {/* <div className="coar_area">
-            <p>
-              <Link to="/Join">로그인</Link>
-            </p>
-          </div> */}
-        {/*로그인 했을 때*/}
-        {/* <h1 className="mypage_area">
-            <a className="mypage_photo_cove" href="my_page.php">
-              <img
-                className="mypage_photo"
-                src="src/images/default_user.png"
-                alt="default_user.png"
-              />
-            </a>
-          </h1> */}
         {/* 설정 아이콘 */}
         {props.isLoginTrue}
         <div className="Qmenu_area">
@@ -124,20 +96,7 @@ const Header = (props) => {
         </div>
       </div>
       <div className="header_area_middle">
-        <div className="search_tab">
-          <form onsubmit="return false">
-            <input
-              type="text"
-              name="search_text"
-              id="search_text"
-              placeholder="검색어를 입력해 주세요."
-              autocomplete="on"
-            />
-            <a id="search_img" href="search_list.php">
-              <img className="search" src={searchImg} alt="search_icon1.png" />
-            </a>
-          </form>
-        </div>
+        <Search />
       </div>
     </header>
   );
