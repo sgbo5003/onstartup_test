@@ -28,7 +28,7 @@ const JoinSubmitQnaSecondModal = (props) => {
     return (
       <button
         className={`join_member_qna_select_btn ${
-          interestCheckedItems.has(data) ? "selected" : ""
+          interestCheckedItems.has(data) ? "join_btn_selected" : ""
         }`}
         onClick={() => onInterestHandler(data)}
       >
