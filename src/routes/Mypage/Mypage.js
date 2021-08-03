@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import defaultUserImg from "../images/default_user.png";
-import backpackImg from "../images/backpack.png";
+import defaultUserImg from "../../images/default_user.png";
+import backpackImg from "../../images/backpack.png";
 import axios from "axios";
 
 const Mypage = () => {

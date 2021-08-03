@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../css/content.css";
+import "../../css/content.css";
 import axios from "axios";
 import Content from "./Content";
 import Slider from "react-slick";
 // import "../css/_slick.css";
-import "../css/_slick-theme.css";
-import "../css/slick.css";
-import ScrollButton from "./ScrollButton";
-import viewIcon1 from "../images/view_icon1.png";
-import viewIcon2 from "../images/view_icon2.png";
-import defaultUserImg from "../images/default_user.png";
+import "../../css/_slick-theme.css";
+import "../../css/slick.css";
+import ScrollButton from "../ScrollButton";
+import viewIcon1 from "../../images/view_icon1.png";
+import viewIcon2 from "../../images/view_icon2.png";
+import defaultUserImg from "../../images/default_user.png";
 
 const ContentPage = () => {
   const [data, setData] = useState({

@@ -4,18 +4,17 @@ import Home from "../routes/Home";
 import Community from "../routes/Community";
 import Reference from "../routes/Reference";
 import Write from "../routes/Write";
-import Setting from "../routes/Setting";
 import Join from "../routes/Join";
 import Header from "./Header";
 import SaveWrite from "../routes/SaveWrite";
 import Login from "../routes/Login";
 import defaultUserImg from "../images/default_user.png";
-import Mypage from "../routes/Mypage";
-import AccountManagement from "../routes/AccountManagement";
-import ChangePassword from "../routes/ChangePassword";
-import Notice from "../routes/Notice";
-import Inquiry from "../routes/Inquiry";
-import MypageEdit from "../routes/MypageEdit";
+import Mypage from "../routes/Mypage/Mypage";
+import AccountManagement from "../routes/Setting/AccountManagement";
+import ChangePassword from "../routes/Setting/ChangePassword";
+import Notice from "../routes/Setting//Notice";
+import Inquiry from "../routes/Setting/Inquiry";
+import MypageEdit from "../routes/Mypage/MypageEdit";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -78,7 +77,6 @@ const AppRouter = () => {
         <Route path="/Community" component={Community} />
         <Route path="/Reference" component={Reference} />
         <Route path="/Write" component={Write} />
-        <Route path="/Setting" component={Setting} />
         <Route
           path="/Join"
           component={Join}

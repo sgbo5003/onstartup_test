@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BackImg from "../images/back.png";
+import BackImg from "../../images/back.png";
 
 const WriteSelectModal = (props) => {
   const selectList = props.categoryData.category_text.map((data, idx) => {

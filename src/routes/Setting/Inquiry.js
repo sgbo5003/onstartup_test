@@ -1,8 +1,8 @@
 import React from "react";
-import questionImg from "../images/question_tab_btn.png";
-import emailCheckedImg from "../images/email_checked.png";
-import emailCheckImg from "../images/email_check.png";
-import selectBackImg from "../images/select_back.png";
+import questionImg from "../../images/question_tab_btn.png";
+import emailCheckedImg from "../../images/email_checked.png";
+import emailCheckImg from "../../images/email_check.png";
+import selectBackImg from "../../images/select_back.png";
 
 const inquiry = () => {
   return (

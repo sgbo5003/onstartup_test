@@ -1,5 +1,5 @@
 import React from "react";
-import clapImg from "../images/clap.png";
+import clapImg from "../../images/clap.png";
 
 const JoinSubmitModal = (props) => {
   // join_member_qna.php => qna 페이지

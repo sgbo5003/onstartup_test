@@ -4,10 +4,10 @@ import detailClickImg from "../images/detaile_click.png";
 import selectBackImg from "../images/select_back.png";
 import BackImg from "../images/back.png";
 import axios from "axios";
-import WriteSelectModal from "../components/WriteSelectModal";
-import WriteConfirmModal from "../components/WriteConfirmModal";
-import WriteSubmitIsTrueModal from "../components/WriteSubmitIsTrueModal";
-import WriteSubmitIsFalseModal from "../components/WriteSubmitIsFalseModal";
+import WriteSelectModal from "../components//Write/WriteSelectModal";
+import WriteConfirmModal from "../components/Write/WriteConfirmModal";
+import WriteSubmitIsTrueModal from "../components/Write/WriteSubmitIsTrueModal";
+import WriteSubmitIsFalseModal from "../components/Write/WriteSubmitIsFalseModal";
 
 const Write = () => {
   const [content, setContent] = useState("");

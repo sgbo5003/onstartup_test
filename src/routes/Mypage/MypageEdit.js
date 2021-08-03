@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import defaultUserImg from "../images/default_user.png";
-import editTagImg from "../images/edit_tag_cancel.png";
+import defaultUserImg from "../../images/default_user.png";
+import editTagImg from "../../images/edit_tag_cancel.png";
 const MypageEdit = (props) => {
   const getUserData = () => {
     const params = new FormData();

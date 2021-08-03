@@ -3,6 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sideIcon1 from "../images/Side_icon1.png";
 import sideIcon2 from "../images/Side_icon2.png";
+import categoryImg1 from "../images/Category_icon1.png";
+import categoryImg2 from "../images/Category_icon2.png";
+import categoryImg3 from "../images/Category_icon3.png";
+import categoryImg4 from "../images/Category_icon4.png";
+import categoryImg5 from "../images/Category_icon5.png";
+import categoryImg6 from "../images/Category_icon6.png";
+import categoryImg7 from "../images/Category_icon7.png";
+import categoryImg8 from "../images/Category_icon8.png";
 
 const Sidebar = (data) => {
   const [open, setOpen] = useState(false);

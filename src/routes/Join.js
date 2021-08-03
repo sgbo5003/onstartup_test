@@ -7,9 +7,9 @@ import axios from "axios";
 
 import { KAKAO_AUTH_URL } from "../OAuth";
 import { NAVER_AUTH_URL } from "../OAuth";
-import JoinSubmitModal from "../components/JoinSubmitModal";
-import JoinSubmitQnaFirstModal from "../components/JoinSubmitQnaFirstModal";
-import JoinSubmitQnaSecondModal from "../components/JoinSubmitQnaSecondModal";
+import JoinSubmitModal from "../components/Join/JoinSubmitModal";
+import JoinSubmitQnaFirstModal from "../components/Join/JoinSubmitQnaFirstModal";
+import JoinSubmitQnaSecondModal from "../components/Join/JoinSubmitQnaSecondModal";
 import Modal from "../Modal";
 // import { useForm } from "react-hook-form";
 
