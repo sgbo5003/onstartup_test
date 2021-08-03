@@ -18,6 +18,8 @@ const Write = () => {
   const [submitIsTrueModal, setSubmitIsTrueModalOn] = useState(false); // 등록하기 => true 체크
   const [submitIsFalseModal, setSubmitIsFalseModalOn] = useState(false); // 등록하기 => false 체크
   const [buttonOn, setButtonOn] = useState(false); // 버튼 disable & enable 변경을 위해 필요한 state
+  const [detailBtnOn, setDetailBtnOn] = useState(false);
+  const [detailBtn2On, setDetailBtn2On] = useState(false);
   const [categoryData, setCategoryData] = useState({
     category_img_root_name: [],
     category_order_num: [],
@@ -25,6 +27,14 @@ const Write = () => {
     category_text: [],
   });
   const [category, setCategory] = useState([]);
+
+  const onDetailButtonClick = () => {
+    setDetailBtnOn(!detailBtnOn);
+  };
+
+  const onDetailButton2Click = () => {
+    setDetailBtn2On(!detailBtn2On);
+  };
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
@@ -181,32 +191,39 @@ const Write = () => {
           <section className="write_comment">
             <h2>
               이미지 추가<span>(선택)</span>
-              <a className="detail" href="#">
+              <span className="detail" onClick={onDetailButtonClick}>
                 <img
                   className="detail_img"
                   src={detailClickImg}
                   alt="detaile_click.png"
                 />
-              </a>
-            </h2>
-            <section className="detail_box">
-              <h2 className="hidden">툴팁</h2>
-              <p className="detail_info">
-                참고 할 URL과
-                <br />
-                이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면 썸네일과
-                함께 표시됩니다.
-              </p>
-              <span>
-                <a className="detail_img_cove" href="#">
-                  <img
-                    className="detail_img_back"
-                    src={selectBackImg}
-                    alt="back.png"
-                  />
-                </a>
               </span>
-            </section>
+            </h2>
+            {detailBtnOn ? (
+              <section className="detail_box_on">
+                <h2 className="hidden">툴팁</h2>
+                <p className="detail_info">
+                  참고 할 URL과
+                  <br />
+                  이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면
+                  썸네일과 함께 표시됩니다.
+                </p>
+                <span>
+                  <div
+                    className="detail_img_cove"
+                    onClick={onDetailButtonClick}
+                  >
+                    <img
+                      className="detail_img_back"
+                      src={BackImg}
+                      alt="back.png"
+                    />
+                  </div>
+                </span>
+              </section>
+            ) : (
+              ""
+            )}
             <div className="filebox">
               <div name="write_file_form">
                 <input
@@ -222,41 +239,47 @@ const Write = () => {
                   value={image}
                   disabled
                 />
-                <label for="file" href="#">
-                  이미지 찾기
-                </label>
+                <label for="file">이미지 찾기</label>
               </div>
             </div>
           </section>
           <section className="write_comment">
             <h2>
               URL<span>(선택)</span>
-              <a className="detail2" href="#">
+              <span className="detail2" onClick={onDetailButton2Click}>
                 <img
                   className="detail_img"
                   src={detailClickImg}
                   alt="detaile_click.png"
                 />
-              </a>
-            </h2>
-            <section className="detail_box2">
-              <h2 className="hidden">툴팁</h2>
-              <p className="detail_info">
-                참고 할 URL과
-                <br />
-                이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면 썸네일과
-                함께 표시됩니다.
-              </p>
-              <span>
-                <a className="detail_img_cove" href="#">
-                  <img
-                    className="detail_img_back2"
-                    src={selectBackImg}
-                    alt="back.png"
-                  />
-                </a>
               </span>
-            </section>
+            </h2>
+            {detailBtn2On ? (
+              <section className="detail_box2_on">
+                <h2 className="hidden">툴팁</h2>
+                <p className="detail_info">
+                  참고 할 URL과
+                  <br />
+                  이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면
+                  썸네일과 함께 표시됩니다.
+                </p>
+                <span>
+                  <span
+                    className="detail_img_cove"
+                    onClick={onDetailButton2Click}
+                  >
+                    <img
+                      className="detail_img_back2"
+                      src={selectBackImg}
+                      alt="back.png"
+                    />
+                  </span>
+                </span>
+              </section>
+            ) : (
+              ""
+            )}
+
             <div name="write_url_form">
               <input
                 type="text"
