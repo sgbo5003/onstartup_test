@@ -15,6 +15,7 @@ import ChangePassword from "../routes/Setting/ChangePassword";
 import Notice from "../routes/Setting//Notice";
 import Inquiry from "../routes/Setting/Inquiry";
 import MypageEdit from "../routes/Mypage/MypageEdit";
+import MiddleCategory from "../routes/MiddleCategory";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -74,6 +75,7 @@ const AppRouter = () => {
       )}
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/MiddleCategory" component={MiddleCategory} />
         <Route path="/Community" component={Community} />
         <Route path="/Reference" component={Reference} />
         <Route path="/Write" component={Write} />
