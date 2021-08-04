@@ -2607,3 +2607,57 @@ useEffect(() => {
     );
   });
   ```
+
+# 8/3일 화요일
+
+> 글 작성 페이지 → 주의사항 띄우는 함수 구현
+
+- 코드
+
+  ```jsx
+  const [detailBtnOn, setDetailBtnOn] = useState(false);
+  const [detailBtn2On, setDetailBtn2On] = useState(false);
+
+  const onDetailButtonClick = () => {
+    setDetailBtnOn(!detailBtnOn);
+  };
+
+  const onDetailButton2Click = () => {
+    setDetailBtn2On(!detailBtn2On);
+  };
+
+  {
+    detailBtnOn ? (
+      <section className="detail_box_on">
+        <h2 className="hidden">툴팁</h2>
+        <p className="detail_info">
+          참고 할 URL과
+          <br />
+          이미지가 있다면 입력해 주세요! URL과 이미지를 입력하면 썸네일과 함께
+          표시됩니다.
+        </p>
+        <span>
+          <div className="detail_img_cove" onClick={onDetailButtonClick}>
+            <img className="detail_img_back" src={BackImg} alt="back.png" />
+          </div>
+        </span>
+      </section>
+    ) : (
+      ""
+    );
+  }
+  ```
+
+> 자료실 컴포넌트 생성
+
+- Reference.js
+- 자료실 컨텐츠 부분 컴포넌트 생성 (퍼블리싱)
+  - ReferenceContentPage.js
+- 자료실 컨텐츠 부분 → 컨텐츠 컴포넌트 생성 (퍼블리싱)
+  - ReferenceContent.js
+- 자료실 화면 사이드바 구현(퍼블리싱)
+  - ReferenceSidbar.js
+
+> 중분류 카테고리 컴포넌트 구현 (퍼블리싱)
+
+- MiddleCategory.js
