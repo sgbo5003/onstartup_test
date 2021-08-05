@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, match, matchPath, useLocation } from "react-router-dom";
 import sideIcon1 from "../images/Side_icon1.png";
 import sideIcon2 from "../images/Side_icon2.png";
 import categoryImg1 from "../images/Category_icon1.png";
@@ -12,9 +12,9 @@ import categoryImg6 from "../images/Category_icon6.png";
 import categoryImg7 from "../images/Category_icon7.png";
 import categoryImg8 from "../images/Category_icon8.png";
 
-const Sidebar = (data) => {
-  const [open, setOpen] = useState(false);
-  const [checkedItmes, setCheckedItems] = useState(new Set()); //클릭 된 것들 담는 state
+const Sidebar = () => {
+  const [checkedBottomItems, setBottomCheckedItems] = useState(new Set()); //카테고리 항목 -> 클릭 된 것들 담는 state
+  const [checkedTopItems, setCheckedTopItems] = useState(new Set()); // 홈 & 저장글 항목 -> 클릭 된 것들 담는 state
   const [categoryData, setCategoryData] = useState({
     category_img_root_name: [],
     category_order_num: [],
@@ -22,21 +22,41 @@ const Sidebar = (data) => {
     category_text: [],
   });
 
-  const onCheckedItemsHandler = (e) => {
-    // checkedItmes.add(e.target.innerText);
-    // setCheckedItems(checkedItmes);
-    console.log(checkedItmes.values());
-
-    if (checkedItmes.has(e.target.innerText)) {
-      checkedItmes.delete(e.target.innerText);
-      setOpen(false);
+  // 홈 & 저장글 클릭 & 색깔 변경 제어
+  const onCheckedTopItemsHandler = () => {
+    let itemSet = new Set(checkedTopItems);
+    if (location.pathname === "/") {
+      itemSet.add("/");
+      setCheckedTopItems(itemSet);
+    } else if (location.pathname === "/SaveWrite") {
+      itemSet.clear();
+      itemSet.add("/SaveWrite");
+      setCheckedTopItems(itemSet);
     } else {
-      checkedItmes.add(e.target.innerText);
-      setCheckedItems(checkedItmes);
-      setOpen(true);
+      itemSet.clear();
+      setCheckedTopItems(itemSet);
     }
   };
 
+  useEffect(() => {
+    onCheckedTopItemsHandler();
+  }, [checkedTopItems]);
+
+  // 카테고리 선택 제어
+  const onCheckedBottomItemsHandler = (data) => {
+    let itemSet = new Set(checkedBottomItems);
+    console.log(itemSet);
+    if (checkedBottomItems.has(data)) {
+      itemSet.delete(data);
+      setBottomCheckedItems(itemSet);
+    } else {
+      itemSet.add(data);
+      setBottomCheckedItems(itemSet);
+    }
+    console.log(data, checkedBottomItems.values());
+  };
+
+  // 카테고리 api 연동
   const getCategoryData = () => {
     const params = new FormData();
     params.append("command", "ca");
@@ -47,8 +67,6 @@ const Sidebar = (data) => {
       data: params,
     })
       .then((response) => {
-        console.log("category response :", response.data);
-        console.log("all api print : ", response.data);
         setCategoryData(response.data);
       })
       .catch((error) => {
@@ -64,7 +82,11 @@ const Sidebar = (data) => {
     return (
       <ul className="side_subsm_off">
         <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu1">
+          <Link
+            to="/MiddleCategory"
+            className="side_subsm_menu commerce_menu1"
+            on
+          >
             중분류
           </Link>
         </li>
@@ -105,7 +127,10 @@ const Sidebar = (data) => {
   }
   const componentArrayList = categoryData.category_text.map((data, idx) => {
     return (
-      <li className="side_sub_bar" onClick={onCheckedItemsHandler}>
+      <li
+        className="side_sub_bar"
+        onClick={() => onCheckedBottomItemsHandler(data)}
+      >
         <span className="side_sub_menu">
           <span className="side_sub_menu_icon_cove">
             <img
@@ -113,11 +138,17 @@ const Sidebar = (data) => {
               className="side_sub_menu_icon"
             />
           </span>
-          <span className="sidemenu_text">
+          <span
+            className={`sidemenu_text ${
+              checkedBottomItems.has(categoryData.category_text[idx])
+                ? "sidemenu_text_active"
+                : ""
+            }`}
+          >
             {categoryData.category_text[idx]}
           </span>
         </span>
-        {checkedItmes.has(categoryData.category_text[idx])
+        {checkedBottomItems.has(categoryData.category_text[idx])
           ? sideBarSubMenuHandlerOn()
           : sideBarSubMenuHandlerOff()}
       </li>
@@ -130,7 +161,15 @@ const Sidebar = (data) => {
         {/*홈 & 저장글 */}
         <div className="side_homesave">
           <p className="side_menu_cove">
-            <Link to="/" className="side_menu side_menu_active">
+            {/*side_menu_active*/}
+            <Link
+              to="/"
+              className={`side_menu ${
+                checkedTopItems.has("/") ? "side_menu_active" : ""
+              }`}
+              onClick={onCheckedTopItemsHandler}
+              id="home"
+            >
               <span className="home_img_cove side_img_cove">
                 <img className="home_img" src={sideIcon1} alt="Side_icon1" />
               </span>
@@ -138,7 +177,14 @@ const Sidebar = (data) => {
             </Link>
           </p>
           <p className="side_menu_cove">
-            <Link to="/SaveWrite" className="side_menu" href="save_text.php">
+            <Link
+              to="/SaveWrite"
+              className={`side_menu ${
+                checkedTopItems.has("/SaveWrite") ? "side_menu_active" : ""
+              }`}
+              id="savewrite"
+              onClick={onCheckedTopItemsHandler}
+            >
               <span className="save_img_cove side_img_cove">
                 <img className="save_img" src={sideIcon2} alt="Side_icon2" />
               </span>
