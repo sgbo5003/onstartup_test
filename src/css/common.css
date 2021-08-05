@@ -761,7 +761,7 @@ header {
 =        CSS add, modify        =
 ===============================*/
 .side_sub {
-  height: 560px;
+  /* height: 560px; */
   overflow: auto;
 }
 @media (min-width: 1024px) {
