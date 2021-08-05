@@ -73,7 +73,6 @@ const Write = () => {
   const onSubmitModal = () => {
     // setConfirmModalOn(!confirmModalOn);
     pushData();
-    console.log("글쓰기 완료");
   };
 
   function btnDeactivate() {
