@@ -100,7 +100,7 @@ const Mypage = () => {
                     <div className="edit_message">
                       <span className="mypage_title_edit">
                         <Link
-                          to="/Mypage/edit"
+                          to="/MypageEdit"
                           className="mypage_title_edit_btn title_edit_message_btn"
                         >
                           EDIT
