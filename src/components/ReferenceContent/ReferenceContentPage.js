@@ -13,8 +13,8 @@ const ReferenceContentPage = () => {
         <img src={viewIcon1} alt="icon1.png" />
       </div>
       <div className="reference_content_contents_container">
-        <ReferenceContent />
-        <ReferenceContent />
+        <ReferenceContent coinbox="" />
+        <ReferenceContent coinbox="" />
       </div>
       <div className="reference_content_title_container">
         <h2 className="reference_content_title_main">
@@ -23,8 +23,8 @@ const ReferenceContentPage = () => {
         <img src={viewIcon2} alt="icon2.png" />
       </div>
       <div className="reference_content_contents_container">
-        <ReferenceContent />
-        <ReferenceContent />
+        <ReferenceContent coinbox="" />
+        <ReferenceContent coinbox="" />
       </div>
       <div className="reference_content_title_container">
         <h2 className="reference_content_title_main">NEW TOPIC</h2>
