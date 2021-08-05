@@ -16,6 +16,10 @@ import Notice from "../routes/Setting//Notice";
 import Inquiry from "../routes/Setting/Inquiry";
 import MypageEdit from "../routes/Mypage/MypageEdit";
 import MiddleCategory from "../routes/MiddleCategory";
+import MiddleCategoryTwo from "../routes/MiddleCategoryTwo";
+import ReferenceStorageBox from "../routes/ReferenceStorageBox";
+import ReferenceChargeCoin from "../routes/ReferenceChargeCoin";
+import ReferenceGiftCoin from "../routes/ReferenceGiftCoin";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -77,7 +81,18 @@ const AppRouter = () => {
         <Route exact path="/" component={Home} />
         <Route path="/MiddleCategory" component={MiddleCategory} />
         <Route path="/Community" component={Community} />
-        <Route path="/Reference" component={Reference} />
+        <Route exact path="/Reference" component={Reference} />
+        <Route
+          exact
+          path="/ReferenceStorageBox"
+          component={ReferenceStorageBox}
+        />
+        <Route
+          exact
+          path="/ReferenceChargeCoin"
+          component={ReferenceChargeCoin}
+        />
+        <Route exact path="/ReferenceGiftCoin" component={ReferenceGiftCoin} />
         <Route path="/Write" component={Write} />
         <Route
           path="/Join"
@@ -93,7 +108,7 @@ const AppRouter = () => {
         />
         <Route path="/SaveWrite" component={SaveWrite} />
         <Route exact path="/Mypage" component={Mypage} />
-        <Route exact path="/Mypage/edit" component={MypageEdit} />
+        <Route exact path="/MypageEdit" component={MypageEdit} />
         <Route path="/AccountManagement" component={AccountManagement} />
         <Route path="/ChangePassword" component={ChangePassword} />
         <Route path="/Notice" component={Notice} />
