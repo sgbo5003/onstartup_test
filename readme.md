@@ -2661,3 +2661,39 @@ useEffect(() => {
 > 중분류 카테고리 컴포넌트 구현 (퍼블리싱)
 
 - MiddleCategory.js
+
+# 8/4일 수요일
+
+> 사이드바 윗부분, 아랫부분 선택했을 때 이벤트 수정 & 변경 완료
+
+- 코드
+
+  ```jsx
+  // 홈 & 저장글 클릭 & 색깔 변경 제어
+  const onCheckedTopItemsHandler = () => {
+    let itemSet = new Set(checkedTopItems);
+    if (location.pathname === "/") {
+      itemSet.add("/");
+      setCheckedTopItems(itemSet);
+    } else if (location.pathname === "/SaveWrite") {
+      itemSet.clear();
+      itemSet.add("/SaveWrite");
+      setCheckedTopItems(itemSet);
+    } else {
+      itemSet.clear();
+      setCheckedTopItems(itemSet);
+    }
+  };
+
+  useEffect(() => {
+    onCheckedTopItemsHandler();
+  }, [checkedTopItems]);
+  ```
+
+> 자료보관함 컴포넌트 구현 (퍼블리싱)
+
+- MiddleStorageBox.js
+
+> 저장글 컴포넌트 구현 (퍼블리싱)
+
+- SaveWrite.js
