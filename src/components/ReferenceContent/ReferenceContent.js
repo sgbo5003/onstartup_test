@@ -11,7 +11,8 @@ import saveOnIcon from "../../images/icon_sav_on.png";
 import imgExample1 from "../../images/port_gallery4.png";
 import ContextMenuIcon from "../../images/Context_menu_icon1.png";
 
-const ReferenceContent = () => {
+const ReferenceContent = (props) => {
+  const { coinbox } = props;
   return (
     <div className="reference_content_home_tag_cove">
       <div className="reference_content_img_container">
@@ -27,7 +28,7 @@ const ReferenceContent = () => {
         </div>
         <div className="reference_content_content_bottom_container">
           <p>리뷰 12</p>
-          <div>
+          <div className={coinbox}>
             <img src={ContextMenuIcon} />
             <span>00 코인</span>
           </div>
