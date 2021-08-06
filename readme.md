@@ -2697,3 +2697,104 @@ useEffect(() => {
 > 저장글 컴포넌트 구현 (퍼블리싱)
 
 - SaveWrite.js
+
+# 8/5일 목요일
+
+> 컴포넌트들 생성 (퍼블리싱)
+
+- 상품 상세페이지
+- 문의하기 > 자주 묻는 질문
+- 코인 충전하기 (구현)
+- 코인 선물받기
+- 자료실 중분류
+
+> 컴포넌트들 Mapping
+
+- 자료실 사이드바
+- 홈화면 좌측 상단 메뉴
+- 자료보관함 컴포넌트들
+
+> 문의하기 → 체크버튼 상태관리
+
+- 코드
+
+  ```jsx
+  const [emailChecked, setEmailChecked] = useState(false);
+
+    const onEmailCheckHandler = () => {
+      setEmailChecked(!emailChecked);
+    };
+
+  className={`email_check_${
+                      emailChecked ? "" : "off"
+                    } email_check_box`}
+                    src={emailChecked ? emailCheckedImg : emailCheckImg}
+
+  <img
+                    className="email_check_on email_check_box"
+                    src={emailCheckedImg}
+                    alt="email_checked"
+                    onClick={onEmailCheckHandler}
+  ```
+
+> sidebar 서브 메뉴 → 배열 split or slice
+
+- api 형태 변경 후 렌더링 구현 예정
+
+> url 과 관련해서 렌더링 파라미터 전달?
+
+- 코드
+
+  ```jsx
+  sub_category.map((item) => {
+      return (
+        <div
+          className={`sub_title ${
+            location.pathname === item.value ? "click" : ""
+          }`}
+          onClick={() => history.push(`/${item.value}`)}
+        >
+          {item.sub_title}
+        </div>
+      );
+    });
+
+  // api 형식
+
+    const sidebar = [
+      {
+        image_src: "/scr/image/...",
+        title: "커머스 정보",
+        category_parent_idx: 1,
+        sub_category: [
+          { sub_title: "대분류", value: "large" },
+          "중분류",
+          "소분류",
+        ],
+      },
+      {
+        image_src: "/scr/image/...",
+        title: "커머스 정보",
+        category_parent_idx: 1,
+        sub_title: ["대분류", "중분류", "소분류"],
+      },
+      {
+        image_src: "/scr/image/...",
+        title: "커머스 정보",
+        category_parent_idx: 1,
+        sub_title: ["대분류", "중분류", "소분류"],
+      },
+      {
+        image_src: "/scr/image/...",
+        title: "커머스 정보",
+        category_parent_idx: 1,
+        sub_title: ["대분류", "중분류", "소분류"],
+      },
+    ];
+
+  const sort = useParams
+    useEffect((
+        const repsone = await axios(`/getCommersInfo/${sort}`)
+
+    ))
+  ```
