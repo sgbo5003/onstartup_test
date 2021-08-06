@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import defaultUserImg from "../images/default_user.png";
 import commentIcon from "../images/icon_comment.png";
@@ -9,6 +9,11 @@ import messageBackIcon from "../images/message_back.png";
 import saveIcon from "../images/icon_sav.png";
 import saveOnIcon from "../images/icon_sav_on.png";
 const MiddleCategory = () => {
+  // const sort = useParams
+  // useEffect((
+  //     const repsone = await axios(`/getCommersInfo/${sort}`)
+
+  // ))
   const renderComponents = () => {
     return (
       <div className="middle_category_content_home_tag_cove">
