@@ -13,13 +13,48 @@ import categoryImg7 from "../images/Category_icon7.png";
 import categoryImg8 from "../images/Category_icon8.png";
 
 const Sidebar = () => {
+  const mainCategoryArray = [
+    {
+      link: "/",
+      imgAlt: "Side_icon1",
+      imgSrc: sideIcon1,
+      text: "홈",
+    },
+    {
+      link: "/SaveWrite",
+      imgAlt: "Side_icon2",
+      imgSrc: sideIcon2,
+      text: "저장글",
+    },
+  ];
+
   const [checkedBottomItems, setBottomCheckedItems] = useState(new Set()); //카테고리 항목 -> 클릭 된 것들 담는 state
   const [checkedTopItems, setCheckedTopItems] = useState(new Set()); // 홈 & 저장글 항목 -> 클릭 된 것들 담는 state
   const [categoryData, setCategoryData] = useState({
     category_img_root_name: [],
+    category_lv2: [],
     category_order_num: [],
     category_parent_idx: [],
     category_text: [],
+  });
+
+  const mainCategoryArrayList = mainCategoryArray.map((data, index) => {
+    return (
+      <p className="side_menu_cove">
+        <Link
+          to={data.link}
+          className={`side_menu ${
+            checkedTopItems.has(data.link) ? "side_menu_active" : ""
+          }`}
+          onClick={onCheckedTopItemsHandler}
+        >
+          <span className="home_img_cove side_img_cove">
+            <img className="home_img" alt={data.imgAlt} src={data.imgSrc} />
+          </span>
+          <span className="home_text side_text_cove">{data.text}</span>
+        </Link>
+      </p>
+    );
   });
 
   // 홈 & 저장글 클릭 & 색깔 변경 제어
@@ -67,6 +102,7 @@ const Sidebar = () => {
       data: params,
     })
       .then((response) => {
+        console.log(response.data);
         setCategoryData(response.data);
       })
       .catch((error) => {
@@ -78,54 +114,89 @@ const Sidebar = () => {
     getCategoryData();
   }, []);
 
-  function sideBarSubMenuHandlerOff() {
+  const sideBarSubMenuHandlerOff = (idx) => {
     return (
       <ul className="side_subsm_off">
-        <li className="side_subsm_bar">
-          <Link
-            to="/MiddleCategory"
-            className="side_subsm_menu commerce_menu1"
-            on
-          >
-            중분류
-          </Link>
-        </li>
-        <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu2">
-            중분류
-          </Link>
-        </li>
-        <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu3">
-            중분류
-          </Link>
-        </li>
+        {categoryData.category_lv2.map((item) => {
+          return (
+            <li className="side_subsm_bar">
+              <Link
+                to="/MiddleCategory"
+                className="side_subsm_menu commerce_menu2"
+              >
+                {categoryData.category_lv2[idx]}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     );
-  }
+  };
 
-  function sideBarSubMenuHandlerOn() {
+  const sideBarSubMenuHandlerOn = (idx) => {
     return (
       <ul className="side_subsm_on">
-        <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu1">
-            중분류
-          </Link>
-        </li>
-        <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu2">
-            중분류
-          </Link>
-        </li>
-        <li className="side_subsm_bar">
-          <Link to="/MiddleCategory" className="side_subsm_menu commerce_menu3">
-            중분류
-          </Link>
-        </li>
+        {categoryData.category_lv2.map((item) => {
+          return (
+            <li className="side_subsm_bar">
+              <Link
+                to="/MiddleCategory"
+                className="side_subsm_menu commerce_menu2"
+              >
+                {categoryData.category_lv2[idx]}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     );
-  }
-  const componentArrayList = categoryData.category_text.map((data, idx) => {
+  };
+
+  //   sub_category.map((item) => {
+  //     return (
+  //       <div
+  //         className={`sub_title ${
+  //           location.pathname === item.value ? "click" : ""
+  //         }`}
+  //         onClick={() => history.push(`/${item.value}`)}
+  //       >
+  //         {item.sub_title}
+  //       </div>
+  //     );
+  //   });
+
+  //   const sidebar = [
+  //     {
+  //       image_src: "/scr/image/...",
+  //       title: "커머스 정보",
+  //       category_parent_idx: 1,
+  //       sub_category: [
+  //         { sub_title: "대분류", value: "large" },
+  //         "중분류",
+  //         "소분류",
+  //       ],
+  //     },
+  //     {
+  //       image_src: "/scr/image/...",
+  //       title: "커머스 정보",
+  //       category_parent_idx: 1,
+  //       sub_title: ["대분류", "중분류", "소분류"],
+  //     },
+  //     {
+  //       image_src: "/scr/image/...",
+  //       title: "커머스 정보",
+  //       category_parent_idx: 1,
+  //       sub_title: ["대분류", "중분류", "소분류"],
+  //     },
+  //     {
+  //       image_src: "/scr/image/...",
+  //       title: "커머스 정보",
+  //       category_parent_idx: 1,
+  //       sub_title: ["대분류", "중분류", "소분류"],
+  //     },
+  //   ];
+
+  const componentArrayList = categoryData.category_lv2.map((data, idx) => {
     return (
       <li
         className="side_sub_bar"
@@ -140,7 +211,7 @@ const Sidebar = () => {
           </span>
           <span
             className={`sidemenu_text ${
-              checkedBottomItems.has(categoryData.category_text[idx])
+              checkedBottomItems.has(categoryData.category_lv2[idx])
                 ? "sidemenu_text_active"
                 : ""
             }`}
@@ -148,9 +219,9 @@ const Sidebar = () => {
             {categoryData.category_text[idx]}
           </span>
         </span>
-        {checkedBottomItems.has(categoryData.category_text[idx])
-          ? sideBarSubMenuHandlerOn()
-          : sideBarSubMenuHandlerOff()}
+        {checkedBottomItems.has(categoryData.category_lv2[idx])
+          ? sideBarSubMenuHandlerOn(idx)
+          : sideBarSubMenuHandlerOff(idx)}
       </li>
     );
   });
@@ -159,39 +230,7 @@ const Sidebar = () => {
     <div className="side_bar_cove">
       <div className="side_bar">
         {/*홈 & 저장글 */}
-        <div className="side_homesave">
-          <p className="side_menu_cove">
-            {/*side_menu_active*/}
-            <Link
-              to="/"
-              className={`side_menu ${
-                checkedTopItems.has("/") ? "side_menu_active" : ""
-              }`}
-              onClick={onCheckedTopItemsHandler}
-              id="home"
-            >
-              <span className="home_img_cove side_img_cove">
-                <img className="home_img" src={sideIcon1} alt="Side_icon1" />
-              </span>
-              <span className="home_text side_text_cove">홈</span>
-            </Link>
-          </p>
-          <p className="side_menu_cove">
-            <Link
-              to="/SaveWrite"
-              className={`side_menu ${
-                checkedTopItems.has("/SaveWrite") ? "side_menu_active" : ""
-              }`}
-              id="savewrite"
-              onClick={onCheckedTopItemsHandler}
-            >
-              <span className="save_img_cove side_img_cove">
-                <img className="save_img" src={sideIcon2} alt="Side_icon2" />
-              </span>
-              <span className="save_text side_text_cove">저장글</span>
-            </Link>
-          </p>
-        </div>
+        <div className="side_homesave">{mainCategoryArrayList}</div>
         <div className="side_category">
           <ul className="side_main">
             <li className="side_title">CATEGORY</li>
