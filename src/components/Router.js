@@ -16,10 +16,13 @@ import Notice from "../routes/Setting//Notice";
 import Inquiry from "../routes/Setting/Inquiry";
 import MypageEdit from "../routes/Mypage/MypageEdit";
 import MiddleCategory from "../routes/MiddleCategory";
-import MiddleCategoryTwo from "../routes/MiddleCategoryTwo";
 import ReferenceStorageBox from "../routes/ReferenceStorageBox";
 import ReferenceChargeCoin from "../routes/ReferenceChargeCoin";
 import ReferenceGiftCoin from "../routes/ReferenceGiftCoin";
+import ReferenceMiddleCategory from "../routes/ReferenceMiddleCategory";
+import ReferenceProduct from "./ReferenceProduct";
+import Question from "../routes/Question";
+import Sidebar from "./Sidebar";
 
 const AppRouter = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -79,7 +82,7 @@ const AppRouter = () => {
       )}
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/MiddleCategory" component={MiddleCategory} />
+        <Route path="/MiddleCategory/:id" component={MiddleCategory} />
         <Route path="/Community" component={Community} />
         <Route exact path="/Reference" component={Reference} />
         <Route
@@ -93,6 +96,12 @@ const AppRouter = () => {
           component={ReferenceChargeCoin}
         />
         <Route exact path="/ReferenceGiftCoin" component={ReferenceGiftCoin} />
+        <Route
+          exact
+          path="/ReferenceMiddleCategory"
+          component={ReferenceMiddleCategory}
+        />
+        <Route exact path="/ReferenceProduct" component={ReferenceProduct} />
         <Route path="/Write" component={Write} />
         <Route
           path="/Join"
@@ -113,6 +122,7 @@ const AppRouter = () => {
         <Route path="/ChangePassword" component={ChangePassword} />
         <Route path="/Notice" component={Notice} />
         <Route path="/Inquiry" component={Inquiry} />
+        <Route path="/Question" component={Question} />
       </Switch>
     </>
   );
