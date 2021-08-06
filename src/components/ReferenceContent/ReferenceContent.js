@@ -12,9 +12,9 @@ import imgExample1 from "../../images/port_gallery4.png";
 import ContextMenuIcon from "../../images/Context_menu_icon1.png";
 
 const ReferenceContent = (props) => {
-  const { coinbox } = props;
+  const { coinbox, onProductClicked } = props;
   return (
-    <div className="reference_content_home_tag_cove">
+    <div className="reference_content_home_tag_cove" onClick={onProductClicked}>
       <div className="reference_content_img_container">
         <img className="reference_content_img" src={imgExample1} />
       </div>
