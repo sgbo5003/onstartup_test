@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import questionImg from "../../images/question_tab_btn.png";
 import emailCheckedImg from "../../images/email_checked.png";
 import emailCheckImg from "../../images/email_check.png";
 import selectBackImg from "../../images/select_back.png";
+import { Link } from "react-router-dom";
 
 const inquiry = () => {
+  const [emailChecked, setEmailChecked] = useState(false);
+
+  const onEmailCheckHandler = () => {
+    setEmailChecked(!emailChecked);
+  };
   return (
     <div className="wap inquiry_wap">
       <div className="inquiry_content">
@@ -13,9 +19,9 @@ const inquiry = () => {
           <section className="inquiry_comment inq_sty">
             <div className="inq_que_gruop">
               <h2>자주 묻는 질문</h2>
-              <a className="question_tab" href="fav_question.php">
+              <Link to="/Question" className="question_tab">
                 <img className="question_tab_img" src={questionImg} />
-              </a>
+              </Link>
             </div>
           </section>
           <section className="inquiry_comment2 inq_sty">
@@ -44,7 +50,7 @@ const inquiry = () => {
                   disabled
                   className="comment_inquiry_group inq_select_text inq_text_checked inquiry_text_box"
                 />
-                <a className="comment_select_img_cove" href="#">
+                <a className="comment_select_img_cove">
                   <img
                     className="comment_select_img"
                     src={selectBackImg}
@@ -72,14 +78,12 @@ const inquiry = () => {
             <form className="inq_check_email">
               <a className="email_check_group">
                 <img
-                  className="email_check_off email_check_box"
-                  src={emailCheckImg}
+                  className={`email_check_${
+                    emailChecked ? "" : "off"
+                  } email_check_box`}
+                  src={emailChecked ? emailCheckedImg : emailCheckImg}
                   alt="email_check"
-                />
-                <img
-                  className="email_check_on email_check_box"
-                  src={emailCheckedImg}
-                  alt="email_checked"
+                  onClick={onEmailCheckHandler}
                 />
                 <input
                   className="email_check_val"
