@@ -37,7 +37,8 @@ const Login = (props) => {
         if (response.data.error === 0) {
           sessionStorage.setItem("user_idx", response.data.user_idx);
           alert("로그인 성공");
-          history.push("/");
+          console.log(response.data);
+          //   history.push("/");
           //   return setIsLogin(!isLogin);
           console.log("로그인 하고 난 이후 로그인 상태 : ", isLogin);
         } else {
@@ -115,12 +116,8 @@ const Login = (props) => {
           </form>
           {/* </form> */}
           <div className="login_help_group">
-            <a className="service_center_login_btn" href="#">
-              고객센터
-            </a>
-            <a className="help_pass_btn" href="#">
-              비밀번호를 잊으셨나요?
-            </a>
+            <a className="service_center_login_btn">고객센터</a>
+            <a className="help_pass_btn">비밀번호를 잊으셨나요?</a>
           </div>
         </div>
       </div>
